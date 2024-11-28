@@ -1,0 +1,18 @@
+default_platform(:android)
+
+platform :android do
+  desc "Distribution for flutter app in firebase app distribution"
+  lane :distribute do
+    sh "flutter clean"
+    sh "flutter build apk --split-per-abi --no-shrink"
+    firebase_app_distribution(
+    app: "1:519935702638:android:bbcf38da6dab3060e9d87f",
+    android_artifact_type: "APK",
+    android_artifact_path: "../build/app/outputs/flutter-apk/app-arm64-v8a-release.apk",
+    firebase_cli_token: "1//03wotKB16RhHWCgYIARAAGAMSNwF-L9IriiWx3aea_kAIt1yRnM9uy2o3YCLxVLBAddn3BCywYkB02OMq-RMK8UnWBwsYhJjRudo",
+    groups: "testers",
+    release_notes: "This is a test release"
+)
+    end
+  end
+
