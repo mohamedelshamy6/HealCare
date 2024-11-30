@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/routing/routes.dart';
 import '../../../../core/helpers/app_images.dart';
-import '../../../../core/helpers/cache_helper.dart';
-
-import '../../../../core/routing/routes.dart';
-import '../../../../main.dart';
+import '../../../../core/theme/app_text_styles.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,92 +16,82 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  late AnimationController firstFadeAnimationController,
-      secondFadeAnimationController;
-
-  late Animation<double> firstFadeAnimation;
-  late Animation<Offset> secondFadeAnimation;
-  late CacheHelper cacheHelper;
-  Timer? timer;
+  late AnimationController flipAnimationController;
+  late Animation<double> flipAnimation;
   @override
   void initState() {
     super.initState();
-    myFirstFadeAnimation();
-    mySecondFadeAnimation();
-    cacheHelper = CacheHelper();
-    timer = Timer(const Duration(milliseconds: 4000), () {
-      if (showOnBoarding == null) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          Routes.onBoarding,
-          (route) => false,
-        );
-      } else {}
-    });
+    myFlipAnimation();
   }
 
-  void myFirstFadeAnimation() {
-    firstFadeAnimationController = AnimationController(
+  void myFlipAnimation() {
+    flipAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1800),
-    )..forward();
-    firstFadeAnimation = Tween<double>(
-      begin: 0.3,
-      end: 1,
+      duration: const Duration(milliseconds: 1000),
+    )..forward().whenComplete(
+        () => Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushNamedAndRemoveUntil(
+              context, Routes.choose, (route) => false),
+        ),
+      );
+    flipAnimation = Tween<double>(
+      begin: 0,
+      end: 6,
     ).animate(
       CurvedAnimation(
-          parent: firstFadeAnimationController, curve: Curves.easeInQuad),
-    );
-  }
-
-  void mySecondFadeAnimation() {
-    secondFadeAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 3000),
-    )..forward();
-    secondFadeAnimation = Tween<Offset>(
-      begin: const Offset(0, 0),
-      end: const Offset(0, 0.5),
-    ).animate(
-      CurvedAnimation(
-          parent: secondFadeAnimationController, curve: Curves.bounceOut),
+          parent: flipAnimationController, curve: Curves.easeInQuad),
     );
   }
 
   @override
   void dispose() {
-    firstFadeAnimationController.dispose();
-    secondFadeAnimationController.dispose();
-    timer!.cancel();
+    flipAnimationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: 210.w,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FadeTransition(
-                opacity: firstFadeAnimation,
-                child: SlideTransition(
-                  position: secondFadeAnimation,
-                  child: Image.asset(
-                    'Assets.imagesSplashSplashLogoTitle',
-                  ),
-                ),
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              top: 125.h,
+              bottom: 0.h,
+              left: -160.w,
+              right: -300.w,
+              child: Image.asset(
+                Assets.imagesSplashGradient,
               ),
-              FadeTransition(
-                opacity: firstFadeAnimation,
+            ),
+            AnimatedBuilder(
+              animation: flipAnimation,
+              builder: (context, child) => Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(flipAnimation.value * 3.14),
                 child: Image.asset(
-                  'Assets.imagesSplashSplashLogoBody',
+                  flipAnimation.value % 2 < 1
+                      ? Assets.imagesSplashSplashImage1
+                      : Assets.imagesSplashSplashImage2,
+                  width: 115.w,
+                  height: 115.h,
                 ),
               ),
-            ],
-          ),
+            ),
+            verticalSpace(24.h),
+            Positioned(
+              top: 480.h,
+              bottom: 260.h,
+              child: Text(
+                'HealCare',
+                style: AppTextStyles.poppinsMainColor(40, FontWeight.w600),
+              ),
+            ),
+          ],
         ),
       ),
     );

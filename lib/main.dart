@@ -10,8 +10,6 @@ import 'package:heal_care/heal_care.dart';
 import 'core/dependency_injection/dependency_injection.dart';
 import 'core/helpers/cache_helper.dart';
 
-bool? showOnBoarding;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -21,15 +19,12 @@ void main() async {
     DependencyInjection().setupGetIt(),
     CacheHelper().init(),
     GoogleFonts.pendingFonts([
-      GoogleFonts.inter(),
+      GoogleFonts.poppins(),
     ]),
     Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     ),
   ]);
-
-  showOnBoarding = CacheHelper().getData(key: 'first_time_run');
-  CacheHelper().saveData(key: 'first_time_run', value: true);
 
   //? Load the google fonts to solve the loading bug.
   GoogleFonts.config.allowRuntimeFetching = false;
@@ -37,9 +32,10 @@ void main() async {
   //? Adding a font license in the application.
   LicenseRegistry.addLicense(
     () async* {
-      final license = await rootBundle.loadString('assets/fonts/inter/OFL.txt');
+      final license =
+          await rootBundle.loadString('assets/fonts/poppins/OFL.txt');
       yield LicenseEntryWithLineBreaks(
-        ['assets/fonts/inter'],
+        ['assets/fonts/poppins'],
         license,
       );
     },

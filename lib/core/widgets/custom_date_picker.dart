@@ -21,8 +21,8 @@ class CustomDatePicker extends StatelessWidget {
       controller: controller,
       daysCount: 30,
       DateTime.now(),
-      dateTextStyle: AppTextStyles.interBlack(14, FontWeight.w600),
-      dayTextStyle: AppTextStyles.interBlack(14, FontWeight.w600),
+      dateTextStyle: AppTextStyles.poppinsBlack(14, FontWeight.w600),
+      dayTextStyle: AppTextStyles.poppinsBlack(14, FontWeight.w600),
       // selectionColor: AppColors.mainRed,
       // deactivatedColor: AppColors.mainGrey,
     );
