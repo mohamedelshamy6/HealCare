@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/custom_button.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
@@ -36,7 +37,13 @@ class ChooseScreen extends StatelessWidget {
                 borderRadius: 10,
                 height: 50.h,
                 buttonText: 'Sign Up As Doctor',
-                buttonAction: () {},
+                buttonAction: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.signUpScreen,
+                    arguments: 'doctor',
+                  );
+                },
                 buttonStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
               ),
               verticalSpace(16),
@@ -44,8 +51,15 @@ class ChooseScreen extends StatelessWidget {
                 borderRadius: 10,
                 height: 50.h,
                 buttonText: 'Sign Up As Patient',
-                buttonAction: () {},
-                buttonStyle: AppTextStyles.poppinsMainColor(15, FontWeight.w500),
+                buttonAction: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.signUpScreen,
+                    arguments: 'patient',
+                  );
+                },
+                buttonStyle:
+                    AppTextStyles.poppinsMainColor(15, FontWeight.w500),
               ),
             ],
           ),

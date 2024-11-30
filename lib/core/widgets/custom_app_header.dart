@@ -6,10 +6,12 @@ import '../../../../core/theme/app_text_styles.dart';
 class CustomAppHeader extends StatelessWidget {
   final bool? canBack;
   final String? title;
+  final void Function()? onTap;
   const CustomAppHeader({
     super.key,
     this.canBack,
     this.title,
+    this.onTap,
   });
 
   @override
@@ -19,11 +21,16 @@ class CustomAppHeader extends StatelessWidget {
           ? MainAxisAlignment.center
           : MainAxisAlignment.start,
       children: [
-        CircleAvatar(
-          backgroundColor: Colors.white,
-          radius: 24.r,
-          child: Icon(Icons.arrow_back, size: 24.r),
-        ),
+        canBack == null || canBack == false
+            ? Container()
+            : InkWell(
+                onTap: onTap ?? () => Navigator.pop(context),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 24.r,
+                  child: Icon(Icons.arrow_back, size: 24.r),
+                ),
+              ),
         horizontalSpace(64),
         Text(
           title ?? '',

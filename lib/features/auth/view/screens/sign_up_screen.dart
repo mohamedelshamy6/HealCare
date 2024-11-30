@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/routing/routes.dart';
 import '../../../../core/errors/messages/validation_error_messages.dart';
-import '../../../../core/routing/routes.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/widgets/custom_text_form_field.dart';
 import '../widgets/auth_continue_question.dart';
@@ -11,12 +11,9 @@ import '../../../../core/widgets/custom_app_header.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../widgets/continue_with_google.dart';
 
-class LoginScreen extends StatelessWidget {
+class SignUpScreen extends StatelessWidget {
   final String type;
-  const LoginScreen({
-    super.key,
-    required this.type,
-  });
+  const SignUpScreen({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +30,23 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   CustomAppHeader(
                     canBack: true,
-                    title: 'Let\'s Sign In',
+                    title: 'Let\'s Sign Up',
+                    onTap: () => Navigator.pushNamedAndRemoveUntil(
+                        context, Routes.choose, (route) => false),
                   ),
                   verticalSpace(48),
                   Text(
-                    'Welcome!',
+                    'Create\nAccount!',
                     style: AppTextStyles.poppinsBlack(30, FontWeight.w500),
                   ),
-                  verticalSpace(86),
+                  verticalSpace(48),
+                  CustomTFF(
+                    hintText: 'Name',
+                    kbType: TextInputType.name,
+                    validate: (name) =>
+                        ValidationErrorTexts.nameValidation(name),
+                  ),
+                  verticalSpace(20),
                   CustomTFF(
                     hintText: 'Email',
                     kbType: TextInputType.emailAddress,
@@ -52,34 +58,22 @@ class LoginScreen extends StatelessWidget {
                     hintText: 'Password',
                     kbType: TextInputType.visiblePassword,
                     validate: (password) =>
-                        ValidationErrorTexts.loginPasswordValidation(password),
+                        ValidationErrorTexts.signUpPasswordValidation(password),
                   ),
-                  verticalSpace(8),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {},
-                      style: const ButtonStyle(
-                        padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                        overlayColor:
-                            WidgetStatePropertyAll(Colors.transparent),
-                        surfaceTintColor:
-                            WidgetStatePropertyAll(Colors.transparent),
-                        splashFactory: NoSplash.splashFactory,
-                      ),
-                      child: Text(
-                        'Forgot Password?',
-                        style:
-                            AppTextStyles.poppinsMainColor(13, FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                  verticalSpace(72),
+                  verticalSpace(20),
+                  CustomTFF(
+                      hintText: 'Confirm Password',
+                      kbType: TextInputType.visiblePassword,
+                      //TODO Use the text from the password field.
+                      validate: (passwordConfirmation) =>
+                          ValidationErrorTexts.confirmPasswordValidation(
+                              passwordConfirmation, passwordConfirmation)),
+                  verticalSpace(32),
                   CustomButton(
                     buttonAction: () {
                       if (formKey.currentState!.validate()) {}
                     },
-                    buttonText: 'Sign In',
+                    buttonText: 'Next',
                     height: 50.h,
                     borderRadius: 10,
                     buttonStyle:
@@ -87,12 +81,12 @@ class LoginScreen extends StatelessWidget {
                   ),
                   verticalSpace(16),
                   AuthContinueQuestion(
-                    label: 'Don’t have an account?',
-                    action: 'Sign Up',
-                    route: Routes.signUpScreen,
-                    type: '',
+                    label: 'Already have an account?',
+                    action: 'Sign In',
+                    route: Routes.loginScreen,
+                    type: type,
                   ),
-                  verticalSpace(32),
+                  verticalSpace(24),
                   ContinueWithGoogle(),
                   verticalSpace(24),
                 ],

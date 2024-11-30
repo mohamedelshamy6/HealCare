@@ -5,12 +5,14 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class AuthContinueQuestion extends StatelessWidget {
-  final String label, action, route;
-  const AuthContinueQuestion(
-      {super.key,
-      required this.label,
-      required this.action,
-      required this.route});
+  final String label, action, route, type;
+  const AuthContinueQuestion({
+    super.key,
+    required this.label,
+    required this.action,
+    required this.route,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +34,13 @@ class AuthContinueQuestion extends StatelessWidget {
               ? Navigator.pushNamed(
                   context,
                   route,
+                  arguments: type,
                 )
-              : Navigator.pushNamedAndRemoveUntil(
-                  context, route, (route) => false),
+              : Navigator.popAndPushNamed(
+                  context,
+                  route,
+                  arguments: type,
+                ),
           child: Text(
             action,
             style: AppTextStyles.poppinsMainColor(14, FontWeight.w500).copyWith(
