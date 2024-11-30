@@ -38,4 +38,11 @@ class AppTextStyles {
       fontWeight: fontWeight,
     );
   }
+  static TextStyle poppinsGrey(double fontSize, FontWeight fontWeight) {
+    return setPoppinsTextStyle(
+      color: AppColors.mainGrey,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+    );
+  }
 }
