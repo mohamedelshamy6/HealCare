@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:heal_care/firebase_options.dart';
-import 'package:heal_care/heal_care.dart';
+import 'firebase_options.dart';
+import 'heal_care.dart';
 
 import 'core/dependency_injection/dependency_injection.dart';
 import 'core/helpers/cache_helper.dart';

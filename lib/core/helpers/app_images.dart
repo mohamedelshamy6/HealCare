@@ -28,4 +28,8 @@ class Assets {
   /// Assets for svgsChoosePageLine
   /// assets/svgs/choose_page_line.svg
   static const String svgsChoosePageLine = "assets/svgs/choose_page_line.svg";
+
+  /// Assets for svgsGoogle
+  /// assets/svgs/google.svg
+  static const String svgsGoogle = "assets/svgs/google.svg";
 }

@@ -24,7 +24,6 @@ class CustomTFF extends StatefulWidget {
 
 class _CustomTFFState extends State<CustomTFF> {
   bool showPassword = false;
-  String content = '';
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class _CustomTFFState extends State<CustomTFF> {
       inputFormatters: [
         LengthLimitingTextInputFormatter(
           widget.hintText.contains('password') ||
-                  widget.hintText.contains('email')
+                  widget.hintText.contains('Email')
               ? 50
               : 15,
         ),
@@ -45,36 +44,27 @@ class _CustomTFFState extends State<CustomTFF> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: widget.kbType,
       validator: widget.validate,
-      obscureText: widget.hintText.contains('password')
+      obscureText: widget.hintText.contains('password') ||
+              widget.hintText.contains('Password')
           ? showPassword
               ? false
               : true
           : false,
       obscuringCharacter: '●',
       enabled: true,
-      // style: AppTextStyles.cairo12ExtraBoldTFFContentColor,
+      style: AppTextStyles.poppinsBlack(16, FontWeight.w400),
       textAlignVertical: TextAlignVertical.center,
-      // cursorColor: AppColors.tFFContentColor,
-      textAlign: content.isEmpty ? TextAlign.right : TextAlign.left,
+      cursorColor: AppColors.mainBlack,
       controller: widget.controller,
-      onChanged: (value) {
-        setState(() {
-          content = value;
-        });
-      },
       decoration: InputDecoration(
         hintFadeDuration: const Duration(milliseconds: 100),
-        prefixIcon: content.isNotEmpty ? tFFIconPosition() : null,
-        suffixIcon: content.isEmpty ? tFFIconPosition() : null,
-        prefixIconColor: AppColors.mainColor,
-        suffixIconColor: AppColors.mainColor,
-        // fillColor: content.isEmpty
-        //     ? AppColors.tFFEmptyColor
-        //     : AppColors.tFFFilledColor,
+        suffixIcon: tFFIconPosition(),
+        suffixIconColor: AppColors.mainBlack,
+        fillColor: Colors.white,
         filled: true,
         hintText: widget.hintText,
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-        // hintStyle: AppTextStyles.cairo12MediumTFFContentColor,
+        hintStyle: AppTextStyles.poppinsBlack(15, FontWeight.w400),
         // errorStyle: AppTextStyles.cairo12RegularTFFErrorColor,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
@@ -97,7 +87,8 @@ class _CustomTFFState extends State<CustomTFF> {
   }
 
   Widget? tFFIconPosition() {
-    return widget.hintText.contains('password')
+    return widget.hintText.contains('password') ||
+            widget.hintText.contains('Password')
         ? IconButton(
             style: const ButtonStyle(
               splashFactory: NoSplash.splashFactory,

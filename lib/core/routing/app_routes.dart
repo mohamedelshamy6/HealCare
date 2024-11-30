@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:heal_care/features/auth/view/screens/choose_screen.dart';
+import '../../features/auth/view/screens/choose_screen.dart';
+import '../../features/auth/view/screens/login_screen.dart';
 import '../../features/splash/view/screens/splash.dart';
 import 'routes.dart';
 
@@ -21,6 +22,10 @@ class AppRoutes {
       case Routes.choose:
         return MaterialPageRoute(
           builder: (context) => const ChooseScreen(),
+        );
+      case Routes.loginScreen:
+        return MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
         );
     }
     return null;

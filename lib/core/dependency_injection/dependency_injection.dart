@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+
 import '../networking/api_services.dart';
 import '../networking/dio_handler.dart';
 
