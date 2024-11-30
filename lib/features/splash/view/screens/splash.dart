@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen>
   void myFlipAnimation() {
     flipAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 1200),
     )..forward().whenComplete(
         () => Timer(
           const Duration(seconds: 2),
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
       );
     flipAnimation = Tween<double>(
       begin: 0,
-      end: 6,
+      end: 4,
     ).animate(
       CurvedAnimation(
           parent: flipAnimationController, curve: Curves.easeInQuad),
@@ -75,8 +75,8 @@ class _SplashScreenState extends State<SplashScreen>
                 transform: Matrix4.rotationY(flipAnimation.value * 3.14),
                 child: Image.asset(
                   flipAnimation.value % 2 < 1
-                      ? Assets.imagesSplashSplashImage1
-                      : Assets.imagesSplashSplashImage2,
+                      ? Assets.imagesSplashSplashImage2
+                      : Assets.imagesSplashSplashImage1,
                   width: 115.w,
                   height: 115.h,
                 ),
