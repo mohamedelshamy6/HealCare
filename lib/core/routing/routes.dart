@@ -1,5 +1,6 @@
 class Routes {
   static const String splash = 'splash';
+  static const String choose = 'choose';
   static const String patientHome = 'patientHome';
   static const String doctorHome = 'doctorHome';
   static const String onBoarding = 'onBoarding';

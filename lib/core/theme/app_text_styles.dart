@@ -4,29 +4,36 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTextStyles {
-  static TextStyle setInterTextStyle({
+  static TextStyle setPoppinsTextStyle({
     required Color color,
     required double fontSize,
     required FontWeight fontWeight,
   }) {
-    return GoogleFonts.inter(
+    return GoogleFonts.poppins(
       color: color,
       fontSize: fontSize.sp,
       fontWeight: fontWeight,
     );
   }
 
-  static TextStyle interWhite(double fontSize, FontWeight fontWeight) {
-    return setInterTextStyle(
+  static TextStyle poppinsWhite(double fontSize, FontWeight fontWeight) {
+    return setPoppinsTextStyle(
       color: AppColors.mainWhite,
       fontSize: fontSize,
       fontWeight: fontWeight,
     );
   }
 
-  static TextStyle interBlack(double fontSize, FontWeight fontWeight) {
-    return setInterTextStyle(
+  static TextStyle poppinsBlack(double fontSize, FontWeight fontWeight) {
+    return setPoppinsTextStyle(
       color: AppColors.mainBlack,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+    );
+  }
+  static TextStyle poppinsMainColor(double fontSize, FontWeight fontWeight) {
+    return setPoppinsTextStyle(
+      color: AppColors.mainColor,
       fontSize: fontSize,
       fontWeight: fontWeight,
     );

@@ -35,7 +35,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: leading,
       title: Text(
         title ?? '',
-        style: AppTextStyles.interBlack(20, FontWeight.w700),
+        style: AppTextStyles.poppinsBlack(20, FontWeight.w700),
       ),
       centerTitle: true,
       toolbarHeight: toolbarHeight,
@@ -46,7 +46,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: InkWell(
                 onTap: actionsOnPressed,
                 child: SvgPicture.asset(
-                 ' Assets.iconsBlackIconsBlackNotification',
+                  ' Assets.iconsBlackIconsBlackNotification',
                   height: 24.h,
                   width: 24.w,
                 ),

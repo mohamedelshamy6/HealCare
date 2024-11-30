@@ -30,7 +30,7 @@ class ErrorBody extends StatelessWidget {
             buttonText: 'إعادة التحميل',
             width: 148.w,
             buttonAction: buttonAction,
-            buttonStyle: AppTextStyles.interBlack(16, FontWeight.w700),
+            buttonStyle: AppTextStyles.poppinsBlack(16, FontWeight.w700),
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heal_care/features/auth/view/screens/choose_screen.dart';
 import '../../features/splash/view/screens/splash.dart';
 import 'routes.dart';
 
@@ -16,6 +17,10 @@ class AppRoutes {
       case Routes.splash:
         return MaterialPageRoute(
           builder: (context) => const SplashScreen(),
+        );
+      case Routes.choose:
+        return MaterialPageRoute(
+          builder: (context) => const ChooseScreen(),
         );
     }
     return null;

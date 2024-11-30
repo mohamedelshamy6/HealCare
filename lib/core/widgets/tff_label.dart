@@ -12,7 +12,7 @@ class TFFLabel extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: Text(
         label,
-        style: AppTextStyles.interBlack(16, FontWeight.w600),
+        style: AppTextStyles.poppinsBlack(16, FontWeight.w600),
         textDirection: TextDirection.rtl,
       ),
     );
