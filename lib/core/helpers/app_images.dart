@@ -5,6 +5,11 @@ class Assets {
   /// assets/images/app_icon.png
   static const String imagesAppIcon = "assets/images/app_icon.png";
 
+  /// Assets for imagesChoosePageImage
+  /// assets/images/choose_page_image.png
+  static const String imagesChoosePageImage =
+      "assets/images/choose_page_image.png";
+
   /// Assets for imagesSplashGradient
   /// assets/images/splash/gradient.png
   static const String imagesSplashGradient =
@@ -19,10 +24,6 @@ class Assets {
   /// assets/images/splash/splash_image_2.png
   static const String imagesSplashSplashImage2 =
       "assets/images/splash/splash_image_2.png";
-
-  /// Assets for svgsChoosePageImage
-  /// assets/svgs/choose_page_image.svg
-  static const String svgsChoosePageImage = "assets/svgs/choose_page_image.svg";
 
   /// Assets for svgsChoosePageLine
   /// assets/svgs/choose_page_line.svg
