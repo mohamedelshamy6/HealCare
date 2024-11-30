@@ -24,7 +24,7 @@ class HealCare extends StatelessWidget {
             surfaceTintColor: Colors.white,
             scrolledUnderElevation: 0,
           ),
-          scaffoldBackgroundColor: const Color(0xffFFFFFF),
+          scaffoldBackgroundColor: const Color(0xffF9f9f9),
           useMaterial3: true,
           brightness: Brightness.light,
         ),
