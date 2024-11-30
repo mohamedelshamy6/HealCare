@@ -5,8 +5,9 @@ class Routes {
   static const String doctorHome = 'doctorHome';
   static const String onBoarding = 'onBoarding';
   static const String loginScreen = 'loginScreen';
-  static const String patientSignUpScreen = 'patientSignUpScreen';
-  static const String doctorSignUpScreen = 'doctorSignUpScreen';
+  static const String signUpScreen = 'signUpScreen';
+  static const String patientContinueSignUpScreen = 'patientContinueSignUpScreen';
+  static const String doctorContinueSignUpScreen = 'doctorContinueSignUpScreen';
   static const String forgetPassword = 'forgetPasswordScreen';
   static const String codeVerification = 'codeVerificationScreen';
   static const String setNewPassword = 'setNewPasswordScreen';

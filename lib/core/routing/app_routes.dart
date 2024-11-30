@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heal_care/features/auth/view/screens/sign_up_screen.dart';
 import '../../features/auth/view/screens/choose_screen.dart';
 import '../../features/auth/view/screens/login_screen.dart';
 import '../../features/splash/view/screens/splash.dart';
@@ -14,6 +15,7 @@ class CustomPageRoute extends MaterialPageRoute {
 class AppRoutes {
   //* Generates a route based on the route name.
   Route? generateRoute(RouteSettings routeSettings) {
+    var args = routeSettings.arguments;
     switch (routeSettings.name) {
       case Routes.splash:
         return MaterialPageRoute(
@@ -25,7 +27,11 @@ class AppRoutes {
         );
       case Routes.loginScreen:
         return MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+          builder: (context) => LoginScreen(type: args as String),
+        );
+      case Routes.signUpScreen:
+        return MaterialPageRoute(
+          builder: (context) => SignUpScreen(type: args as String),
         );
     }
     return null;
