@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:heal_care/features/auth/view/screens/sign_up_screen.dart';
+import '../../features/auth/view/screens/doctor_continue_signup.dart';
+import '../../features/auth/view/screens/patient_continue_signup.dart';
+import '../../features/auth/view/screens/sign_up_screen.dart';
 import '../../features/auth/view/screens/choose_screen.dart';
 import '../../features/auth/view/screens/login_screen.dart';
 import '../../features/splash/view/screens/splash.dart';
@@ -32,6 +34,14 @@ class AppRoutes {
       case Routes.signUpScreen:
         return MaterialPageRoute(
           builder: (context) => SignUpScreen(type: args as String),
+        );
+      case Routes.patientContinueSignUpScreen:
+        return MaterialPageRoute(
+          builder: (context) => PatientContinueSignupScreen(),
+        );
+      case Routes.doctorContinueSignUpScreen:
+        return MaterialPageRoute(
+          builder: (context) => DoctorContinueSignupScreen(),
         );
     }
     return null;

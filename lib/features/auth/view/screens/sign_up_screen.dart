@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/routing/routes.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/errors/messages/validation_error_messages.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/widgets/custom_text_form_field.dart';
@@ -62,16 +62,25 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   verticalSpace(20),
                   CustomTFF(
-                      hintText: 'Confirm Password',
-                      kbType: TextInputType.visiblePassword,
-                      //TODO Use the text from the password field.
-                      validate: (passwordConfirmation) =>
-                          ValidationErrorTexts.confirmPasswordValidation(
-                              passwordConfirmation, passwordConfirmation)),
+                    hintText: 'Confirm Password',
+                    kbType: TextInputType.visiblePassword,
+                    //TODO Use the text from the password field.
+                    validate: (passwordConfirmation) =>
+                        ValidationErrorTexts.confirmPasswordValidation(
+                      passwordConfirmation,
+                      passwordConfirmation,
+                    ),
+                  ),
                   verticalSpace(32),
                   CustomButton(
                     buttonAction: () {
-                      if (formKey.currentState!.validate()) {}
+                      if (formKey.currentState!.validate()) {
+                        type == 'doctor'
+                            ? Navigator.pushNamed(
+                                context, Routes.doctorContinueSignUpScreen)
+                            : Navigator.pushNamed(
+                                context, Routes.patientContinueSignUpScreen);
+                      }
                     },
                     buttonText: 'Next',
                     height: 50.h,
