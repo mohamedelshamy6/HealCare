@@ -58,30 +58,21 @@ class LoginScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                        onPressed: () {},
-                        style: const ButtonStyle(
-                          padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                          overlayColor:
-                              WidgetStatePropertyAll(Colors.transparent),
-                          surfaceTintColor:
-                              WidgetStatePropertyAll(Colors.transparent),
-                          splashFactory: NoSplash.splashFactory,
-                        ),
-                        child: /*  Text(
+                      onPressed: () {},
+                      style: const ButtonStyle(
+                        padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                        overlayColor:
+                            WidgetStatePropertyAll(Colors.transparent),
+                        surfaceTintColor:
+                            WidgetStatePropertyAll(Colors.transparent),
+                        splashFactory: NoSplash.splashFactory,
+                      ),
+                      child: Text(
                         'Forgot Password?',
                         style:
                             AppTextStyles.poppinsMainColor(13, FontWeight.w500),
-                      ), */
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pushNamed(Routes.forgetPassword);
-                                },
-                                child: Text(
-                                  'Forgot Password?',
-                                  style: AppTextStyles.poppinsMainColor(
-                                      13, FontWeight.w500),
-                                ))),
+                      ),
+                    ),
                   ),
                   verticalSpace(72),
                   CustomButton(
