@@ -6,12 +6,13 @@ import '../../../../core/theme/app_text_styles.dart';
 class CustomAppHeader extends StatelessWidget {
   final bool? canBack;
   final String? title;
+  final double? horizSpace;
   final void Function()? onTap;
   const CustomAppHeader({
     super.key,
     this.canBack,
     this.title,
-    this.onTap,
+    this.onTap, this.horizSpace,
   });
 
   @override
@@ -31,7 +32,7 @@ class CustomAppHeader extends StatelessWidget {
                   child: Icon(Icons.arrow_back, size: 24.r),
                 ),
               ),
-        horizontalSpace(64),
+        horizontalSpace(horizSpace??64),
         Text(
           title ?? '',
           style: AppTextStyles.poppinsBlack(18, FontWeight.w500),
