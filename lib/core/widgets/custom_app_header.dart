@@ -12,7 +12,8 @@ class CustomAppHeader extends StatelessWidget {
     super.key,
     this.canBack,
     this.title,
-    this.onTap, this.horizSpace,
+    this.onTap,
+    this.horizSpace,
   });
 
   @override
@@ -32,7 +33,9 @@ class CustomAppHeader extends StatelessWidget {
                   child: Icon(Icons.arrow_back, size: 24.r),
                 ),
               ),
-        horizontalSpace(horizSpace??64),
+        canBack == null || canBack == false
+            ? Container()
+            : horizontalSpace(horizSpace ?? 64),
         Text(
           title ?? '',
           style: AppTextStyles.poppinsBlack(18, FontWeight.w500),
