@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:heal_care/features/auth/view/screens/sign_up_screen.dart';
+import 'package:heal_care/features/reset_password/view/screens/forget_password.dart';
+import 'package:heal_care/features/reset_password/view/screens/reset_password.dart';
+import 'package:heal_care/features/reset_password/view/screens/verification_code_screen.dart';
 import '../../features/auth/view/screens/doctor_continue_signup.dart';
 import '../../features/auth/view/screens/patient_continue_signup.dart';
 import '../../features/auth/view/screens/sign_up_screen.dart';
@@ -35,6 +39,18 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => SignUpScreen(type: args as String),
         );
+      case Routes.forgetPassword:
+        return MaterialPageRoute(
+          builder: (context) => const ForgetPasswordScreen(),
+        );
+      case Routes.codeVerification:
+        return MaterialPageRoute(
+          builder: (context) => const VerificationCodeScreen(),
+        );
+      case Routes.setNewPassword:
+        return MaterialPageRoute(
+          builder: (context) => const ResetPassword(),
+
       case Routes.patientContinueSignUpScreen:
         return MaterialPageRoute(
           builder: (context) => PatientContinueSignupScreen(),
