@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/routing/app_routes.dart';
@@ -15,6 +16,7 @@ class HealCare extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, _) => MaterialApp(
         initialRoute: Routes.splash,
+        builder: DevicePreview.appBuilder,
         onGenerateRoute: AppRoutes().generateRoute,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
