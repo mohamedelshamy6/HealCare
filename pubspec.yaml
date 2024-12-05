@@ -44,6 +44,8 @@ dependencies:
   pinput: ^5.0.0
   # Flutter integration for Supabase.
   supabase_flutter: ^2.8.1
+  # Secure authentication system for signing in with a Google account.
+  google_sign_in: ^6.2.2
 
 
 # An extension for generating assets file located in helpers folder.
@@ -77,4 +79,6 @@ flutter:
     - assets/svgs/
     - assets/icons/
     - assets/images/splash/
+    - assets/images/patients/
+    - assets/images/doctors/
     - assets/fonts/poppins/
