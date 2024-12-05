@@ -18,50 +18,52 @@ class ChooseScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 72.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Make Online And Live Consultation\nEasily With Top Doctors',
-                style: AppTextStyles.poppinsBlack(24, FontWeight.w600),
-              ),
-              verticalSpace(4),
-              Padding(
-                padding: EdgeInsets.only(left: 24.w),
-                child: SvgPicture.asset(Assets.svgsChoosePageLine),
-              ),
-              verticalSpace(16),
-              Image.asset(Assets.imagesChoosePageImage),
-              verticalSpace(64),
-              CustomButton(
-                borderRadius: 10,
-                height: 50.h,
-                buttonText: 'Sign Up As Doctor',
-                buttonAction: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.signUpScreen,
-                    arguments: 'doctor',
-                  );
-                },
-                buttonStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
-              ),
-              verticalSpace(16),
-              CustomBorderButton(
-                borderRadius: 10,
-                height: 50.h,
-                buttonText: 'Sign Up As Patient',
-                buttonAction: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.signUpScreen,
-                    arguments: 'patient',
-                  );
-                },
-                buttonStyle:
-                    AppTextStyles.poppinsMainColor(15, FontWeight.w500),
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Make Online And Live Consultation\nEasily With Top Doctors',
+                  style: AppTextStyles.poppinsBlack(24, FontWeight.w600),
+                ),
+                verticalSpace(4),
+                Padding(
+                  padding: EdgeInsets.only(left: 24.w),
+                  child: SvgPicture.asset(Assets.svgsChoosePageLine),
+                ),
+                verticalSpace(16),
+                Image.asset(Assets.imagesChoosePageImage),
+                verticalSpace(64),
+                CustomButton(
+                  borderRadius: 10,
+                  height: 50.h,
+                  buttonText: 'Sign Up As Doctor',
+                  buttonAction: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.signUpScreen,
+                      arguments: 'doctor',
+                    );
+                  },
+                  buttonStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
+                ),
+                verticalSpace(16),
+                CustomBorderButton(
+                  borderRadius: 10,
+                  height: 50.h,
+                  buttonText: 'Sign Up As Patient',
+                  buttonAction: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.signUpScreen,
+                      arguments: 'patient',
+                    );
+                  },
+                  buttonStyle:
+                      AppTextStyles.poppinsMainColor(15, FontWeight.w500),
+                ),
+              ],
+            ),
           ),
         ),
       ),
