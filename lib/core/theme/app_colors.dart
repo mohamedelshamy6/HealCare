@@ -6,4 +6,6 @@ class AppColors {
   static const Color mainColor = Color(0xff18A0FB);
   static const Color mainGrey = Color(0xff888888);
   static const Color tFFErrorColor = Color(0xffF14E2E);
+  static const Color mainDarkGrey = Color(0xff484C52);
+  static const Color lighterBlue = Color.fromARGB(255, 227, 241, 250);
 }
