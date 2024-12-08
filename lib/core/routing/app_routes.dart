@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:heal_care/features/auth/view/screens/sign_up_screen.dart';
-import 'package:heal_care/features/doctor_home/screens/doctor_home_screen.dart';
-import 'package:heal_care/features/doctor_home/widgets/custom_button_nav_bar.dart';
 import 'package:heal_care/features/reset_password/view/screens/forget_password.dart';
 import 'package:heal_care/features/reset_password/view/screens/reset_password.dart';
 import 'package:heal_care/features/reset_password/view/screens/verification_code_screen.dart';
@@ -49,14 +47,6 @@ class AppRoutes {
       case Routes.setNewPassword:
         return MaterialPageRoute(
           builder: (context) => const ResetPassword(),
-        );
-      case Routes.doctorHome:
-        return MaterialPageRoute(
-          builder: (context) => const DoctorHomeScreen(),
-        );
-      case Routes.navBarView:
-        return MaterialPageRoute(
-          builder: (context) => const CustomButtonNavBar(),
         );
     }
     return null;

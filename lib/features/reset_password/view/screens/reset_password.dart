@@ -1,12 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/errors/messages/validation_error_messages.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/core/theme/app_text_styles.dart';
-import 'package:heal_care/core/widgets/custom_app_header.dart';
-import 'package:heal_care/core/widgets/custom_button.dart';
-import 'package:heal_care/core/widgets/custom_text_form_field.dart';
+import '../../../../core/errors/messages/validation_error_messages.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/custom_app_header.dart';
+import '../../../../core/widgets/custom_button.dart';
+import '../../../../core/widgets/custom_text_form_field.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key});
@@ -28,11 +27,8 @@ class ResetPassword extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomAppHeader(
-                          canBack: true,
+                          canBack: false,
                           title: 'Reset Password',
-                          horizSpace: 45.25,
-                          // onTap: () => Navigator.pushNamedAndRemoveUntil(
-                          // context, Routes.choose, (route) => false),
                         ),
                         verticalSpace(23),
                         Text(
@@ -56,7 +52,6 @@ class ResetPassword extends StatelessWidget {
                               ValidationErrorTexts.loginPasswordValidation(
                                   password),
                         ),
-                        verticalSpace(55),
                       ],
                     ),
                   ),

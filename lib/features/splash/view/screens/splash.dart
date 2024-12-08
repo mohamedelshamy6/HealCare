@@ -68,28 +68,29 @@ class _SplashScreenState extends State<SplashScreen>
                 Assets.imagesSplashGradient,
               ),
             ),
-            AnimatedBuilder(
-              animation: flipAnimation,
-              builder: (context, child) => Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.rotationY(flipAnimation.value * 3.14),
-                child: Image.asset(
-                  flipAnimation.value % 2 < 1
-                      ? Assets.imagesSplashSplashImage2
-                      : Assets.imagesSplashSplashImage1,
-                  width: 115.w,
-                  height: 115.h,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedBuilder(
+                  animation: flipAnimation,
+                  builder: (context, child) => Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(flipAnimation.value * 3.14),
+                    child: Image.asset(
+                      flipAnimation.value % 2 < 1
+                          ? Assets.imagesSplashSplashImage2
+                          : Assets.imagesSplashSplashImage1,
+                      width: 115.w,
+                      height: 115.h,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            verticalSpace(24.h),
-            Positioned(
-              top: 480.h,
-              bottom: 260.h,
-              child: Text(
-                'HealCare',
-                style: AppTextStyles.poppinsMainColor(40, FontWeight.w600),
-              ),
+                verticalSpace(24.h),
+                Text(
+                  'HealCare',
+                  style: AppTextStyles.poppinsMainColor(40, FontWeight.w600),
+                ),
+              ],
             ),
           ],
         ),

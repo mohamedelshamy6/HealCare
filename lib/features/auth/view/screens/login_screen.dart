@@ -58,7 +58,9 @@ class LoginScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.forgetPassword);
+                      },
                       style: const ButtonStyle(
                         padding: WidgetStatePropertyAll(EdgeInsets.zero),
                         overlayColor:
