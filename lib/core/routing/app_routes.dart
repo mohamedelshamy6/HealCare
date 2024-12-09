@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heal_care/features/patient_home/view/screens/patient_home_screen.dart';
 import '../../features/auth/view/screens/sign_up_screen.dart';
 import '../../features/reset_password/view/screens/forget_password.dart';
 import '../../features/reset_password/view/screens/reset_password.dart';
@@ -57,6 +58,10 @@ class AppRoutes {
       case Routes.doctorContinueSignUpScreen:
         return MaterialPageRoute(
           builder: (context) => DoctorContinueSignupScreen(),
+        );
+      case Routes.patientHome:
+        return MaterialPageRoute(
+          builder: (context) => PatientHomeScreen(),
         );
     }
     return null;
