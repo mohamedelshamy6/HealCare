@@ -44,6 +44,8 @@ void main() async {
   //? To set the orientation of the device to portrait and can not rotate.
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     runApp(DevicePreview(builder: (context) => const HealCare()));
   });
 }
