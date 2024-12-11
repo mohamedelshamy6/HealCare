@@ -81,10 +81,10 @@ class Assets {
   static const String iconsFavoriteIconRed =
       "assets/icons/favorite_icon_red.png";
 
-  /// Assets for iconsFavouriteIconRedOutlined
-  /// assets/icons/favourite_icon_red_outlined.png
-  static const String iconsFavouriteIconRedOutlined =
-      "assets/icons/favourite_icon_red_outlined.png";
+  /// Assets for iconsFavoriteIconRedOutlined
+  /// assets/icons/favorite_icon_red_outlined.png
+  static const String iconsFavoriteIconRedOutlined =
+      "assets/icons/favorite_icon_red_outlined.png";
 
   /// Assets for iconsFilterIconWhite
   /// assets/icons/filter_icon_white.svg

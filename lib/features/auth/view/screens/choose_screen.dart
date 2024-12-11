@@ -62,6 +62,7 @@ class ChooseScreen extends StatelessWidget {
                   buttonStyle:
                       AppTextStyles.poppinsMainColor(15, FontWeight.w500),
                 ),
+                verticalSpace(16),
               ],
             ),
           ),
