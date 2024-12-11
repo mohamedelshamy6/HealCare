@@ -60,7 +60,7 @@ class VerificationCodeScreen extends StatelessWidget {
                   Navigator.of(context)
                       .pushReplacementNamed(Routes.setNewPassword);
                 },
-                buttonStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
+                textStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
                 height: 50.h,
               ),
               verticalSpace(49)

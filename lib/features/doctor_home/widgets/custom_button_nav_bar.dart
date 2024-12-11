@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
+import 'package:heal_care/features/doctor_home/cubit/tabbar_cubit.dart';
 import 'package:heal_care/features/doctor_home/screens/doctor_booking.dart';
 import 'package:heal_care/features/doctor_home/screens/doctor_chat.dart';
 import 'package:heal_care/features/doctor_home/screens/doctor_home_screen.dart';
@@ -19,7 +21,10 @@ class _CustomButtonNavBarState extends State<CustomButtonNavBar> {
   final controller = PersistentTabController(initialIndex: 2);
   List<Widget> _allScreens() {
     return [
-      DoctorBooking(),
+      BlocProvider(
+        create: (context) => TabbarCubit(),
+        child: DoctorBooking(),
+      ),
       DoctorChat(),
       DoctorHomeScreen(),
       DoctorWallet(),
