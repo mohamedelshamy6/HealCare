@@ -15,7 +15,7 @@ class HealCare extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, _) => MaterialApp(
-        initialRoute: Routes.splash,
+        initialRoute: Routes.navBarView,
         builder: DevicePreview.appBuilder,
         onGenerateRoute: AppRoutes().generateRoute,
         debugShowCheckedModeBanner: false,

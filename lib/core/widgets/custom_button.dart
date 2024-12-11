@@ -7,7 +7,7 @@ class CustomButton extends StatelessWidget {
     super.key,
     required this.buttonText,
     required this.buttonAction,
-    required this.buttonStyle,
+    required this.textStyle,
     this.height,
     this.width,
     this.borderRadius,
@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
   });
 
   final String buttonText;
-  final TextStyle buttonStyle;
+  final TextStyle textStyle;
   final Function() buttonAction;
   final double? height;
   final double? width;
@@ -37,7 +37,7 @@ class CustomButton extends StatelessWidget {
         child: Center(
           child: Text(
             buttonText,
-            style: buttonStyle,
+            style: textStyle,
           ),
         ),
       ),

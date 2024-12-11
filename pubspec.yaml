@@ -44,6 +44,7 @@ dependencies:
   pinput: ^5.0.0
   # Flutter integration for Supabase.
   supabase_flutter: ^2.8.1
+  persistent_bottom_nav_bar: ^6.2.1
   # Secure authentication system for signing in with a Google account.
   google_sign_in: ^6.2.2
 

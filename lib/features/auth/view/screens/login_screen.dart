@@ -84,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                     buttonText: 'Sign In',
                     height: 50.h,
                     borderRadius: 10,
-                    buttonStyle:
+                    textStyle:
                         AppTextStyles.poppinsWhite(15, FontWeight.w500),
                   ),
                   verticalSpace(16),

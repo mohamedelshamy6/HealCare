@@ -47,7 +47,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                     buttonAction: () {
                       Navigator.of(context).pushNamed(Routes.codeVerification);
                     },
-                    buttonStyle:
+                    textStyle:
                         AppTextStyles.poppinsWhite(15, FontWeight.w500),
                     height: 50.h,
                   ),
