@@ -7,7 +7,7 @@ class TabbarCubit extends Cubit<TabbarState> {
   TabbarCubit() : super(TabbarInitial());
   int selectedIndex=0;
   changeTabs(index){
-    selectedIndex==index;
+    selectedIndex=index;
     emit(TabbarSuccess());
   }
 

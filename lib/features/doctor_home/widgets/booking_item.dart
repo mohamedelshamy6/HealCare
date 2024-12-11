@@ -4,15 +4,16 @@ import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 import 'package:heal_care/core/widgets/custom_button.dart';
+import 'package:heal_care/features/doctor_home/data/models/all_booking_model.dart';
 
 class BookingItem extends StatelessWidget {
   const BookingItem({
     super.key,
-    required this.selectedIndex, required this.imageUrl,
+    required this.selectedIndex, required this.allBookingModel,
   });
 
   final int selectedIndex;
-  final String? imageUrl;
+  final AllBookingModel allBookingModel;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class BookingItem extends StatelessWidget {
                   height: 70.h,
                   width: 70.w,
                   child: Image.asset(
-                      imageUrl??'assets/images/patients/patient_m.png')),
+                      allBookingModel.imageUrl??'assets/images/patients/patient_m.png')),
               horizontalSpace(15),
               Column(
                 crossAxisAlignment:
@@ -40,19 +41,19 @@ class BookingItem extends StatelessWidget {
                     MainAxisAlignment.center,
                 children: [
                   Text(
-                    'John Deo',
+                    allBookingModel.name,
                     style:
                         AppTextStyles.poppinsBlack(
                             18, FontWeight.w600),
                   ),
                   Text(
-                    'M.Sc. - Food and Nutrition',
+                    allBookingModel.specialty!,
                     style:
                         AppTextStyles.poppinsGrey(
                             12, FontWeight.w400),
                   ),
                   Text(
-                    'Nutritionist',
+                    allBookingModel.jobAddress!,
                     style:
                         AppTextStyles.poppinsGrey(
                             14, FontWeight.w500),
@@ -71,7 +72,7 @@ class BookingItem extends StatelessWidget {
                           ),
                           horizontalSpace(2),
                           Text(
-                            '02 February 2023',
+                            allBookingModel.startDate!,
                             style: AppTextStyles
                                 .poppinsBlack(
                                     10,
@@ -90,7 +91,7 @@ class BookingItem extends StatelessWidget {
                           ),
                           horizontalSpace(2),
                           Text(
-                            '1:00 PM - 2:00 PM',
+                            allBookingModel.endDate!,
                             style: AppTextStyles
                                 .poppinsBlack(
                                     10,
