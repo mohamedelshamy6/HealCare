@@ -7,7 +7,7 @@ part 'bottom_navigation_bar_state.dart';
 
 class BottomNavigationBarCubit extends Cubit<BottomNavigationBarState> {
   BottomNavigationBarCubit() : super(BottomNavigationBarInitial());
-  int selectedIndex = 0;
+  int selectedIndex = 2;
   List<String> patientBotNavBarItemsLabel = [
     'Booking',
     'Chat',

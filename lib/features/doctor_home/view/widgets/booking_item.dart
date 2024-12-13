@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/core/theme/app_colors.dart';
-import 'package:heal_care/core/theme/app_text_styles.dart';
-import 'package:heal_care/core/widgets/custom_button.dart';
-import 'package:heal_care/features/doctor_home/data/models/all_booking_model.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/custom_button.dart';
+import '../../data/models/all_booking_model.dart';
+
+import '../../../../core/helpers/app_images.dart';
 
 class BookingItem extends StatelessWidget {
   const BookingItem({
@@ -32,7 +34,7 @@ class BookingItem extends StatelessWidget {
                   height: 70.h,
                   width: 70.w,
                   child: Image.asset(
-                      allBookingModel.imageUrl??'assets/images/patients/patient_m.png')),
+                      allBookingModel.imageUrl??Assets.imagesPatientsPatientM)),
               horizontalSpace(15),
               Column(
                 crossAxisAlignment:

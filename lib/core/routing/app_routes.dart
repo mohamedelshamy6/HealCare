@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heal_care/features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
-import 'package:heal_care/features/bottom_navigation_bar/view/screens/custom_bottom_navigation_bar.dart';
-import 'package:heal_care/features/patient_home/view/screens/all_doctors.dart';
-import 'package:heal_care/features/auth/view/screens/sign_up_screen.dart';
-import 'package:heal_care/features/doctor_home/widgets/custom_button_nav_bar.dart';
-import 'package:heal_care/features/reset_password/view/screens/forget_password.dart';
-import 'package:heal_care/features/reset_password/view/screens/reset_password.dart';
-import 'package:heal_care/features/reset_password/view/screens/verification_code_screen.dart';
-import 'package:heal_care/features/patient_home/view/screens/patient_home_screen.dart';
+import '../../features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
+import '../../features/bottom_navigation_bar/view/screens/custom_bottom_navigation_bar.dart';
+import '../../features/doctor_home/logic/tabbar_cubit/tabbar_cubit.dart';
+import '../../features/patient_home/view/screens/all_doctors.dart';
+import '../../features/auth/view/screens/sign_up_screen.dart';
+import '../../features/reset_password/view/screens/forget_password.dart';
+import '../../features/reset_password/view/screens/reset_password.dart';
+import '../../features/reset_password/view/screens/verification_code_screen.dart';
+import '../../features/patient_home/view/screens/patient_home_screen.dart';
 import '../../features/auth/view/screens/choose_screen.dart';
 import '../../features/auth/view/screens/login_screen.dart';
 import '../../features/splash/view/screens/splash.dart';
@@ -54,10 +54,6 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => const ResetPassword(),
         );
-        case Routes.navBarView:
-        return MaterialPageRoute(
-          builder: (context) => const CustomButtonNavBar(),
-        );
       case Routes.patientHome:
         return MaterialPageRoute(
           builder: (context) => PatientHomeScreen(),
@@ -68,8 +64,15 @@ class AppRoutes {
         );
       case Routes.bottomNavBar:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider<BottomNavigationBarCubit>(
-            create: (context) => BottomNavigationBarCubit(),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider<BottomNavigationBarCubit>(
+                create: (context) => BottomNavigationBarCubit(),
+              ),
+              BlocProvider<TabbarCubit>(
+                create: (context) => TabbarCubit(),
+              ),
+            ],
             child: CustomBottomNavigationBar(type: args as String),
           ),
         );

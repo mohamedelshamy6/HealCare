@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
+import '../../logic/bottom_navigation_bar_cubit.dart';
 
+import '../../../doctor_home/view/screens/doctor_booking.dart';
+import '../../../doctor_home/view/screens/doctor_chat.dart';
+import '../../../doctor_home/view/screens/doctor_home_screen.dart';
+import '../../../doctor_home/view/screens/doctor_profile.dart';
+import '../../../doctor_home/view/screens/doctor_wallet.dart';
+import '../../../patient_home/view/screens/patient_home_screen.dart';
 import '../widgets/bottom_navigation_bar_home_item.dart';
 import '../widgets/bottom_navigation_bar_item.dart';
 
@@ -18,17 +24,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
     List<Widget> patientPages = [
       Center(child: Text('booking')),
       Center(child: Text('chat')),
-      Center(child: Text('home')),
+      PatientHomeScreen(),
       Center(child: Text('notification')),
       Center(child: Text('profile')),
     ];
 
     List<Widget> doctorPages = [
-      Center(child: Text('booking')),
-      Center(child: Text('chat')),
-      Center(child: Text('home')),
-      Center(child: Text('E-Wallet')),
-      Center(child: Text('profile')),
+      DoctorBooking(),
+      DoctorChat(),
+      DoctorHomeScreen(),
+      DoctorWallet(),
+      DoctorProfile()
     ];
     var cubit = BlocProvider.of<BottomNavigationBarCubit>(context);
 
@@ -50,7 +56,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   children: List.generate(
                     5,
                     (index) => index == 2
-                        ? SizedBox(width: 50.w)
+                        ? SizedBox(width: 32.w)
                         : CustomBottomNavigationBarItem(
                             type: type,
                             index: index,
@@ -58,7 +64,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   ),
                 ),
               ),
-              BottomNavigationBarHomeItem(),
+              Positioned(
+                top: -12.h,
+                right: type == 'patient' ? 165.w : null,
+                child: BottomNavigationBarHomeItem(),
+              ),
             ],
           ),
         );

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/core/theme/app_colors.dart';
-import 'package:heal_care/core/theme/app_text_styles.dart';
+import '../../../../core/helpers/app_images.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
 import '../widgets/home_list_view.dart';
 
 class DoctorHomeScreen extends StatelessWidget {
@@ -27,7 +28,7 @@ class DoctorHomeScreen extends StatelessWidget {
                         height: 48.h,
                         width: 48.w,
                         child: Image.asset(
-                          'assets/images/Pic.png',
+                         Assets.imagesPatientsPatientM2,
                         )),
                     horizontalSpace(3),
                     Column(
@@ -47,7 +48,7 @@ class DoctorHomeScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                SvgPicture.asset('assets/images/Frame 26.svg'),
+                SvgPicture.asset(Assets.iconsNotificationIconBlueDot),
               ],
             ),
             
@@ -63,7 +64,7 @@ class DoctorHomeScreen extends StatelessWidget {
                   ),
                 ),
                 Image.asset(
-                  'assets/images/Group 11.png',
+                Assets.imagesDoctorHomeBanner,
                   height: 178.h,
                   width: double.infinity,
                   fit: BoxFit.fill,
@@ -121,7 +122,7 @@ class DoctorHomeScreen extends StatelessWidget {
             ),),
             SliverToBoxAdapter(child: verticalSpace(24),),
             SliverToBoxAdapter(child:Image.asset(
-              'assets/images/Frame 10.png',
+              Assets.imagesDataChart,
               height: 166.h,
               fit: BoxFit.contain,
             ) ,),

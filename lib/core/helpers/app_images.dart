@@ -169,6 +169,11 @@ class Assets {
   static const String iconsNotificationIconBlue =
       "assets/icons/notification_icon_blue.svg";
 
+  /// Assets for iconsNotificationIconBlueDot
+  /// assets/icons/notification_icon_blue_dot.svg
+  static const String iconsNotificationIconBlueDot =
+      "assets/icons/notification_icon_blue_dot.svg";
+
   /// Assets for iconsNotificationIconGrey
   /// assets/icons/notification_icon_grey.svg
   static const String iconsNotificationIconGrey =
@@ -244,6 +249,15 @@ class Assets {
   /// assets/images/choose_page_image.png
   static const String imagesChoosePageImage =
       "assets/images/choose_page_image.png";
+
+  /// Assets for imagesDataChart
+  /// assets/images/data_chart.png
+  static const String imagesDataChart = "assets/images/data_chart.png";
+
+  /// Assets for imagesDoctorHomeBanner
+  /// assets/images/doctor_home_banner.png
+  static const String imagesDoctorHomeBanner =
+      "assets/images/doctor_home_banner.png";
 
   /// Assets for imagesDoctorsDoctorF
   /// assets/images/doctors/doctor_f.png

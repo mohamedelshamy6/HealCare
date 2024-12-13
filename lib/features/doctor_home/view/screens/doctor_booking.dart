@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/core/theme/app_colors.dart';
-import 'package:heal_care/core/theme/app_text_styles.dart';
-import 'package:heal_care/core/widgets/custom_app_bar.dart';
-import 'package:heal_care/core/widgets/custom_tab_bar.dart';
-import 'package:heal_care/features/doctor_home/data/models/all_booking_model.dart';
-import 'package:heal_care/features/doctor_home/logic/tabbar_cubit/tabbar_cubit.dart';
+import '../../../../core/helpers/app_images.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/custom_app_bar.dart';
+import '../../../../core/widgets/custom_tab_bar.dart';
+import '../../data/models/all_booking_model.dart';
+import '../../logic/tabbar_cubit/tabbar_cubit.dart';
 import '../widgets/tabs_booking_list_view.dart';
 
 class DoctorBooking extends StatelessWidget {
@@ -19,63 +20,63 @@ class DoctorBooking extends StatelessWidget {
       AllBookingModel(
           name: 'John Deo',
           specialty: 'M.Sc. - Food and Nutrition',
-          imageUrl: 'assets/images/patients/patient_m.png',
+          imageUrl: Assets.imagesPatientsPatientM,
           jobAddress: 'Nutritionist',
           startDate: '02 February 2023',
           endDate: '1:00 PM - 2:00 PM'),
       AllBookingModel(
           name: 'Lama',
           specialty: 'M.Sc. - Food and Nutrition',
-          imageUrl: 'assets/images/patients/patient_f.png',
+          imageUrl: Assets.imagesPatientsPatientF,
           jobAddress: 'Nutritionist',
           startDate: '02 February 2024',
           endDate: '2:00 PM - 3:00 PM'),
       AllBookingModel(
           name: 'Mala',
           specialty: 'M.Sc. - lunch and Nutrition',
-          imageUrl: 'assets/images/patients/patient_f2.png',
+          imageUrl: Assets.imagesPatientsPatientF2,
           jobAddress: 'Nutritionist',
           startDate: '02 February 2025',
           endDate: '3:00 PM - 4:00 PM'),
       AllBookingModel(
           name: 'Linda',
           specialty: 'M.Sc. - Food only',
-          imageUrl: 'assets/images/patients/patient_f3.png',
+          imageUrl: Assets.imagesPatientsPatientF3,
           jobAddress: 'Nutritionist',
           startDate: '02 February 2023',
           endDate: '1:00 PM - 2:00 PM'),
       AllBookingModel(
           name: 'Sam',
           specialty: 'M.Sc. - Food and Nutrition',
-          imageUrl: 'assets/images/patients/patient_m2.png',
+          imageUrl: Assets.imagesPatientsPatientM2,
           jobAddress: 'Nutritionist',
           startDate: '02 February 2023',
           endDate: '1:00 PM - 2:00 PM'),
       AllBookingModel(
           name: 'Dan',
           specialty: 'M.Sc. - Food and Nutrition',
-          imageUrl: 'assets/images/patients/patient_m3.png',
+          imageUrl: Assets.imagesPatientsPatientM3,
           jobAddress: 'Nutritionist',
           startDate: '02 February 2023',
           endDate: '1:00 PM - 2:00 PM'),
       AllBookingModel(
           name: 'Mad',
           specialty: 'M.Sc. - Food and Nutrition',
-          imageUrl: 'assets/images/patients/patient_m4.png',
+          imageUrl: Assets.imagesPatientsPatientM4,
           jobAddress: 'Nutritionist',
           startDate: '02 February 2023',
           endDate: '1:00 PM - 2:00 PM'),
       AllBookingModel(
           name: 'Leo',
           specialty: 'M.Sc. - Food and Nutrition',
-          imageUrl: 'assets/images/patients/patient_m5.png',
+          imageUrl: Assets.imagesPatientsPatientM5,
           jobAddress: 'Nutritionist',
           startDate: '02 February 2023',
           endDate: '1:00 PM - 2:00 PM'),
       AllBookingModel(
           name: 'Ramy',
           specialty: 'M.Sc. - Food and Nutrition',
-          imageUrl: 'assets/images/patients/patient_m6.png',
+          imageUrl: Assets.imagesPatientsPatientM6,
           jobAddress: 'Nutritionist',
           startDate: '02 February 2023',
           endDate: '1:00 PM - 2:00 PM'),
