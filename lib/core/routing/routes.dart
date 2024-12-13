@@ -6,6 +6,7 @@ class Routes {
   static const String onBoarding = 'onBoarding';
   static const String loginScreen = 'loginScreen';
   static const String signUpScreen = 'signUpScreen';
+  static const String bottomNavBar = 'bottomNavBar';
   static const String patientContinueSignUpScreen = 'patientContinueSignUpScreen';
   static const String doctorContinueSignUpScreen = 'doctorContinueSignUpScreen';
   static const String forgetPassword = 'forgetPasswordScreen';
@@ -13,4 +14,5 @@ class Routes {
   static const String setNewPassword = 'setNewPasswordScreen';
   static const String changePasswordSuccessfully = 'changePasswordSuccessfully';
   static const String notificationsScreen = 'notificationsScreen';
+  static const String allDoctorsScreen = 'allDoctorsScreen';
 }

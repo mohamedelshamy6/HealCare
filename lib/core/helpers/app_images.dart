@@ -55,6 +55,16 @@ class Assets {
   /// assets/icons/dentists.png
   static const String iconsDentists = "assets/icons/dentists.png";
 
+  /// Assets for iconsDoctorEWalletIconBlue
+  /// assets/icons/doctor_e_wallet_icon_blue.svg
+  static const String iconsDoctorEWalletIconBlue =
+      "assets/icons/doctor_e_wallet_icon_blue.svg";
+
+  /// Assets for iconsDoctorEWalletIconGrey
+  /// assets/icons/doctor_e_wallet_icon_grey.svg
+  static const String iconsDoctorEWalletIconGrey =
+      "assets/icons/doctor_e_wallet_icon_grey.svg";
+
   /// Assets for iconsEWalletBlue
   /// assets/icons/e_wallet_blue.svg
   static const String iconsEWalletBlue = "assets/icons/e_wallet_blue.svg";
@@ -111,10 +121,6 @@ class Assets {
   /// Assets for iconsHepatologists
   /// assets/icons/hepatologists.png
   static const String iconsHepatologists = "assets/icons/hepatologists.png";
-
-  /// Assets for iconsHomeIconBlue
-  /// assets/icons/home_icon_blue.svg
-  static const String iconsHomeIconBlue = "assets/icons/home_icon_blue.svg";
 
   /// Assets for iconsHomeIconWhite
   /// assets/icons/home_icon_white.svg
@@ -201,9 +207,9 @@ class Assets {
   static const String iconsReviewIconWhite =
       "assets/icons/review_icon_white.svg";
 
-  /// Assets for iconsSearchIcon
-  /// assets/icons/search_icon.png
-  static const String iconsSearchIcon = "assets/icons/search_icon.png";
+  /// Assets for iconsSearchIconGrey
+  /// assets/icons/search_icon_grey.svg
+  static const String iconsSearchIconGrey = "assets/icons/search_icon_grey.svg";
 
   /// Assets for iconsSendFilesIconWhite
   /// assets/icons/send_files_icon_white.svg
@@ -254,6 +260,11 @@ class Assets {
   static const String imagesDoctorsDoctorF3 =
       "assets/images/doctors/doctor_f3.png";
 
+  /// Assets for imagesDoctorsDoctorF4
+  /// assets/images/doctors/doctor_f4.png
+  static const String imagesDoctorsDoctorF4 =
+      "assets/images/doctors/doctor_f4.png";
+
   /// Assets for imagesDoctorsDoctorM
   /// assets/images/doctors/doctor_m.png
   static const String imagesDoctorsDoctorM =
@@ -268,6 +279,11 @@ class Assets {
   /// assets/images/doctors/doctor_m3.png
   static const String imagesDoctorsDoctorM3 =
       "assets/images/doctors/doctor_m3.png";
+
+  /// Assets for imagesDoctorsDoctorM4
+  /// assets/images/doctors/doctor_m4.png
+  static const String imagesDoctorsDoctorM4 =
+      "assets/images/doctors/doctor_m4.png";
 
   /// Assets for imagesMasterCard
   /// assets/images/master_card.png

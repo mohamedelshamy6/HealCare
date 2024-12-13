@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:heal_care/features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
+import 'package:heal_care/features/bottom_navigation_bar/view/screens/custom_bottom_navigation_bar.dart';
+import 'package:heal_care/features/patient_home/view/screens/all_doctors.dart';
 import 'package:heal_care/features/patient_home/view/screens/patient_home_screen.dart';
 import '../../features/auth/view/screens/sign_up_screen.dart';
 import '../../features/reset_password/view/screens/forget_password.dart';
@@ -62,6 +66,17 @@ class AppRoutes {
       case Routes.patientHome:
         return MaterialPageRoute(
           builder: (context) => PatientHomeScreen(),
+        );
+      case Routes.allDoctorsScreen:
+        return MaterialPageRoute(
+          builder: (context) => AllDoctorsScreen(),
+        );
+      case Routes.bottomNavBar:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<BottomNavigationBarCubit>(
+            create: (context) => BottomNavigationBarCubit(),
+            child: CustomBottomNavigationBar(type: args as String),
+          ),
         );
     }
     return null;

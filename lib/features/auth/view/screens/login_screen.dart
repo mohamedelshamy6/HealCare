@@ -79,7 +79,11 @@ class LoginScreen extends StatelessWidget {
                   verticalSpace(72),
                   CustomButton(
                     buttonAction: () {
-                      if (formKey.currentState!.validate()) {}
+                      if (formKey.currentState!.validate()) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            Routes.bottomNavBar, (route) => false,
+                            arguments: type);
+                      }
                     },
                     buttonText: 'Sign In',
                     height: 50.h,

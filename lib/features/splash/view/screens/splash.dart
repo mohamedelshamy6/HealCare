@@ -45,6 +45,12 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    precacheImage(AssetImage(Assets.imagesChoosePageImage), context);
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     flipAnimationController.dispose();
     super.dispose();
