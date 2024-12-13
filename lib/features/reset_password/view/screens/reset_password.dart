@@ -61,7 +61,7 @@ class ResetPassword extends StatelessWidget {
                   height: 50.h,
                   buttonText: 'Confirm',
                   buttonAction: () {},
-                  buttonStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500)),
+                  textStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500)),
               verticalSpace(49)
             ],
           ),

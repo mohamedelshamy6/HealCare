@@ -88,7 +88,7 @@ class DoctorContinueSignupScreen extends StatelessWidget {
                   buttonAction: () {},
                   buttonText: 'Sign Up',
                   height: 50.h,
-                  buttonStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
+                  textStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
                 ),
                 verticalSpace(24),
               ],

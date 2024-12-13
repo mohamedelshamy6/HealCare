@@ -45,7 +45,7 @@ class ChooseScreen extends StatelessWidget {
                       arguments: 'doctor',
                     );
                   },
-                  buttonStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
+                  textStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
                 ),
                 verticalSpace(16),
                 CustomBorderButton(

@@ -15,4 +15,6 @@ class Routes {
   static const String changePasswordSuccessfully = 'changePasswordSuccessfully';
   static const String notificationsScreen = 'notificationsScreen';
   static const String allDoctorsScreen = 'allDoctorsScreen';
+  static const String navBarView = 'navBarView';
+
 }

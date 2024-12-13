@@ -140,7 +140,7 @@ class FindDoctorsContainer extends StatelessWidget {
                 buttonText: 'Book Appointment',
                 borderRadius: 8,
                 buttonAction: () {},
-                buttonStyle:
+                textStyle:
                     AppTextStyles.poppinsMainColor(14, FontWeight.w600),
                 color: AppColors.findDoctorsCardButtonColor,
               ),
