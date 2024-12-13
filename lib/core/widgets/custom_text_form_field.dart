@@ -13,6 +13,7 @@ class CustomTFF extends StatefulWidget {
   final int? maxInputLength;
   final int? maxLines;
   final double? borderRadius;
+  final Widget? suffixIcon, prefixIcon;
   final bool? enableFocusedBorder;
   final TextStyle? hintTextStyle;
   final String? Function(String?)? validate;
@@ -27,7 +28,7 @@ class CustomTFF extends StatefulWidget {
     this.hintTextStyle,
     this.enableFocusedBorder,
     this.borderRadius,
-    this.maxLines,
+    this.maxLines, this.suffixIcon, this.prefixIcon,
   });
 
   @override
@@ -72,7 +73,8 @@ class _CustomTFFState extends State<CustomTFF> {
       controller: widget.controller,
       decoration: InputDecoration(
         hintFadeDuration: const Duration(milliseconds: 100),
-        suffixIcon: tFFIconPosition(),
+        suffixIcon: widget.suffixIcon ?? tFFIconPosition(),
+        prefixIcon: widget.prefixIcon,
         suffixIconColor: AppColors.mainBlack,
         fillColor: widget.color ?? Colors.white,
         filled: true,

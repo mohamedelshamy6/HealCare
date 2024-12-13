@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/core/theme/app_colors.dart';
-import 'package:heal_care/core/theme/app_text_styles.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+
+import '../../../../core/helpers/app_images.dart';
 
 class DoctorCardHome extends StatelessWidget {
   const DoctorCardHome({
@@ -22,11 +24,10 @@ class DoctorCardHome extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                  height: 48.h,
-                  width: 48.w,
-                  child: Image.asset(
-                    'assets/images/Pic.png',
-                  )),
+                height: 48.h,
+                width: 48.w,
+                child: Image.asset(Assets.imagesPatientsPatientM2),
+              ),
               horizontalSpace(3),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,14 +35,12 @@ class DoctorCardHome extends StatelessWidget {
                 children: [
                   Text(
                     'Jennifer Miller',
-                    style: AppTextStyles.poppinsBlack(
-                        14, FontWeight.w600),
+                    style: AppTextStyles.poppinsBlack(14, FontWeight.w600),
                   ),
                   verticalSpace(4),
                   Text(
                     'Heart patient',
-                    style: AppTextStyles.poppinsGrey(
-                        14, FontWeight.w400),
+                    style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
                   ),
                 ],
               )
@@ -60,8 +59,7 @@ class DoctorCardHome extends StatelessWidget {
                   horizontalSpace(2),
                   Text(
                     '1/12/2024',
-                    style: AppTextStyles.poppinsBlack(
-                        14, FontWeight.w400),
+                    style: AppTextStyles.poppinsBlack(14, FontWeight.w400),
                   ),
                 ],
               ),
@@ -74,8 +72,7 @@ class DoctorCardHome extends StatelessWidget {
                   horizontalSpace(2),
                   Text(
                     '10:30am - 5:30pm',
-                    style: AppTextStyles.poppinsBlack(
-                        14, FontWeight.w400),
+                    style: AppTextStyles.poppinsBlack(14, FontWeight.w400),
                   ),
                 ],
               ),

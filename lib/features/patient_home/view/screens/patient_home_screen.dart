@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/features/patient_home/view/widgets/home_header.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../widgets/home_header.dart';
 
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../widgets/find_doctor_container.dart';
 import '../widgets/home_banner.dart';
@@ -44,9 +45,14 @@ class PatientHomeScreen extends StatelessWidget {
                     verticalSpace(8),
                     HomeCategories(),
                     verticalSpace(24.h),
-                    TitleWithSeeAll(title: 'Find Doctors'),
+                    TitleWithSeeAll(
+                      title: 'Find Doctors',
+                      onPressed: () => Navigator.of(context)
+                          .pushNamed(Routes.allDoctorsScreen),
+                    ),
                     verticalSpace(8),
                     FindDoctorsContainer(),
+                    verticalSpace(16),
                   ],
                 ),
               ),

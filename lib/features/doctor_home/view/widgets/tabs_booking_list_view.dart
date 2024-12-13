@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/features/doctor_home/data/models/all_booking_model.dart';
-import 'package:heal_care/features/doctor_home/widgets/booking_item.dart';
+import '../../data/models/all_booking_model.dart';
+import 'booking_item.dart';
 class TabsBookingListView extends StatelessWidget {
   const TabsBookingListView({
     super.key,

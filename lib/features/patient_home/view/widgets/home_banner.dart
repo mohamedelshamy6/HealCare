@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/app_images.dart';
+import '../../../../core/helpers/app_images.dart';
 
 class PatientHomeBanner extends StatefulWidget {
   const PatientHomeBanner({

@@ -14,4 +14,5 @@ class AppColors {
   static const Color findDoctorsCardColor = Color(0xffFAFAFC);
   static const Color findDoctorsCardBorderColor = Color(0xffF4F4F6);
   static const Color findDoctorsCardButtonColor = Color(0xffE9F0FF);
+  static const Color bottomNavBarItemColor = Color(0xff484C52);
 }
