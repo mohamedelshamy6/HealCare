@@ -9,6 +9,7 @@ import '../../../../core/widgets/custom_app_header.dart';
 import '../../../../core/widgets/custom_text_form_field.dart';
 
 import '../widgets/doctors_container.dart';
+import '../widgets/filter_doctor_search_sheet.dart';
 
 class AllDoctorsScreen extends StatelessWidget {
   const AllDoctorsScreen({super.key});
@@ -40,7 +41,13 @@ class AllDoctorsScreen extends StatelessWidget {
                 ),
                 enableFocusedBorder: false,
                 suffixIcon: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) => const FilterDoctorSearchSheet(),
+                    );
+                  },
                   child: Container(
                     margin: EdgeInsets.all(5.r),
                     width: 38.w,

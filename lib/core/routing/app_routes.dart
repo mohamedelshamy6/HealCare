@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:heal_care/features/patient_home/view/screens/book_doctor_appointment.dart';
+import 'package:heal_care/features/patient_home/view/screens/payment_success.dart';
 import '../../features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
 import '../../features/bottom_navigation_bar/view/screens/custom_bottom_navigation_bar.dart';
 import '../../features/doctor_home/logic/tabbar_cubit/tabbar_cubit.dart';
+import '../../features/patient_home/data/models/doctors_model.dart';
 import '../../features/patient_home/view/screens/all_doctors.dart';
 import '../../features/auth/view/screens/sign_up_screen.dart';
+import '../../features/patient_home/view/screens/booking_payment.dart';
 import '../../features/reset_password/view/screens/forget_password.dart';
 import '../../features/reset_password/view/screens/reset_password.dart';
 import '../../features/reset_password/view/screens/verification_code_screen.dart';
@@ -74,6 +78,24 @@ class AppRoutes {
               ),
             ],
             child: CustomBottomNavigationBar(type: args as String),
+          ),
+        );
+      case Routes.bookDoctorAppointment:
+        return MaterialPageRoute(
+          builder: (context) => BookDoctorAppointment(
+            doctorsModel: args as DoctorsModel,
+          ),
+        );
+      case Routes.bookingPayment:
+        return MaterialPageRoute(
+          builder: (context) => BookingPayment(
+            doctorsModel: args as DoctorsModel,
+          ),
+        );
+      case Routes.paymentSuccess:
+        return MaterialPageRoute(
+          builder: (context) => PaymentSuccess(
+            doctorsModel: args as DoctorsModel,
           ),
         );
     }
