@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../data/models/doctors_model.dart';
 
 class FindDoctorsContainer extends StatelessWidget {
   const FindDoctorsContainer({
@@ -14,26 +16,8 @@ class FindDoctorsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> names = [
-      'Jennifer Miller',
-      'Robert Johnson',
-      'Laura White',
-      'Brian Clark'
-    ];
-    List<String> jobs = [
-      'Pediatrician | Mercy Hospital',
-      'Neurologist | ABC hospital',
-      'Dentist | Cedar Dental care',
-      'Psychiatrist | ABC hospital'
-    ];
-    List<String> images = [
-      Assets.imagesDoctorsDoctorF2,
-      Assets.imagesDoctorsDoctorM2,
-      Assets.imagesDoctorsDoctorF3,
-      Assets.imagesDoctorsDoctorM3,
-    ];
     return ListView.separated(
-      itemCount: names.length,
+      itemCount: 4,
       separatorBuilder: (context, index) => SizedBox(height: 16.h),
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -54,7 +38,7 @@ class FindDoctorsContainer extends StatelessWidget {
                   CircleAvatar(
                     radius: 18.r,
                     backgroundImage: AssetImage(
-                      images[index],
+                      doctors[index].image,
                     ),
                   ),
                   horizontalSpace(8),
@@ -63,7 +47,7 @@ class FindDoctorsContainer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          names[index],
+                          doctors[index].name,
                           style: AppTextStyles.poppinsBlack(
                             14,
                             FontWeight.w600,
@@ -71,7 +55,7 @@ class FindDoctorsContainer extends StatelessWidget {
                         ),
                         verticalSpace(4),
                         Text(
-                          jobs[index],
+                          doctors[index].job,
                           style: AppTextStyles.poppinsBlack(
                             14,
                             FontWeight.w400,
@@ -139,9 +123,13 @@ class FindDoctorsContainer extends StatelessWidget {
               CustomButton(
                 buttonText: 'Book Appointment',
                 borderRadius: 8,
-                buttonAction: () {},
-                textStyle:
-                    AppTextStyles.poppinsMainColor(14, FontWeight.w600),
+                buttonAction: () {
+                  Navigator.of(context).pushNamed(
+                    Routes.bookDoctorAppointment,
+                    arguments: doctors[index],
+                  );
+                },
+                textStyle: AppTextStyles.poppinsMainColor(14, FontWeight.w600),
                 color: AppColors.findDoctorsCardButtonColor,
               ),
             ],
