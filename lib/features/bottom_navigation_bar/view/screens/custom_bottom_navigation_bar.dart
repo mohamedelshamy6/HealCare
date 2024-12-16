@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/features/notification/views/screens/notifications_screen.dart';
 import '../../logic/bottom_navigation_bar_cubit.dart';
 
 import '../../../doctor_home/view/screens/doctor_booking.dart';
@@ -25,7 +26,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       Center(child: Text('booking')),
       Center(child: Text('chat')),
       PatientHomeScreen(),
-      Center(child: Text('notification')),
+      NotificationsScreen(),
       Center(child: Text('profile')),
     ];
 
