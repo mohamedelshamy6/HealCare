@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:heal_care/features/patient_profile/views/screens/patient_edit_profile.dart';
 import '../../features/auth/view/screens/doctor_continue_signup.dart';
 import '../../features/auth/view/screens/patient_continue_signup.dart';
 import '../../features/notification/views/screens/notifications_screen.dart';
@@ -117,6 +118,10 @@ class AppRoutes {
       case Routes.patientContinueSignUpScreen:
         return MaterialPageRoute(
           builder: (context) => PatientContinueSignupScreen(),
+        );
+      case Routes.patientEditProfile:
+        return MaterialPageRoute(
+          builder: (context) => PatientEditProfile(),
         );
     }
     return null;

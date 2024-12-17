@@ -299,6 +299,14 @@ class Assets {
   static const String imagesDoctorsDoctorM4 =
       "assets/images/doctors/doctor_m4.png";
 
+  /// Assets for imagesFileOne
+  /// assets/images/file_one.png
+  static const String imagesFileOne = "assets/images/file_one.png";
+
+  /// Assets for imagesFileTwo
+  /// assets/images/file_two.png
+  static const String imagesFileTwo = "assets/images/file_two.png";
+
   /// Assets for imagesMasterCard
   /// assets/images/master_card.png
   static const String imagesMasterCard = "assets/images/master_card.png";
