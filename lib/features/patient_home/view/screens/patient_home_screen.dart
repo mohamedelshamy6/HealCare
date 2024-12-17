@@ -44,7 +44,7 @@ class PatientHomeScreen extends StatelessWidget {
                     TitleWithSeeAll(title: 'Categories'),
                     verticalSpace(8),
                     HomeCategories(),
-                    verticalSpace(24.h),
+                    verticalSpace(24),
                     TitleWithSeeAll(
                       title: 'Find Doctors',
                       onPressed: () => Navigator.of(context)

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/widgets/custom_app_header.dart';
-import 'package:heal_care/features/patient_home/data/models/doctors_model.dart';
+import '../../../../core/widgets/custom_app_header.dart';
+import '../../data/models/doctors_model.dart';
 
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
@@ -70,7 +70,7 @@ class BookingPayment extends StatelessWidget {
                 child: CustomAppHeader(
                   canBack: true,
                   title: 'Payment',
-                  horizSpace: 72,
+                  horizSpace: MediaQuery.sizeOf(context).width < 400 ? 56 : 72,
                 ),
               ),
               verticalSpace(8),

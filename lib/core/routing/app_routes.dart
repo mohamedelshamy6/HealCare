@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heal_care/features/notification/views/screens/notifications_screen.dart';
-import 'package:heal_care/features/patient_home/view/screens/book_doctor_appointment.dart';
-import 'package:heal_care/features/patient_home/view/screens/payment_success.dart';
+import '../../features/auth/view/screens/doctor_continue_signup.dart';
+import '../../features/auth/view/screens/patient_continue_signup.dart';
+import '../../features/notification/views/screens/notifications_screen.dart';
+import '../../features/patient_favorite/views/screens/patient_favorites_screen.dart';
+import '../../features/patient_home/view/screens/book_doctor_appointment.dart';
+import '../../features/patient_home/view/screens/payment_success.dart';
 import '../../features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
 import '../../features/bottom_navigation_bar/view/screens/custom_bottom_navigation_bar.dart';
 import '../../features/doctor_home/logic/tabbar_cubit/tabbar_cubit.dart';
@@ -102,6 +105,18 @@ class AppRoutes {
       case Routes.notificationsScreen:
         return MaterialPageRoute(
           builder: (context) => NotificationsScreen(),
+        );
+      case Routes.patientFavoriteScreen:
+        return MaterialPageRoute(
+          builder: (context) => PatientFavoritesScreen(),
+        );
+      case Routes.doctorContinueSignUpScreen:
+        return MaterialPageRoute(
+          builder: (context) => DoctorContinueSignupScreen(),
+        );
+      case Routes.patientContinueSignUpScreen:
+        return MaterialPageRoute(
+          builder: (context) => PatientContinueSignupScreen(),
         );
     }
     return null;

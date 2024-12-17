@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/core/widgets/custom_app_header.dart';
-import 'package:heal_care/core/widgets/custom_date_picker.dart';
-import 'package:heal_care/features/patient_home/data/models/doctors_model.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/widgets/custom_app_header.dart';
+import '../../../../core/widgets/custom_date_picker.dart';
+import '../../data/models/doctors_model.dart';
 
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/routing/routes.dart';
@@ -29,7 +29,7 @@ class BookDoctorAppointment extends StatelessWidget {
             child: Column(
               children: [
                 CustomAppHeader(
-                  horizSpace: 40,
+                  horizSpace: MediaQuery.sizeOf(context).width < 400 ? 24 : 40,
                   canBack: true,
                   title: 'Book Appointment',
                 ),

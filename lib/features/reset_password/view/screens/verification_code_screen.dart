@@ -25,7 +25,8 @@ class VerificationCodeScreen extends StatelessWidget {
                     CustomAppHeader(
                       canBack: true,
                       title: 'Verification Code',
-                      horizSpace: 38.25,
+                      horizSpace:
+                          MediaQuery.sizeOf(context).width < 400 ? 24 : 38.25,
                     ),
                     verticalSpace(23),
                     Text(

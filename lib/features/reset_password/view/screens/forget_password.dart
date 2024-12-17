@@ -27,7 +27,8 @@ class ForgetPasswordScreen extends StatelessWidget {
                   CustomAppHeader(
                     canBack: true,
                     title: 'Forgot Password',
-                    horizSpace: 41.25,
+                    horizSpace:
+                        MediaQuery.sizeOf(context).width < 400 ? 32 : 41.25,
                   ),
                   verticalSpace(23),
                   Text(
@@ -47,8 +48,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                     buttonAction: () {
                       Navigator.of(context).pushNamed(Routes.codeVerification);
                     },
-                    textStyle:
-                        AppTextStyles.poppinsWhite(15, FontWeight.w500),
+                    textStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
                     height: 50.h,
                   ),
                 ],
