@@ -18,4 +18,5 @@ class Routes {
   static const String bookDoctorAppointment = 'bookDoctorAppointment';
   static const String bookingPayment = 'bookingPayment';
   static const String paymentSuccess = 'paymentSuccess';
+  static const String patientFavoriteScreen = 'patientFavoriteScreen';
 }

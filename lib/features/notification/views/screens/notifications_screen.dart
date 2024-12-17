@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/core/widgets/custom_app_header.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/widgets/custom_app_header.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
 import '../widgets/notifications_list.dart';
