@@ -33,6 +33,8 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   CustomAppHeader(
                     canBack: true,
+                    horizSpace:
+                        MediaQuery.sizeOf(context).width < 400 ? 46 : null,
                     title: 'Let\'s Sign In',
                   ),
                   verticalSpace(48),
@@ -88,8 +90,7 @@ class LoginScreen extends StatelessWidget {
                     buttonText: 'Sign In',
                     height: 50.h,
                     borderRadius: 10,
-                    textStyle:
-                        AppTextStyles.poppinsWhite(15, FontWeight.w500),
+                    textStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
                   ),
                   verticalSpace(16),
                   AuthContinueQuestion(

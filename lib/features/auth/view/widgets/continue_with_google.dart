@@ -59,7 +59,8 @@ class ContinueWithGoogle extends StatelessWidget {
                       height: 30.h,
                       Assets.svgsGoogle,
                     ),
-                    horizontalSpace(48.w),
+                    horizontalSpace(
+                        MediaQuery.sizeOf(context).width < 400 ? 24 : 48),
                     Text(
                       'Continue with Google',
                       style: AppTextStyles.poppinsBlack(14, FontWeight.w700),

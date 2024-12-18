@@ -91,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                   ),
                 ),
-                verticalSpace(24.h),
+                verticalSpace(24),
                 Text(
                   'HealCare',
                   style: AppTextStyles.poppinsMainColor(40, FontWeight.w600),

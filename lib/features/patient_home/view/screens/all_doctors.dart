@@ -19,16 +19,16 @@ class AllDoctorsScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(24.r),
+          padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomAppHeader(
                 canBack: true,
                 title: 'Doctors',
-                horizSpace: 80,
+                horizSpace: MediaQuery.sizeOf(context).width < 400 ? 56 : 80,
               ),
-              verticalSpace(48),
+              verticalSpace(32),
               CustomTFF(
                 hintText: 'Search',
                 kbType: TextInputType.text,
@@ -77,6 +77,7 @@ class AllDoctorsScreen extends StatelessWidget {
                       DoctorsContainer(index: index),
                 ),
               ),
+              verticalSpace(16),
             ],
           ),
         ),

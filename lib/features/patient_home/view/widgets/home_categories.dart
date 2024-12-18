@@ -59,7 +59,10 @@ class HomeCategories extends StatelessWidget {
             Text(
               maxLines: 1,
               categoriesLabels[index],
-              style: AppTextStyles.poppinsGrey(12, FontWeight.w600).copyWith(
+              style: AppTextStyles.poppinsGrey(
+                      MediaQuery.sizeOf(context).width < 400 ? 10 : 12,
+                      FontWeight.w600)
+                  .copyWith(
                 color: Color(0xff7D8A95),
               ),
             ),

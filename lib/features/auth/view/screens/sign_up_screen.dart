@@ -31,6 +31,8 @@ class SignUpScreen extends StatelessWidget {
                   CustomAppHeader(
                     canBack: true,
                     title: 'Let\'s Sign Up',
+                    horizSpace:
+                        MediaQuery.sizeOf(context).width < 400 ? 46 : null,
                     onTap: () => Navigator.pushNamedAndRemoveUntil(
                         context, Routes.choose, (route) => false),
                   ),
@@ -85,8 +87,7 @@ class SignUpScreen extends StatelessWidget {
                     buttonText: 'Next',
                     height: 50.h,
                     borderRadius: 10,
-                    textStyle:
-                        AppTextStyles.poppinsWhite(15, FontWeight.w500),
+                    textStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
                   ),
                   verticalSpace(16),
                   AuthContinueQuestion(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../notification/views/screens/notifications_screen.dart';
+import '../../../patient_booking/views/screens/patient_booking_screen.dart';
 import '../../logic/bottom_navigation_bar_cubit.dart';
 
 import '../../../doctor_home/view/screens/doctor_booking.dart';
@@ -22,10 +24,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> patientPages = [
-      Center(child: Text('booking')),
+      PatientBookingScreen(),
       Center(child: Text('chat')),
       PatientHomeScreen(),
-      Center(child: Text('notification')),
+      NotificationsScreen(),
       Center(child: Text('profile')),
     ];
 
@@ -66,7 +68,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
               ),
               Positioned(
                 top: -12.h,
-                right: type == 'patient' ? 165.w : null,
+                right: type == 'patient'
+                    ? MediaQuery.sizeOf(context).width < 400
+                        ? 142.w
+                        : 164.w
+                    : MediaQuery.sizeOf(context).width < 400
+                        ? 136.w
+                        : 160.w,
                 child: BottomNavigationBarHomeItem(),
               ),
             ],
