@@ -7,7 +7,7 @@ class Routes {
   static const String loginScreen = 'loginScreen';
   static const String signUpScreen = 'signUpScreen';
   static const String bottomNavBar = 'bottomNavBar';
-  static const String patientContinueSignUpScreen = 'patientContinueSignUpScreen';
+  static const String patientContinueSignUpScreen ='patientContinueSignUpScreen';
   static const String doctorContinueSignUpScreen = 'doctorContinueSignUpScreen';
   static const String forgetPassword = 'forgetPasswordScreen';
   static const String codeVerification = 'codeVerificationScreen';
@@ -19,4 +19,5 @@ class Routes {
   static const String bookingPayment = 'bookingPayment';
   static const String paymentSuccess = 'paymentSuccess';
   static const String patientFavoriteScreen = 'patientFavoriteScreen';
+  static const String insideChat = 'insideChat';
 }

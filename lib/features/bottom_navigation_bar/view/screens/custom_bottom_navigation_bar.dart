@@ -6,7 +6,7 @@ import '../../../patient_booking/views/screens/patient_booking_screen.dart';
 import '../../logic/bottom_navigation_bar_cubit.dart';
 
 import '../../../doctor_home/view/screens/doctor_booking.dart';
-import '../../../doctor_home/view/screens/doctor_chat.dart';
+import '../../../chat/views/screens/doctor_chat.dart';
 import '../../../doctor_home/view/screens/doctor_home_screen.dart';
 import '../../../doctor_home/view/screens/doctor_profile.dart';
 import '../../../doctor_home/view/screens/doctor_wallet.dart';
