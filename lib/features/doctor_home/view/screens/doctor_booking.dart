@@ -122,17 +122,17 @@ class DoctorBooking extends StatelessWidget {
               ),
               verticalSpace(16),
               Expanded(
-                child: TabBarView(children: [
-                  BlocBuilder<TabbarCubit, TabbarState>(
-                    builder: (context, state) {
-                      int currentIndex =
-                          context.read<TabbarCubit>().selectedIndex;
-
-                      return TabsBookingListView(
-                          allBookingModel: bookingList, selectedIndex: currentIndex);
-                    },
-                  ),
-                ]),
+                child: BlocBuilder<TabbarCubit, TabbarState>(
+                  builder: (context, state) {
+                    return TabBarView(children: 
+                      List.generate(4, (int index) {
+                        return TabsBookingListView(
+                            allBookingModel: bookingList,
+                            selectedIndex: index);
+                      }),
+                    );
+                  },
+                ),
               ),
             ]),
           ),

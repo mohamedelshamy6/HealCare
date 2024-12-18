@@ -17,6 +17,11 @@ class CustomTFF extends StatefulWidget {
   final bool? enableFocusedBorder;
   final TextStyle? hintTextStyle;
   final String? Function(String?)? validate;
+  final Color? cursorColor;
+  final double? horizontalPadding;
+  final double? verticalPadding;
+  
+
   const CustomTFF({
     super.key,
     required this.hintText,
@@ -28,7 +33,11 @@ class CustomTFF extends StatefulWidget {
     this.hintTextStyle,
     this.enableFocusedBorder,
     this.borderRadius,
-    this.maxLines, this.suffixIcon, this.prefixIcon,
+    this.maxLines,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.horizontalPadding,
+    this.verticalPadding, this.cursorColor,
   });
 
   @override
@@ -69,7 +78,7 @@ class _CustomTFFState extends State<CustomTFF> {
       maxLines: widget.maxLines ?? 1,
       style: AppTextStyles.poppinsBlack(16, FontWeight.w400),
       textAlignVertical: TextAlignVertical.center,
-      cursorColor: AppColors.mainBlack,
+      cursorColor: widget.cursorColor ?? AppColors.mainBlack,
       controller: widget.controller,
       decoration: InputDecoration(
         hintFadeDuration: const Duration(milliseconds: 100),
@@ -79,7 +88,10 @@ class _CustomTFFState extends State<CustomTFF> {
         fillColor: widget.color ?? Colors.white,
         filled: true,
         hintText: widget.hintText,
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+        contentPadding: EdgeInsets.symmetric(
+            horizontal: widget.horizontalPadding ?? 16.w,
+            vertical:
+                widget.verticalPadding ?? 8.h), ////////////////////////////
         hintStyle: widget.hintTextStyle ??
             AppTextStyles.poppinsBlack(15, FontWeight.w400),
         // errorStyle: AppTextStyles.cairo12RegularTFFErrorColor,

@@ -34,7 +34,7 @@ class BookingItem extends StatelessWidget {
                   height: 70.h,
                   width: 70.w,
                   child: Image.asset(
-                      allBookingModel.imageUrl??Assets.imagesPatientsPatientM)),
+                      allBookingModel.imageUrl??Assets.imagesPatientsPatientM,fit: BoxFit.cover,)),
               horizontalSpace(15),
               Column(
                 crossAxisAlignment:
