@@ -102,6 +102,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                     ChatBubbleForFriend(message: 'hi', date: '18:57',),
                     ChatBubbleForFriend(message: 'im nader', date: '18:57',),
                     ChatBubble(message: 'nice to meet you', date: '18:58',),
+                    ChatBubble(message: 'im sara', date: '18:58',),
                     ChatBubble(message: 'how old are u', date: '18:58',),
                     ChatBubbleForFriend(message: '22', date: '18:59',),
                     ChatBubbleForFriend(message: 'and u??', date: '18:59',),
