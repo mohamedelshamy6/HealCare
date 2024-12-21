@@ -126,6 +126,10 @@ class Assets {
   /// assets/icons/home_icon_white.svg
   static const String iconsHomeIconWhite = "assets/icons/home_icon_white.svg";
 
+  /// Assets for iconsInstapay
+  /// assets/icons/instapay.png
+  static const String iconsInstapay = "assets/icons/instapay.png";
+
   /// Assets for iconsLocationIconBlue
   /// assets/icons/location_icon_blue.svg
   static const String iconsLocationIconBlue =

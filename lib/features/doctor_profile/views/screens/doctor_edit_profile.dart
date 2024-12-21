@@ -29,6 +29,11 @@ class DoctorEditProfile extends StatelessWidget {
                 ProfileHeader(),
                 verticalSpace(32),
                 TFFWithLabel(
+                  label: 'Doctor\'s name',
+                  kbType: TextInputType.text,
+                ),
+                verticalSpace(12),
+                TFFWithLabel(
                   label: 'Education',
                   kbType: TextInputType.text,
                 ),

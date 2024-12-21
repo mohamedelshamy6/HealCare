@@ -24,7 +24,23 @@ class DoctorProfile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomAppHeader(canBack: false, title: 'Profile'),
+                Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    CustomAppHeader(canBack: false, title: 'Profile'),
+                    InkWell(
+                      highlightColor: Colors.transparent,
+                      splashFactory: NoSplash.splashFactory,
+                      child: Icon(Icons.logout),
+                      onTap: () {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          Routes.choose,
+                          (route) => false,
+                        );
+                      },
+                    ),
+                  ],
+                ),
                 verticalSpace(16),
                 Center(child: DoctorProfileHeader()),
                 verticalSpace(24),
@@ -44,7 +60,7 @@ class DoctorProfile extends StatelessWidget {
                             AppTextStyles.poppinsMainColor(12, FontWeight.w400),
                       ),
                       onTap: () => Navigator.of(context)
-                          .pushNamed(Routes.patientEditProfile),
+                          .pushNamed(Routes.doctorEditProfile),
                     ),
                   ],
                 ),

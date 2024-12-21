@@ -53,11 +53,11 @@ class DoctorCardHome extends StatelessWidget {
             children: [
               Row(
                 children: [
-                   SvgPicture.asset(
-                              Assets.iconsCalenderIconDarkblue,
-                              height: 20.h,
-                              width: 20.w,
-                            ),
+                  SvgPicture.asset(
+                    Assets.iconsCalenderIconDarkblue,
+                    height: 20.h,
+                    width: 20.w,
+                  ),
                   horizontalSpace(2),
                   Text(
                     '1/12/2024',
@@ -67,11 +67,11 @@ class DoctorCardHome extends StatelessWidget {
               ),
               Row(
                 children: [
-                 SvgPicture.asset(
-                              Assets.iconsClockIconDarkblue,
-                              height: 20.h,
-                              width: 20.w,
-                            ),
+                  SvgPicture.asset(
+                    Assets.iconsClockIconDarkblue,
+                    height: 20.h,
+                    width: 20.w,
+                  ),
                   horizontalSpace(2),
                   Text(
                     '10:30am - 5:30pm',
