@@ -44,7 +44,7 @@ class DoctorProfile extends StatelessWidget {
                             AppTextStyles.poppinsMainColor(12, FontWeight.w400),
                       ),
                       onTap: () => Navigator.of(context)
-                          .pushNamed(Routes.patientEditProfile),
+                          .pushNamed(Routes.doctorEditProfile),
                     ),
                   ],
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:heal_care/features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../features/patient_profile/views/screens/patient_edit_profile.dart';
 import '../../features/chat/views/screens/inside_chat_screen.dart';
 import '../../features/doctor_booking/data/models/all_booking_model.dart';
@@ -144,6 +145,10 @@ class AppRoutes {
       case Routes.eWalletHistory:
         return MaterialPageRoute(
           builder: (context) => EWalletHistory(),
+        );
+      case Routes.doctorEditProfile:
+        return MaterialPageRoute(
+          builder: (context) => DoctorEditProfile(),
         );
     }
     return null;

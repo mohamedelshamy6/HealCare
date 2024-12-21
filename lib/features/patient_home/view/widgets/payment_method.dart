@@ -83,6 +83,30 @@ class _PaymentMethodState extends State<PaymentMethod> {
               ),
             ],
           ),
+          verticalSpace(8),
+          Row(
+            children: [
+              Image.asset(
+                Assets.iconsInstapay,
+                height: 32.h,
+              ),
+              horizontalSpace(40),
+              Text(
+                'InstaPay',
+                style: AppTextStyles.poppinsBlack(15, FontWeight.w400),
+              ),
+              Spacer(),
+              CustomRadio(
+                value: 1,
+                groupValue: groupValue,
+                onChanged: (value) {
+                  setState(() {
+                    groupValue = value;
+                  });
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );

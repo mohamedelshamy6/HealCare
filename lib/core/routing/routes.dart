@@ -20,6 +20,7 @@ class Routes {
   static const String paymentSuccess = 'paymentSuccess';
   static const String patientFavoriteScreen = 'patientFavoriteScreen';
   static const String patientEditProfile = 'patientEditProfile';
+  static const String doctorEditProfile = 'doctorEditProfile';
   static const String eWalletHistory = 'eWalletHistory';
   static const String insideChat = 'insideChat';
   static const String detailsScreen = 'detailsScreen';
