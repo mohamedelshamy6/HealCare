@@ -26,6 +26,8 @@ class CustomAppHeader extends StatelessWidget {
         canBack == null || canBack == false
             ? Container()
             : InkWell(
+                splashFactory: NoSplash.splashFactory,
+                highlightColor: Colors.transparent,
                 onTap: onTap ?? () => Navigator.pop(context),
                 child: CircleAvatar(
                   backgroundColor: Colors.white,

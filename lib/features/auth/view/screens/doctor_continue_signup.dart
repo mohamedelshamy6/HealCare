@@ -28,6 +28,11 @@ class DoctorContinueSignupScreen extends StatelessWidget {
                 UploadPhotoWidget(),
                 verticalSpace(16),
                 TFFWithLabel(
+                  label: 'Doctor\'s name',
+                  kbType: TextInputType.text,
+                ),
+                verticalSpace(12),
+                TFFWithLabel(
                   label: 'Education',
                   kbType: TextInputType.text,
                 ),

@@ -97,7 +97,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
               ),
               Spacer(),
               CustomRadio(
-                value: 1,
+                value: 2,
                 groupValue: groupValue,
                 onChanged: (value) {
                   setState(() {
