@@ -85,46 +85,61 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                   },
                 ),
               ),
-              CustomTFF(
-                maxLines: null,
-                maxInputLength: 1024,
-                verticalPadding: 15.h,
-                horizontalPadding: 23.w,
-                controller: messageController,
-                focusNode: _focusNode,
-                onSubmitted: (message) {
-                  if (message!.isNotEmpty) {
-                    setState(() {
-                      messages.add(Message(
-                        text: message,
-                        timestamp: DateTime.now(),
-                      ));
-                      messageController.clear();
-                    });
-                  }
-                },
-                hintText: 'Type a message',
-                hintTextStyle: AppTextStyles.poppinsWhite(16, FontWeight.w400),
-                kbType: TextInputType.multiline,
-                color: AppColors.mainColor,
-                borderRadius: 20.r,
-                cursorColor: AppColors.mainColor,
-                enableFocusedBorder: false,
-                suffixIcon: Padding(
-                  padding: EdgeInsets.only(right: 23.11.w),
-                  child: SizedBox(
-                    width: 80.w,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SvgPicture.asset(Assets.iconsSendFilesIconWhite),
-                        horizontalSpace(20),
-                        SvgPicture.asset(Assets.iconsMicrophoneIconWhite),
-                      ],
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomTFF(
+                      maxLines: null,
+                      maxInputLength: 1024,
+                      verticalPadding: 15.h,
+                      horizontalPadding: 23.w,
+                      controller: messageController,
+                      focusNode: _focusNode,
+                      hintText: 'Type a message',
+                      hintTextStyle:
+                          AppTextStyles.poppinsWhite(16, FontWeight.w400),
+                      kbType: TextInputType.multiline,
+                      color: AppColors.mainColor,
+                      borderRadius: 20.r,
+                      cursorColor: AppColors.mainColor,
+                      enableFocusedBorder: false,
+                      suffixIcon: Padding(
+                        padding: EdgeInsets.only(right: 23.11.w),
+                        child: SizedBox(
+                          width: 80.w,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SvgPicture.asset(Assets.iconsSendFilesIconWhite),
+                              horizontalSpace(20),
+                              SvgPicture.asset(Assets.iconsMicrophoneIconWhite),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  horizontalSpace(6),
+                  IconButton(
+                      onPressed: () {
+                        if (messageController.text.isNotEmpty) {
+                          setState(() {
+                            messages.add(Message(
+                              text: messageController.text,
+                              timestamp: DateTime.now(),
+                            ));
+                            messageController.clear();
+                          });
+                        }
+                      },
+                      icon: Icon(
+                        Icons.send,
+                        size: 26.r,
+                        color: AppColors.mainColor,
+                      ))
+                ],
               ),
+              verticalSpace(8)
             ],
           ),
         ),
