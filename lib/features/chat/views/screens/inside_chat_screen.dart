@@ -38,19 +38,19 @@ class InsideChatScreen extends StatelessWidget {
                       ),
                     ),
                     verticalSpace(13),
-                    ChatBubble(),
-                    ChatBubbleForFriend(),
-                    ChatBubbleForFriend(),
-                    ChatBubble(),
-                    ChatBubble(),
-                    ChatBubbleForFriend(),
-                    ChatBubbleForFriend(),
-                    ChatBubble(),
+                    ChatBubble(message: 'hhhYesterdayYesterdayYesterdayYesterdayYesterday',),
+                    ChatBubbleForFriend(message: 'hhhYesterdayYesterdayYesterdayYesterdayYesterday',),
+                    ChatBubbleForFriend(message: 'gggYesterdayYes',),
+                    ChatBubble(message: 'hhh',),
+                    ChatBubble(message: 'knknlnj',),
+                    ChatBubbleForFriend(message: 'ggg',),
+                    ChatBubbleForFriend(message: 'ggg',),
+                    ChatBubble(message: 'ggg',),
                   ],
                 ),
               ),
             ),
-            CustomTFF(
+           CustomTFF(
               verticalPadding: 15.h,horizontalPadding: 23.w,
               hintText: 'Type a message',
               hintTextStyle: AppTextStyles.poppinsWhite(16, FontWeight.w400),
@@ -71,7 +71,7 @@ class InsideChatScreen extends StatelessWidget {
               ),
             )
           ],
-        ),
+        ), 
       ),
     ));
     
