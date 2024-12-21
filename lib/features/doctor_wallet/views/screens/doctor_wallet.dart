@@ -14,7 +14,29 @@ class DoctorWallet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-       Image.asset(Assets.walletFrame),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 48.h),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.fill,
+              image: AssetImage(Assets.imagesDoctorsWalletFrame),
+            ),
+          ),
+          child: Column(
+            children: [
+              Text(
+                'Wallet Balance',
+                style: AppTextStyles.poppinsWhite(16, FontWeight.w600),
+              ),
+              verticalSpace(8),
+              Text(
+                '2000.00 EGP',
+                style: AppTextStyles.poppinsWhite(40, FontWeight.w600),
+              ),
+            ],
+          ),
+        ),
         verticalSpace(18),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24),
@@ -32,25 +54,25 @@ class DoctorWallet extends StatelessWidget {
                     color: AppColors.mainColor,
                     borderRadius: BorderRadius.circular(12)),
                 child: Center(
-                  child:SvgPicture.asset(Assets.iconsFilterIconWhite)
-                ),
+                    child: SvgPicture.asset(Assets.iconsFilterIconWhite)),
               ),
             ],
           ),
         ),
         verticalSpace(8),
-         Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  physics: BouncingScrollPhysics(),
-                    itemCount: 12,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.h,horizontal: 24.w),
-                        child: WalletItem(),
-                      );
-                    }),
-              )
+        Expanded(
+          child: ListView.builder(
+              padding: EdgeInsets.zero,
+              physics: BouncingScrollPhysics(),
+              itemCount: 12,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
+                  child: WalletItem(),
+                );
+              }),
+        )
       ],
     );
   }

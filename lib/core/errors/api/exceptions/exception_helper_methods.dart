@@ -24,9 +24,6 @@ class ExceptionHelperMethods {
         badResponseErrorHandle(e);
       case DioExceptionType.connectionError:
         throwApiException(noInternetErrorMessage);
-
-      default:
-        throwApiException(connectionErrorMessage);
     }
   }
 

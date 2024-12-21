@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/helpers/spacing.dart';
-import '../../../../core/routing/routes.dart';
-import '../../../../core/widgets/custom_button.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/custom_app_header.dart';
+import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/theme/app_text_styles.dart';
+import 'package:heal_care/core/widgets/custom_app_header.dart';
+import 'package:heal_care/core/widgets/custom_button.dart';
+import 'package:heal_care/features/patient_profile/views/widgets/profile_header.dart';
 import '../../../../core/widgets/custom_drop_down.dart';
-import '../widgets/tff_with_label.dart';
-import '../widgets/upload_photo_widget.dart';
+import '../../../auth/view/widgets/tff_with_label.dart';
 
-class DoctorContinueSignupScreen extends StatelessWidget {
-  const DoctorContinueSignupScreen({super.key});
+class DoctorEditProfile extends StatelessWidget {
+  const DoctorEditProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +17,17 @@ class DoctorContinueSignupScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            padding: EdgeInsets.all(20.r),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                CustomAppHeader(
+                  canBack: true,
+                  title: 'Edit Profile',
+                  horizSpace: MediaQuery.sizeOf(context).width < 400 ? 56 : 70,
+                ),
                 verticalSpace(16),
-                CustomAppHeader(canBack: true),
-                verticalSpace(12),
-                UploadPhotoWidget(),
-                verticalSpace(16),
+                ProfileHeader(),
+                verticalSpace(32),
                 TFFWithLabel(
                   label: 'Education',
                   kbType: TextInputType.text,
@@ -91,16 +92,13 @@ class DoctorContinueSignupScreen extends StatelessWidget {
                 ),
                 verticalSpace(36),
                 CustomButton(
+                  buttonText: 'Save',
                   buttonAction: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, Routes.loginScreen, (route) => false,
-                        arguments: 'doctor');
+                    Navigator.pop(context);
                   },
-                  buttonText: 'Sign Up',
-                  height: 50.h,
                   textStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
+                  height: 52.h,
                 ),
-                verticalSpace(24),
               ],
             ),
           ),

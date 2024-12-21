@@ -19,6 +19,8 @@ class Routes {
   static const String bookingPayment = 'bookingPayment';
   static const String paymentSuccess = 'paymentSuccess';
   static const String patientFavoriteScreen = 'patientFavoriteScreen';
+  static const String patientEditProfile = 'patientEditProfile';
+  static const String eWalletHistory = 'eWalletHistory';
   static const String insideChat = 'insideChat';
   static const String detailsScreen = 'detailsScreen';
 }

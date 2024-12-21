@@ -7,26 +7,29 @@ import 'package:heal_care/core/theme/app_text_styles.dart';
 
 class ChatBubbleForFriend extends StatelessWidget {
   const ChatBubbleForFriend({super.key, required this.message});
-final String message;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.centerRight, 
+      alignment: Alignment.centerRight,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end, 
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
-             mainAxisSize: MainAxisSize.min, 
+            mainAxisSize: MainAxisSize.min,
             children: [
               Stack(
                 clipBehavior: Clip.none,
                 children: [
                   Container(
                     constraints: BoxConstraints(
-                    maxWidth: 270.w,),
-                   // width: 270.w,
+                      maxWidth: MediaQuery.sizeOf(context).width < 400
+                          ? 222.w
+                          : 270.w,
+                    ),
+                    // width: 270.w,
                     padding: EdgeInsets.only(
                         top: 17.h, right: 12.w, bottom: 16.h, left: 17.w),
                     decoration: BoxDecoration(
@@ -42,10 +45,14 @@ final String message;
                       style: AppTextStyles.poppinsWhite(14, FontWeight.w400),
                     ),
                   ),
-                   Positioned(bottom: -22.h,left: 0,child:  Text(
-              '18:27',
-              style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
-            ),)
+                  Positioned(
+                    bottom: -22.h,
+                    left: 0,
+                    child: Text(
+                      '18:27',
+                      style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
+                    ),
+                  )
                 ],
               ),
               horizontalSpace(8.87),

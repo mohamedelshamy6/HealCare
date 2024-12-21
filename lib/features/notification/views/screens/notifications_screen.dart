@@ -7,7 +7,8 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../widgets/notifications_list.dart';
 
 class NotificationsScreen extends StatelessWidget {
-  const NotificationsScreen({super.key});
+  final String type;
+  const NotificationsScreen({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,13 @@ class NotificationsScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomAppHeader(
+                  canBack: type == 'patient' ? false : true,
                   title: 'Notifications',
+                  horizSpace: type == 'patient'
+                      ? null
+                      : MediaQuery.sizeOf(context).width < 400
+                          ? 42
+                          : 64,
                 ),
                 verticalSpace(24),
                 // ? THIS IS TEMPORARY CODE FOR UI.

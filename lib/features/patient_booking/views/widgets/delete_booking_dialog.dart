@@ -62,26 +62,28 @@ class DeleteBookingDialog extends StatelessWidget {
                   ),
                   horizontalSpace(20),
                   Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      highlightColor: Colors.transparent,
-                      splashFactory: NoSplash.splashFactory,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          border: Border.all(
-                            color: AppColors.tFFErrorColor,
+                    child: Material(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        highlightColor: Colors.transparent,
+                        splashFactory: NoSplash.splashFactory,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            border: Border.all(
+                              color: AppColors.tFFErrorColor,
+                            ),
                           ),
-                        ),
-                        height: 44.h,
-                        child: Center(
-                          child: Text(
-                            'No',
-                            style:
-                                AppTextStyles.poppinsBlack(16, FontWeight.w500)
-                                    .copyWith(color: AppColors.tFFErrorColor),
+                          height: 44.h,
+                          child: Center(
+                            child: Text(
+                              'No',
+                              style:
+                                  AppTextStyles.poppinsBlack(16, FontWeight.w500)
+                                      .copyWith(color: AppColors.tFFErrorColor),
+                            ),
                           ),
                         ),
                       ),

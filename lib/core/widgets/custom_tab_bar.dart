@@ -20,7 +20,7 @@ class CustomTabBar extends StatelessWidget {
           color: AppColors.mainWhite,
           borderRadius: BorderRadius.circular(8)),
       height: 44.h,
-      width: 349.w,
+      // width: 349.w,
       child: Center(
         child: TabBar(
           onTap: onTabChange,
@@ -42,22 +42,22 @@ class CustomTabBar extends StatelessWidget {
           tabs: [
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: 16.w, vertical: 4.h),
+                  horizontal: 12.w, vertical: 4.h),
               child: Text('All'),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: 16.w, vertical: 4.h),
+                  horizontal: 12.w, vertical: 4.h),
               child: Text('Upcoming'),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: 16.w, vertical: 4.h),
+                  horizontal: 12.w, vertical: 4.h),
               child: Text('Completed'),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: 16.w, vertical: 4.h),
+                  horizontal: 12.w, vertical: 4.h),
               child: Text('Canceled'),
             ),
           ],
