@@ -10,9 +10,11 @@ import 'package:heal_care/features/chat/views/widgets/chat_bubble.dart';
 import 'package:heal_care/features/chat/views/widgets/chat_header.dart';
 import 'package:heal_care/features/chat/views/widgets/message.dart';
 
-class InsideChatScreen extends StatefulWidget {
-  const InsideChatScreen({super.key});
+import '../widgets/chat_bubble_for_friend.dart';
 
+class InsideChatScreen extends StatefulWidget {
+  const InsideChatScreen({super.key, required this.chatIndex});
+   final int chatIndex;
   @override
   State<InsideChatScreen> createState() => _InsideChatScreenState();
 }
@@ -56,7 +58,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
               ChatHeader(),
               verticalSpace(11),
               Expanded(
-                child: ListView.builder(
+                child:widget.chatIndex==0? ListView.builder(
                   controller: _scrollController,
                   itemCount: messages.length + 1,
                   itemBuilder: (context, index) {
@@ -83,8 +85,36 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                           '${messages[index - 1].timestamp.hour}:${messages[index - 1].timestamp.minute}',
                     );
                   },
+                ):SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    verticalSpace(20.25),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Yesterday',
+                        style: AppTextStyles.poppinsGrey(10, FontWeight.w400),
+                      ),
+                    ),
+                    verticalSpace(13),
+                    ChatBubble(message: 'hi', date: '18:57',),
+                    ChatBubbleForFriend(message: 'hi', date: '18:57',),
+                    ChatBubbleForFriend(message: 'im nader', date: '18:57',),
+                    ChatBubble(message: 'nice to meet you', date: '18:58',),
+                    ChatBubble(message: 'im sara', date: '18:58',),
+                    ChatBubble(message: 'how old are u', date: '18:58',),
+                    ChatBubbleForFriend(message: '22', date: '18:59',),
+                    ChatBubbleForFriend(message: 'and u??', date: '18:59',),
+                    ChatBubble(message: 'same', date: '19:00',),
+                    ChatBubbleForFriend(message: 'ooh good', date: '19:00',),
+                    ChatBubbleForFriend(message: 'have a nice day', date: '19:00',),
+                    ChatBubble(message: 'thanks my friend', date: '19:00',),
+                    ChatBubbleForFriend(message: 'bye 🥰', date: '19:01',),
+                    ChatBubble(message: 'bye 🤗', date: '19:01',),
+                  ],
                 ),
-              ),
+              ),),
               Row(
                 children: [
                   Expanded(
