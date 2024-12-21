@@ -20,8 +20,7 @@ class CustomTFF extends StatefulWidget {
   final Color? cursorColor;
   final double? horizontalPadding;
   final double? verticalPadding;
-  final Function(String?)?onSubmitted;
-  final FocusNode?focusNode;
+  final FocusNode? focusNode;
 
   const CustomTFF({
     super.key,
@@ -38,7 +37,9 @@ class CustomTFF extends StatefulWidget {
     this.suffixIcon,
     this.prefixIcon,
     this.horizontalPadding,
-    this.verticalPadding, this.cursorColor, this.onSubmitted, this.focusNode,
+    this.verticalPadding,
+    this.cursorColor,
+    this.focusNode,
   });
 
   @override
@@ -55,7 +56,6 @@ class _CustomTFFState extends State<CustomTFF> {
       width: 1,
     );
     return TextFormField(
-      onFieldSubmitted:widget.onSubmitted ,
       inputFormatters: [
         LengthLimitingTextInputFormatter(
           widget.maxInputLength ??
