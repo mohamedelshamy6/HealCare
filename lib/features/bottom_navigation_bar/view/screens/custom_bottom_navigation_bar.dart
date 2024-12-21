@@ -71,10 +71,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 top: -12.h,
                 right: type == 'patient'
                     ? MediaQuery.sizeOf(context).width < 400
-                        ? 142.w
+                        ? 160.w
                         : 164.w
                     : MediaQuery.sizeOf(context).width < 400
-                        ? 136.w
+                        ? 155.w
                         : 160.w,
                 child: BottomNavigationBarHomeItem(),
               ),
