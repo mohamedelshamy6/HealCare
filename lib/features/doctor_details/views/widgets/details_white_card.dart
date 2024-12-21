@@ -61,8 +61,7 @@ class DetailsWhiteCard extends StatelessWidget {
                                 : selectedIndex == 1
                                     ? AppColors.mainColor
                                     : selectedIndex == 2
-                                        ? const Color.fromARGB(
-                                            255, 142, 223, 145)
+                                        ?AppColors.lightGreen
                                         : AppColors.lightOrange,
                           ),
                           child: Text(
@@ -77,7 +76,7 @@ class DetailsWhiteCard extends StatelessWidget {
                                     : selectedIndex == 1
                                         ? AppColors.mainWhite
                                         : selectedIndex == 2
-                                            ? Colors.green
+                                            ? AppColors.darkGreen
                                             : AppColors.tFFErrorColor,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500),

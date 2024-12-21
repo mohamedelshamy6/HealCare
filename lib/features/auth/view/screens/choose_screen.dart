@@ -41,7 +41,7 @@ class ChooseScreen extends StatelessWidget {
                   buttonAction: () {
                     Navigator.pushNamed(
                       context,
-                      Routes.bottomNavBar,
+                      Routes.signUpScreen,
                       arguments: 'doctor',
                     );
                   },
