@@ -7,7 +7,6 @@ import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 import 'package:heal_care/core/widgets/custom_text_form_field.dart';
 import 'package:heal_care/features/chat/views/widgets/chat_bubble.dart';
-import 'package:heal_care/features/chat/views/widgets/chat_bubble_for_friend.dart';
 import 'package:heal_care/features/chat/views/widgets/chat_header.dart';
 import 'package:heal_care/features/chat/views/widgets/message.dart';
 
