@@ -5,7 +5,6 @@ import 'package:heal_care/core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-
 import '../widgets/wallet_item.dart';
 
 class DoctorWallet extends StatelessWidget {

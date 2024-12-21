@@ -122,11 +122,11 @@ class BookingItem extends StatelessWidget {
                                 horizontal: 8.w, vertical: 4.h),
                             decoration: BoxDecoration(
                                 color:
-                                    const Color.fromARGB(255, 142, 223, 145)),
+                                    AppColors.lightGreen),
                             child: Text(
                               'Completed',
                               style: AppTextStyles.setPoppinsTextStyle(
-                                  color: Colors.green,
+                                  color: AppColors.darkGreen,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w500),
                             ),
