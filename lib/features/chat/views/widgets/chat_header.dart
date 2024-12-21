@@ -13,54 +13,59 @@ class ChatHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        InkWell(
-          onTap: () => Navigator.pop(context),
-          child: CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 24.r,
-            child: Icon(Icons.arrow_back, size: 24.r),
-          ),
-        ),
-        horizontalSpace(23.25),
-        Expanded(
-          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+        Row(
+          children: [
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 24.r,
+                child: Icon(Icons.arrow_back, size: 24.r),
+              ),
+            ),
+            horizontalSpace(23.25),
+            Expanded(
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CircleAvatar(
-                    radius: 25.r,
-                    backgroundImage: AssetImage(Assets.imagesDoctorsDoctorM),
-                  ),
-                  horizontalSpace(13.25),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Text(
-                        'Dr. Kawsar',
-                        style:
-                            AppTextStyles.poppinsBlack(18, FontWeight.w400),
+                      CircleAvatar(
+                        radius: 25.r,
+                        backgroundImage: AssetImage(Assets.imagesDoctorsDoctorM),
                       ),
-                      Text(
-                        'Online',
-                        style: AppTextStyles.poppinsMainColor(
-                            15, FontWeight.w400),
+                      horizontalSpace(13.25),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Dr. Kawsar',
+                            style:
+                                AppTextStyles.poppinsBlack(18, FontWeight.w400),
+                          ),
+                          Text(
+                            'Online',
+                            style: AppTextStyles.poppinsMainColor(
+                                15, FontWeight.w400),
+                          ),
+                        ],
                       ),
                     ],
                   ),
+                   Row(
+              children: [
+                SvgPicture.asset(Assets.iconsCallIconBlue),
+                horizontalSpace(17.24),
+               SvgPicture.asset(Assets.iconsVideoIconBlue),
+              ],
+            ),
                 ],
               ),
-               Row(
-          children: [
-            SvgPicture.asset(Assets.iconsCallIconBlue),
-            horizontalSpace(17.24),
-           SvgPicture.asset(Assets.iconsVideoIconBlue),
+            ),
           ],
         ),
-            ],
-          ),
-        ),
+        verticalSpace(11),
       ],
     );
   }

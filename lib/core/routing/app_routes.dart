@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/features/chat/views/screens/inside_chat_screen.dart';
+import 'package:heal_care/features/doctor_booking/data/models/all_booking_model.dart';
+import 'package:heal_care/features/doctor_details/views/screens/details_screen.dart';
 import 'package:heal_care/features/patient_home/view/screens/book_doctor_appointment.dart';
 import 'package:heal_care/features/patient_home/view/screens/payment_success.dart';
 import '../../features/auth/view/screens/doctor_continue_signup.dart';
@@ -9,7 +11,7 @@ import '../../features/notification/views/screens/notifications_screen.dart';
 import '../../features/patient_favorite/views/screens/patient_favorites_screen.dart';
 import '../../features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
 import '../../features/bottom_navigation_bar/view/screens/custom_bottom_navigation_bar.dart';
-import '../../features/doctor_home/logic/tabbar_cubit/tabbar_cubit.dart';
+import '../../features/doctor_booking/logic/tabbar_cubit/tabbar_cubit.dart';
 import '../../features/patient_home/data/models/doctors_model.dart';
 import '../../features/patient_home/view/screens/all_doctors.dart';
 import '../../features/auth/view/screens/sign_up_screen.dart';
@@ -123,6 +125,16 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => InsideChatScreen(),
         );
+    case Routes.detailsScreen:
+  return MaterialPageRoute(
+    builder: (context) {
+      final arg = routeSettings.arguments as Map<String, dynamic>; // Cast to Map
+      return DetailsScreen(
+        allBookingModel: arg['allBookingModel'] as AllBookingModel, // Access model
+        selectedIndex: arg['selectedIndex'] as int, // Access index
+      );
+    },
+  );
     }
     return null;
   }

@@ -5,11 +5,11 @@ import '../../../notification/views/screens/notifications_screen.dart';
 import '../../../patient_booking/views/screens/patient_booking_screen.dart';
 import '../../logic/bottom_navigation_bar_cubit.dart';
 
-import '../../../doctor_home/view/screens/doctor_booking.dart';
+import '../../../doctor_booking/views/screens/doctor_booking.dart';
 import '../../../chat/views/screens/doctor_chat.dart';
 import '../../../doctor_home/view/screens/doctor_home_screen.dart';
 import '../../../doctor_home/view/screens/doctor_profile.dart';
-import '../../../doctor_home/view/screens/doctor_wallet.dart';
+import '../../../doctor_wallet/views/screens/doctor_wallet.dart';
 import '../../../patient_home/view/screens/patient_home_screen.dart';
 import '../widgets/bottom_navigation_bar_home_item.dart';
 import '../widgets/bottom_navigation_bar_item.dart';
