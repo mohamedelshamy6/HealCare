@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/routing/routes.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -138,7 +139,14 @@ class PatientContinueSignupScreen extends StatelessWidget {
                 ),
                 verticalSpace(36),
                 CustomButton(
-                  buttonAction: () {},
+                  buttonAction: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Routes.loginScreen,
+                      (route) => false,
+                      arguments: 'patient',
+                    );
+                  },
                   buttonText: 'Sign Up',
                   height: 50.h,
                   textStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),

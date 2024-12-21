@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/routing/routes.dart';
+import 'package:heal_care/features/doctor_profile/views/widgets/doctor_profile_header.dart';
+import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_app_header.dart';
 import '../../data/models/information_model.dart';
 
-import '../../../../core/helpers/app_images.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../widgets/information_row.dart';
-import '../widgets/profile_header.dart';
 
-class PatientProfile extends StatelessWidget {
-  const PatientProfile({super.key});
+class DoctorProfile extends StatelessWidget {
+  const DoctorProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class PatientProfile extends StatelessWidget {
               children: [
                 CustomAppHeader(canBack: false, title: 'Profile'),
                 verticalSpace(16),
-                Center(child: ProfileHeader()),
+                Center(child: DoctorProfileHeader()),
                 verticalSpace(24),
                 Row(
                   children: [
@@ -63,9 +62,16 @@ class PatientProfile extends StatelessWidget {
                       separatorBuilder: (context, index) => verticalSpace(8),
                       itemCount: informationList.length),
                 ),
+                verticalSpace(48),
+                Text(
+                  'Working Hours',
+                  style: AppTextStyles.poppinsMainColor(16, FontWeight.w600),
+                ),
+                verticalSpace(16),
+                Image.asset(Assets.imagesDoctorWorkingHours),
                 verticalSpace(24),
                 Text(
-                  'Medical Information',
+                  'Biography',
                   style: AppTextStyles.poppinsBlack(16, FontWeight.w500),
                 ),
                 verticalSpace(8),
@@ -73,51 +79,25 @@ class PatientProfile extends StatelessWidget {
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend pretium libero sit amet mollis. Duis ornare tempor molestie. Donec at elementum ligula.',
                   style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                 ),
-                verticalSpace(32),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                  width: double.infinity,
-                  color: AppColors.lighterBlue,
-                  child: Center(
-                    child: Text(
-                      'Files',
-                      style: AppTextStyles.poppinsBlack(16, FontWeight.w400),
-                    ),
-                  ),
+                verticalSpace(24),
+                Text(
+                  'Education',
+                  style: AppTextStyles.poppinsBlack(16, FontWeight.w500),
                 ),
-                verticalSpace(16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Image.asset(
-                        Assets.imagesFileOne,
-                      ),
-                    ),
-                    horizontalSpace(8),
-                    Expanded(
-                      child: Image.asset(
-                        Assets.imagesFileTwo,
-                      ),
-                    ),
-                  ],
+                verticalSpace(8),
+                Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend pretium libero sit amet mollis. Duis ornare tempor molestie. Donec at elementum ligula.',
+                  style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                 ),
-                verticalSpace(16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Image.asset(
-                        Assets.imagesFileOne,
-                      ),
-                    ),
-                    horizontalSpace(8),
-                    Expanded(
-                      child: Image.asset(
-                        Assets.imagesFileTwo,
-                      ),
-                    ),
-                  ],
+                verticalSpace(24),
+                Text(
+                  'Experience',
+                  style: AppTextStyles.poppinsBlack(16, FontWeight.w500),
+                ),
+                verticalSpace(8),
+                Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend pretium libero sit amet mollis. Duis ornare tempor molestie. Donec at elementum ligula.',
+                  style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                 ),
                 verticalSpace(8),
               ],

@@ -52,41 +52,77 @@ class BookingItem extends StatelessWidget {
                       allBookingModel.jobAddress!,
                       style: AppTextStyles.poppinsGrey(14, FontWeight.w500),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              Assets.iconsCalenderIconDarkblue,
-                              height: 20.h,
-                              width: 20.w,
-                            ),
-                            horizontalSpace(2),
-                            Text(
-                              allBookingModel.startDate!,
-                              style: AppTextStyles.poppinsBlack(
-                                  10, FontWeight.w400),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              Assets.iconsClockIconDarkblue,
-                              height: 20.h,
-                              width: 20.w,
-                            ),
-                            horizontalSpace(2),
-                            Text(
-                              allBookingModel.endDate!,
-                              style: AppTextStyles.poppinsBlack(
-                                  10, FontWeight.w400),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    MediaQuery.of(context).size.width > 400
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    Assets.iconsCalenderIconDarkblue,
+                                    height: 20.h,
+                                    width: 20.w,
+                                  ),
+                                  horizontalSpace(2),
+                                  Text(
+                                    allBookingModel.startDate!,
+                                    style: AppTextStyles.poppinsBlack(
+                                        10, FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    Assets.iconsClockIconDarkblue,
+                                    height: 20.h,
+                                    width: 20.w,
+                                  ),
+                                  horizontalSpace(2),
+                                  Text(
+                                    allBookingModel.endDate!,
+                                    style: AppTextStyles.poppinsBlack(
+                                        10, FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    Assets.iconsCalenderIconDarkblue,
+                                    height: 20.h,
+                                    width: 20.w,
+                                  ),
+                                  horizontalSpace(4),
+                                  Text(
+                                    allBookingModel.startDate!,
+                                    style: AppTextStyles.poppinsBlack(
+                                        10, FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                              verticalSpace(4),
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    Assets.iconsClockIconDarkblue,
+                                    height: 20.h,
+                                    width: 20.w,
+                                  ),
+                                  horizontalSpace(4),
+                                  Text(
+                                    allBookingModel.endDate!,
+                                    style: AppTextStyles.poppinsBlack(
+                                        10, FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                   ],
                 ),
               ),
@@ -120,9 +156,8 @@ class BookingItem extends StatelessWidget {
                           child: Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 8.w, vertical: 4.h),
-                            decoration: BoxDecoration(
-                                color:
-                                    AppColors.lightGreen),
+                            decoration:
+                                BoxDecoration(color: AppColors.lightGreen),
                             child: Text(
                               'Completed',
                               style: AppTextStyles.setPoppinsTextStyle(

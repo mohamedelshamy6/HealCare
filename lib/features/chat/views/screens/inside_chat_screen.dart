@@ -38,22 +38,41 @@ class InsideChatScreen extends StatelessWidget {
                       ),
                     ),
                     verticalSpace(13),
-                    ChatBubble(message: 'hhhYesterdayYesterdayYesterdayYesterdayYesterday',),
-                    ChatBubbleForFriend(message: 'hhhYesterdayYesterdayYesterdayYesterdayYesterday',),
-                    ChatBubbleForFriend(message: 'gggYesterdayYes',),
-                    ChatBubble(message: 'hhh',),
-                    ChatBubble(message: 'knknlnj',),
-                    ChatBubbleForFriend(message: 'ggg',),
-                    ChatBubbleForFriend(message: 'ggg',),
-                    ChatBubble(message: 'ggg',),
+                    ChatBubble(
+                      message:
+                          'Hi Kawsar, I am cardio patient. I need your help immediately.',
+                    ),
+                    ChatBubbleForFriend(
+                      message:
+                          'Hi Kawsar, I am cardio patient. I need your help immediately.',
+                    ),
+                    ChatBubbleForFriend(
+                      message: 'Hello there',
+                    ),
+                    ChatBubble(
+                      message: 'hhh',
+                    ),
+                    ChatBubble(
+                      message: 'knknlnj',
+                    ),
+                    ChatBubbleForFriend(
+                      message: 'ggg',
+                    ),
+                    ChatBubbleForFriend(
+                      message: 'ggg',
+                    ),
+                    ChatBubble(
+                      message: 'ggg',
+                    ),
                   ],
                 ),
               ),
             ),
-           CustomTFF(
-              verticalPadding: 15.h,horizontalPadding: 23.w,
+            CustomTFF(
+              verticalPadding: 8.h,
+              horizontalPadding: 23.w,
               hintText: 'Type a message',
-              hintTextStyle: AppTextStyles.poppinsWhite(16, FontWeight.w400),
+              hintTextStyle: AppTextStyles.poppinsWhite(14, FontWeight.w400),
               kbType: TextInputType.text,
               color: AppColors.mainColor,
               borderRadius: 20.r,
@@ -61,19 +80,23 @@ class InsideChatScreen extends StatelessWidget {
               enableFocusedBorder: false,
               suffixIcon: Padding(
                 padding: EdgeInsets.only(right: 23.11.w),
-                child: SizedBox(width:80.w,
-                  child: Row(mainAxisAlignment: MainAxisAlignment.end,children: [
-                    SvgPicture.asset(Assets.iconsSendFilesIconWhite),
-                    horizontalSpace(20),
-                    SvgPicture.asset(Assets.iconsMicrophoneIconWhite),
-                  ],),
+                child: SizedBox(
+                  width: 80.w,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SvgPicture.asset(Assets.iconsSendFilesIconWhite),
+                      horizontalSpace(20),
+                      SvgPicture.asset(Assets.iconsMicrophoneIconWhite),
+                    ],
+                  ),
                 ),
               ),
-            )
+            ),
+            verticalSpace(8)
           ],
-        ), 
+        ),
       ),
     ));
-    
   }
 }

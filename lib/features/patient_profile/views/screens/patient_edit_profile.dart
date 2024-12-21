@@ -129,15 +129,16 @@ class PatientEditProfile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(
-                      Assets.imagesFileOne,
-                      width: 157.w,
-                      height: 143.h,
+                    Expanded(
+                      child: Image.asset(
+                        Assets.imagesFileOne,
+                      ),
                     ),
-                    Image.asset(
-                      Assets.imagesFileTwo,
-                      width: 157.w,
-                      height: 143.h,
+                    horizontalSpace(8),
+                    Expanded(
+                      child: Image.asset(
+                        Assets.imagesFileTwo,
+                      ),
                     ),
                   ],
                 ),
@@ -145,22 +146,25 @@ class PatientEditProfile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(
-                      Assets.imagesFileOne,
-                      width: 157.w,
-                      height: 143.h,
+                    Expanded(
+                      child: Image.asset(
+                        Assets.imagesFileOne,
+                      ),
                     ),
-                    Image.asset(
-                      Assets.imagesFileTwo,
-                      width: 157.w,
-                      height: 143.h,
+                    horizontalSpace(8),
+                    Expanded(
+                      child: Image.asset(
+                        Assets.imagesFileTwo,
+                      ),
                     ),
                   ],
                 ),
                 verticalSpace(24),
                 CustomButton(
                   buttonText: 'Save',
-                  buttonAction: () {},
+                  buttonAction: () {
+                    Navigator.pop(context);
+                  },
                   textStyle: AppTextStyles.poppinsWhite(15, FontWeight.w500),
                   height: 52.h,
                 ),

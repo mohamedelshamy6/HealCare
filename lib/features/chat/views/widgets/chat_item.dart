@@ -18,7 +18,7 @@ class ChatItem extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
-              radius: 25,
+              radius: 25.r,
               backgroundImage: AssetImage(Assets.imagesDoctorsDoctorM2), 
             ),
             horizontalSpace(16),
@@ -43,8 +43,7 @@ class ChatItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: 230.w,
+                      Expanded(
                         child: Text(
                           'Of course, we just added that to your order. Thanks for letting us know!',
                           style: AppTextStyles.poppinsGrey(12, FontWeight.w400),

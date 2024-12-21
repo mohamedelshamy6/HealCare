@@ -259,6 +259,21 @@ class Assets {
   static const String imagesDoctorHomeBanner =
       "assets/images/doctor_home_banner.png";
 
+  /// Assets for imagesDoctorWorkingHours
+  /// assets/images/doctor_working_hours.png
+  static const String imagesDoctorWorkingHours =
+      "assets/images/doctor_working_hours.png";
+
+  /// Assets for imagesDoctorsDetailsFile1
+  /// assets/images/doctors/details_file1.png
+  static const String imagesDoctorsDetailsFile1 =
+      "assets/images/doctors/details_file1.png";
+
+  /// Assets for imagesDoctorsDetailsFile2
+  /// assets/images/doctors/details_file2.png
+  static const String imagesDoctorsDetailsFile2 =
+      "assets/images/doctors/details_file2.png";
+
   /// Assets for imagesDoctorsDoctorF
   /// assets/images/doctors/doctor_f.png
   static const String imagesDoctorsDoctorF =
@@ -298,6 +313,11 @@ class Assets {
   /// assets/images/doctors/doctor_m4.png
   static const String imagesDoctorsDoctorM4 =
       "assets/images/doctors/doctor_m4.png";
+
+  /// Assets for imagesDoctorsWalletFrame
+  /// assets/images/doctors/wallet_frame.png
+  static const String imagesDoctorsWalletFrame =
+      "assets/images/doctors/wallet_frame.png";
 
   /// Assets for imagesFileOne
   /// assets/images/file_one.png
@@ -396,7 +416,4 @@ class Assets {
   /// Assets for svgsPaymentSuccess
   /// assets/svgs/payment_success.svg
   static const String svgsPaymentSuccess = "assets/svgs/payment_success.svg";
-
-  /// Assets for wallet blue frame
-  static const String walletFrame = 'assets/images/doctors/wallet_frame.png';
 }

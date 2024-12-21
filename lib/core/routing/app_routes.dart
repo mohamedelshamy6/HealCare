@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heal_care/features/patient_profile/views/screens/patient_edit_profile.dart';
-import 'package:heal_care/features/chat/views/screens/inside_chat_screen.dart';
-import 'package:heal_care/features/doctor_booking/data/models/all_booking_model.dart';
-import 'package:heal_care/features/doctor_details/views/screens/details_screen.dart';
-import 'package:heal_care/features/patient_home/view/screens/book_doctor_appointment.dart';
-import 'package:heal_care/features/patient_home/view/screens/payment_success.dart';
+import '../../features/patient_profile/views/screens/patient_edit_profile.dart';
+import '../../features/chat/views/screens/inside_chat_screen.dart';
+import '../../features/doctor_booking/data/models/all_booking_model.dart';
+import '../../features/doctor_details/views/screens/details_screen.dart';
+import '../../features/patient_home/view/screens/book_doctor_appointment.dart';
+import '../../features/patient_home/view/screens/payment_success.dart';
 import '../../features/auth/view/screens/doctor_continue_signup.dart';
 import '../../features/auth/view/screens/patient_continue_signup.dart';
 import '../../features/notification/views/screens/notifications_screen.dart';
 import '../../features/patient_favorite/views/screens/patient_favorites_screen.dart';
-import '../../features/patient_home/view/screens/book_doctor_appointment.dart';
-import '../../features/patient_home/view/screens/payment_success.dart';
+import '../../features/patient_home/view/screens/e_wallet_history.dart';
 import '../../features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
 import '../../features/bottom_navigation_bar/view/screens/custom_bottom_navigation_bar.dart';
 import '../../features/doctor_booking/logic/tabbar_cubit/tabbar_cubit.dart';
@@ -110,7 +109,7 @@ class AppRoutes {
         );
       case Routes.notificationsScreen:
         return MaterialPageRoute(
-          builder: (context) => NotificationsScreen(),
+          builder: (context) => NotificationsScreen(type: args as String),
         );
       case Routes.patientFavoriteScreen:
         return MaterialPageRoute(

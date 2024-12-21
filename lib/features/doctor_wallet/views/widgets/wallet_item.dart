@@ -47,7 +47,7 @@ class WalletItem extends StatelessWidget {
      ),
      verticalSpace(8),
      Text(
-       '\$200',
+       '200 EGP',
        style: AppTextStyles.poppinsMainColor(16, FontWeight.w600),
      ),
      
