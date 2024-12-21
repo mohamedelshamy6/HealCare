@@ -396,4 +396,7 @@ class Assets {
   /// Assets for svgsPaymentSuccess
   /// assets/svgs/payment_success.svg
   static const String svgsPaymentSuccess = "assets/svgs/payment_success.svg";
+
+  /// Assets for wallet blue frame
+  static const String walletFrame = 'assets/images/doctors/wallet_frame.png';
 }

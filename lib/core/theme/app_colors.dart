@@ -15,4 +15,9 @@ class AppColors {
   static const Color findDoctorsCardBorderColor = Color(0xffF4F4F6);
   static const Color findDoctorsCardButtonColor = Color(0xffE9F0FF);
   static const Color bottomNavBarItemColor = Color(0xff484C52);
+  static const Color detailsDateColor = Color(0xffDEF2FF);
+  static const Color detailsFilesCardColor = Color(0xffF2FBFF);
+  static const Color lightGreen = Color(0xffE2F8E3);
+  static const Color darkGreen = Color(0xff04AD01);
+
 }
