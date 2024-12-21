@@ -36,17 +36,17 @@ class DeleteBookingButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              Assets.iconsTrashIconRed,
-              width: 14.w,
-              height: 14.h,
-            ),
             Expanded(
-              child: Text(
-                'Delete',
-                style: AppTextStyles.poppinsBlack(10, FontWeight.w400)
-                    .copyWith(color: AppColors.tFFErrorColor),
+              child: SvgPicture.asset(
+                Assets.iconsTrashIconRed,
+                width: 14.w,
+                height: 14.h,
               ),
+            ),
+            Text(
+              'Delete',
+              style: AppTextStyles.poppinsBlack(10, FontWeight.w400)
+                  .copyWith(color: AppColors.tFFErrorColor),
             ),
           ],
         ),
