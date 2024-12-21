@@ -41,10 +41,12 @@ class DeleteBookingButton extends StatelessWidget {
               width: 14.w,
               height: 14.h,
             ),
-            Text(
-              'Delete',
-              style: AppTextStyles.poppinsBlack(10, FontWeight.w400)
-                  .copyWith(color: AppColors.tFFErrorColor),
+            Expanded(
+              child: Text(
+                'Delete',
+                style: AppTextStyles.poppinsBlack(10, FontWeight.w400)
+                    .copyWith(color: AppColors.tFFErrorColor),
+              ),
             ),
           ],
         ),

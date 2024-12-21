@@ -29,7 +29,9 @@ class ChatHeader extends StatelessWidget {
                 ),
               ),
             ),
-            horizontalSpace(23.25),
+            MediaQuery.sizeOf(context).width > 400
+                ? horizontalSpace(23.25)
+                : horizontalSpace(0),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

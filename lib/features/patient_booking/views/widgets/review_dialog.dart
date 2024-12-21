@@ -64,12 +64,14 @@ class ReviewDialog extends StatelessWidget {
               ),
             ),
             verticalSpace(32),
-            CustomTFF(
-              hintText: 'Write your feedback',
-              kbType: TextInputType.text,
-              borderRadius: 12.r,
-              color: Color(0xfff5f5f5),
-              maxLines: 3,
+            Material(
+              child: CustomTFF(
+                hintText: 'Write your feedback',
+                kbType: TextInputType.text,
+                borderRadius: 12.r,
+                color: Color(0xfff5f5f5),
+                maxLines: 3,
+              ),
             ),
             verticalSpace(20),
             CustomButton(

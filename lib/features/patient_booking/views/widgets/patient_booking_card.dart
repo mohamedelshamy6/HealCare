@@ -35,6 +35,7 @@ class PatientBookingCard extends StatelessWidget {
             index: index,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             spacing: 8.w,
             children: [
               SvgPicture.asset(
@@ -61,12 +62,12 @@ class PatientBookingCard extends StatelessWidget {
                   FontWeight.w400,
                 ),
               ),
-              MediaQuery.of(context).size.width < 400
+              MediaQuery.of(context).size.width < 410
                   ? SizedBox()
                   : DeleteBookingButton(),
             ],
           ),
-          MediaQuery.of(context).size.width < 400
+          MediaQuery.of(context).size.width < 410
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -77,7 +78,7 @@ class PatientBookingCard extends StatelessWidget {
                   ],
                 )
               : SizedBox(),
-          MediaQuery.of(context).size.width < 400
+          MediaQuery.of(context).size.width < 410
               ? SizedBox()
               : Center(
                   child: BookingReviewDoctorButton(
