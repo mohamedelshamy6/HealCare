@@ -39,7 +39,9 @@ class HomeHeader extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, Routes.eWalletHistory);
+              },
               child: SvgPicture.asset(
                 Assets.iconsWalletIcon,
                 width: 22.w,

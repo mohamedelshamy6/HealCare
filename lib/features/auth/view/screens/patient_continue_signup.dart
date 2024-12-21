@@ -7,6 +7,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_app_header.dart';
 import '../../../../core/widgets/custom_drop_down.dart';
 import '../widgets/tff_with_label.dart';
+import '../widgets/upload_photo_widget.dart';
 
 class PatientContinueSignupScreen extends StatelessWidget {
   const PatientContinueSignupScreen({super.key});
@@ -23,6 +24,8 @@ class PatientContinueSignupScreen extends StatelessWidget {
               children: [
                 verticalSpace(16),
                 CustomAppHeader(canBack: true),
+                verticalSpace(12),
+                UploadPhotoWidget(),
                 verticalSpace(16),
                 CustomDropdown(
                   itemList: <String>[

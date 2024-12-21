@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/routing/routes.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_app_header.dart';
@@ -28,9 +29,25 @@ class PatientProfile extends StatelessWidget {
                 verticalSpace(16),
                 Center(child: ProfileHeader()),
                 verticalSpace(24),
-                Text(
-                  'Your Information',
-                  style: AppTextStyles.poppinsBlack(14, FontWeight.w500),
+                Row(
+                  children: [
+                    Text(
+                      'Your Information',
+                      style: AppTextStyles.poppinsBlack(14, FontWeight.w500),
+                    ),
+                    Spacer(),
+                    InkWell(
+                      highlightColor: Colors.transparent,
+                      splashFactory: NoSplash.splashFactory,
+                      child: Text(
+                        'Edit',
+                        style:
+                            AppTextStyles.poppinsMainColor(12, FontWeight.w400),
+                      ),
+                      onTap: () => Navigator.of(context)
+                          .pushNamed(Routes.patientEditProfile),
+                    ),
+                  ],
                 ),
                 verticalSpace(16),
                 Flexible(

@@ -6,6 +6,7 @@ import '../../features/auth/view/screens/patient_continue_signup.dart';
 import '../../features/notification/views/screens/notifications_screen.dart';
 import '../../features/patient_favorite/views/screens/patient_favorites_screen.dart';
 import '../../features/patient_home/view/screens/book_doctor_appointment.dart';
+import '../../features/patient_home/view/screens/e_wallet_history.dart';
 import '../../features/patient_home/view/screens/payment_success.dart';
 import '../../features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
 import '../../features/bottom_navigation_bar/view/screens/custom_bottom_navigation_bar.dart';
@@ -122,6 +123,10 @@ class AppRoutes {
       case Routes.patientEditProfile:
         return MaterialPageRoute(
           builder: (context) => PatientEditProfile(),
+        );
+      case Routes.eWalletHistory:
+        return MaterialPageRoute(
+          builder: (context) => EWalletHistory(),
         );
     }
     return null;
