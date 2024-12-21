@@ -10,55 +10,50 @@ class ChatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(Routes.insideChat);
-      },
-      child: Container(padding: EdgeInsets.all(16),color: Colors.transparent,
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 25.r,
-              backgroundImage: AssetImage(Assets.imagesDoctorsDoctorM2), 
-            ),
-            horizontalSpace(16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Adam Costa',
-                        style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
-                      ),
-                      Text(
-                        '5:02 PM',
+    return Container(padding: EdgeInsets.all(16),color: Colors.transparent,
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 25.r,
+            backgroundImage: AssetImage(Assets.imagesDoctorsDoctorM2), 
+          ),
+          horizontalSpace(16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Adam Costa',
+                      style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
+                    ),
+                    Text(
+                      '5:02 PM',
+                      style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
+                    ),
+                  ],
+                ),
+                verticalSpace(5.5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Of course, we just added that to your order. Thanks for letting us know!',
                         style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
-                    ],
-                  ),
-                  verticalSpace(5.5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Of course, we just added that to your order. Thanks for letting us know!',
-                          style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ),
-                      Container(),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    Container(),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

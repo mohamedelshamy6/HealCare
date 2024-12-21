@@ -6,9 +6,9 @@ import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 
 class ChatBubbleForFriend extends StatelessWidget {
-  const ChatBubbleForFriend({super.key, required this.message});
+  const ChatBubbleForFriend({super.key, required this.message, required this.date});
   final String message;
-
+  final String date;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -49,7 +49,7 @@ class ChatBubbleForFriend extends StatelessWidget {
                     bottom: -22.h,
                     left: 0,
                     child: Text(
-                      '18:27',
+                      date,
                       style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                     ),
                   )

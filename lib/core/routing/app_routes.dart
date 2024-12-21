@@ -126,7 +126,7 @@ class AppRoutes {
         );
       case Routes.insideChat:
         return MaterialPageRoute(
-          builder: (context) => InsideChatScreen(),
+          builder: (context) => InsideChatScreen(chatIndex: args as int,),
         );
     case Routes.detailsScreen:
   return MaterialPageRoute(

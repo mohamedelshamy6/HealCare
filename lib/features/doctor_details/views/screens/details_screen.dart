@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/helpers/app_images.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
@@ -74,12 +75,12 @@ class DetailsScreen extends StatelessWidget {
                             height: 143.h,
                             width: 157.w,
                             child: Image.asset(
-                                'assets/images/doctors/details_file1.png')),
+                                Assets.imagesFileOne)),
                         SizedBox(
                             height: 143.h,
                             width: 157.w,
                             child: Image.asset(
-                                'assets/images/doctors/details_file2.png')),
+                                Assets.imagesFileTwo)),
                       ],
                     )
                   ],

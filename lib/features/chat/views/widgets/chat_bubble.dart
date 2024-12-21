@@ -23,7 +23,7 @@ class ChatBubble extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 19.r,
-                backgroundImage: AssetImage(Assets.imagesDoctorsDoctorM),
+                backgroundImage: AssetImage(Assets.imagesDoctorsDoctorF3),
               ),
               horizontalSpace(8.87),
               Stack(
