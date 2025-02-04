@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -41,9 +40,7 @@ class DoctorsContainer extends StatelessWidget {
                     image: DecorationImage(
                       fit: BoxFit.fill,
                       image: AssetImage(
-                        index % 2 == 0
-                            ? Assets.imagesDoctorsDoctorF4
-                            : Assets.imagesDoctorsDoctorM4,
+                        doctors[index].image,
                       ),
                     ),
                     color: AppColors.mainColor,

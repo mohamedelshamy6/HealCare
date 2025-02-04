@@ -14,43 +14,43 @@ class DoctorsModel {
 
 List<DoctorsModel> doctors = [
   DoctorsModel(
-    name: 'Dr. Jennifer Miller',
-    image: Assets.imagesDoctorsDoctorF2,
-    job: 'Pediatrician | Mercy Hospital',
+    name: 'Dr. Sherif Murad ',
+    image: Assets.imagesDoctorsDoctorM7,
+    job: 'Internal Medicine | Cardiology Doctor in Nasr City, Cairo',
   ),
   DoctorsModel(
-    name: 'Dr. Robert Johnson',
-    image: Assets.imagesDoctorsDoctorM2,
+    name: 'Dr. Atef Gaber',
+    image: Assets.imagesDoctorsDoctorM6,
     job: 'Neurologist | ABC hospital',
   ),
   DoctorsModel(
-    name: 'Dr. Laura White',
-    image: Assets.imagesDoctorsDoctorF3,
+    name: 'Dr. Tariq Ramadan',
+    image: Assets.imagesDoctorsDoctorM5,
     job: 'Dentist | Cedar Dental care',
   ),
   DoctorsModel(
-    name: 'Dr. Brian Clark',
-    image: Assets.imagesDoctorsDoctorM3,
-    job: 'Psychiatrist | ABC hospital',
+    name: 'Dr. Khaled Kamal Abu Nourj',
+    image: Assets.imagesDoctorsDoctorM4,
+    job: 'Internal Medicine, Cardiology Doctor in Nasr City, Cairo',
   ),
   DoctorsModel(
-    name: 'Dr. Khaled Ahmed',
-    image: Assets.imagesDoctorsDoctorM4,
+    name: 'Dr. Mayada Farag',
+    image: Assets.imagesDoctorsDoctorF,
+    job: 'Ear, Nose & Throat specialist - Mercy Hospital',
+  ),
+  DoctorsModel(
+    name: 'Dr. Diaa El-Din Mohammed',
+    image: Assets.imagesDoctorsDoctorM3,
     job: 'Cardiologist - Cumilla Medical Collage',
   ),
   DoctorsModel(
-    name: 'Dr. Mahbuba Islam',
-    image: Assets.imagesDoctorsDoctorF4,
+    name: 'Dr. Mena Wasef',
+    image: Assets.imagesDoctorsDoctorM2,
     job: 'Cardiologist - ABC hospital',
   ),
   DoctorsModel(
-    name: 'Dr. Maria Watson',
-    image: Assets.imagesDoctorsDoctorF,
-    job: 'Cardiologist - Cumilla Medical Collage',
-  ),
-  DoctorsModel(
-    name: 'Dr. Stone Gaze',
+    name: 'Dr. Essa Abdelall',
     image: Assets.imagesDoctorsDoctorM,
-    job: 'Ear, Nose & Throat specialist - Mercy Hospital',
+    job: 'Cardiologist - Cumilla Medical Collage',
   ),
 ];

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
-import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../widgets/home_header.dart';
 import '../widgets/home_list_view.dart';
 
 class DoctorHomeScreen extends StatelessWidget {
@@ -19,50 +18,7 @@ class DoctorHomeScreen extends StatelessWidget {
           child: CustomScrollView(
             physics: BouncingScrollPhysics(),
             slivers: [
-              SliverToBoxAdapter(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                            height: 48.h,
-                            width: 48.w,
-                            child: Image.asset(
-                              Assets.imagesPatientsPatientM2,
-                            )),
-                        horizontalSpace(3),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Welcome Back',
-                              style: AppTextStyles.poppinsGrey(
-                                  14, FontWeight.w400),
-                            ),
-                            Text(
-                              'Andrew Smith',
-                              style: AppTextStyles.poppinsBlack(
-                                  16, FontWeight.w500),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.notificationsScreen,
-                          arguments: 'doctor',
-                        );
-                      },
-                      child:
-                          SvgPicture.asset(Assets.iconsNotificationIconBlueDot),
-                    ),
-                  ],
-                ),
-              ),
+              SliverToBoxAdapter(child: HomeHeader()),
               SliverToBoxAdapter(
                 child: verticalSpace(24),
               ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/features/doctor_profile/views/screens/doctor_edit_profile.dart';
+import '../../features/chat/views/screens/chat_bot.dart';
+import '../../features/doctor_home/data/models/patient_model.dart';
 import '../../features/patient_profile/views/screens/patient_edit_profile.dart';
 import '../../features/chat/views/screens/inside_chat_screen.dart';
 import '../../features/doctor_booking/data/models/all_booking_model.dart';
@@ -126,18 +128,23 @@ class AppRoutes {
         );
       case Routes.insideChat:
         return MaterialPageRoute(
-          builder: (context) => InsideChatScreen(chatIndex: args as int,),
+          builder: (context) => InsideChatScreen(
+            chatIndex: (args as List)[0] as int,
+            model: args[1] == 'patient'
+                ? args[2] as DoctorsModel
+                : args[2] as PatientModel,
+          ),
         );
-    case Routes.detailsScreen:
-  return MaterialPageRoute(
-    builder: (context) {
-      final arg = routeSettings.arguments as Map<String, dynamic>; // Cast to Map
-      return DetailsScreen(
-        allBookingModel: arg['allBookingModel'] as AllBookingModel, // Access model
-        selectedIndex: arg['selectedIndex'] as int, // Access index
-      );
-    },
-  );
+      case Routes.detailsScreen:
+        return MaterialPageRoute(
+          builder: (context) {
+            final arg = routeSettings.arguments as Map<String, dynamic>;
+            return DetailsScreen(
+              allBookingModel: arg['allBookingModel'] as AllBookingModel,
+              selectedIndex: arg['selectedIndex'] as int,
+            );
+          },
+        );
       case Routes.patientEditProfile:
         return MaterialPageRoute(
           builder: (context) => PatientEditProfile(),
@@ -149,6 +156,13 @@ class AppRoutes {
       case Routes.doctorEditProfile:
         return MaterialPageRoute(
           builder: (context) => DoctorEditProfile(),
+        );
+      case Routes.chatBot:
+        return MaterialPageRoute(
+          builder: (context) => ChatBotScreen(
+            chatIndex: (args as List)[0] as int,
+            model: args[2] as DoctorsModel,
+          ),
         );
     }
     return null;

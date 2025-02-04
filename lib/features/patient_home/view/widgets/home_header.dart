@@ -17,7 +17,7 @@ class HomeHeader extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 24.r,
-          backgroundImage: AssetImage(Assets.imagesPatientsPatientM2),
+          backgroundImage: AssetImage(Assets.imagesPatientsPatientF),
         ),
         horizontalSpace(8),
         Column(
@@ -29,7 +29,7 @@ class HomeHeader extends StatelessWidget {
               style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
             ),
             Text(
-              'Andrew Smith',
+              'Eman Abo Samra',
               style: AppTextStyles.poppinsBlack(16, FontWeight.w500),
             ),
           ],

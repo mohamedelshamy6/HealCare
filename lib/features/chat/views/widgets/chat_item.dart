@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../doctor_home/data/models/patient_model.dart';
+import '../../../patient_home/data/models/doctors_model.dart';
 
 class ChatItem extends StatelessWidget {
-  const ChatItem({super.key});
+  final Object model;
+  final String type;
+  const ChatItem({super.key, required this.model, required this.type});
 
   @override
   Widget build(BuildContext context) {
-    return Container(padding: EdgeInsets.all(16),color: Colors.transparent,
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 8.h),
+      color: Colors.transparent,
       child: Row(
         children: [
           CircleAvatar(
             radius: 25.r,
-            backgroundImage: AssetImage(Assets.imagesDoctorsDoctorM2), 
+            backgroundImage: AssetImage(type == 'patient'
+                ? (model as DoctorsModel).image
+                : (model as PatientModel).image),
           ),
           horizontalSpace(16),
           Expanded(
@@ -24,10 +31,17 @@ class ChatItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Adam Costa',
-                      style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
+                    Expanded(
+                      child: Text(
+                        type == 'patient'
+                            ? (model as DoctorsModel).name
+                            : (model as PatientModel).name,
+                        style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
                     ),
+                    horizontalSpace(4),
                     Text(
                       '5:02 PM',
                       style: AppTextStyles.poppinsGrey(12, FontWeight.w400),

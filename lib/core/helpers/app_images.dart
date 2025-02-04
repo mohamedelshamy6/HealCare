@@ -1,6 +1,10 @@
 class Assets {
   Assets._();
 
+  /// Assets for iconsAgain
+  /// assets/icons/again.svg
+  static const String iconsAgain = "assets/icons/again.svg";
+
   /// Assets for iconsAgeIconBlue
   /// assets/icons/age_icon_blue.svg
   static const String iconsAgeIconBlue = "assets/icons/age_icon_blue.svg";
@@ -33,6 +37,10 @@ class Assets {
   /// assets/icons/call_icon_blue.svg
   static const String iconsCallIconBlue = "assets/icons/call_icon_blue.svg";
 
+  /// Assets for iconsChatBotSend
+  /// assets/icons/chatBot_send.svg
+  static const String iconsChatBotSend = "assets/icons/chatBot_send.svg";
+
   /// Assets for iconsChatIconBlue
   /// assets/icons/chat_icon_blue.svg
   static const String iconsChatIconBlue = "assets/icons/chat_icon_blue.svg";
@@ -50,6 +58,10 @@ class Assets {
   /// assets/icons/clock_square_icon_grey.png
   static const String iconsClockSquareIconGrey =
       "assets/icons/clock_square_icon_grey.png";
+
+  /// Assets for iconsCopy
+  /// assets/icons/copy.svg
+  static const String iconsCopy = "assets/icons/copy.svg";
 
   /// Assets for iconsDentists
   /// assets/icons/dentists.png
@@ -129,6 +141,10 @@ class Assets {
   /// Assets for iconsInstapay
   /// assets/icons/instapay.png
   static const String iconsInstapay = "assets/icons/instapay.png";
+
+  /// Assets for iconsLike
+  /// assets/icons/like.svg
+  static const String iconsLike = "assets/icons/like.svg";
 
   /// Assets for iconsLocationIconBlue
   /// assets/icons/location_icon_blue.svg
@@ -225,6 +241,10 @@ class Assets {
   static const String iconsSendFilesIconWhite =
       "assets/icons/send_files_icon_white.svg";
 
+  /// Assets for iconsSound
+  /// assets/icons/sound.svg
+  static const String iconsSound = "assets/icons/sound.svg";
+
   /// Assets for iconsStarIconYellow
   /// assets/icons/star_icon_yellow.svg
   static const String iconsStarIconYellow = "assets/icons/star_icon_yellow.svg";
@@ -248,6 +268,10 @@ class Assets {
   /// Assets for imagesAppIcon
   /// assets/images/app_icon.png
   static const String imagesAppIcon = "assets/images/app_icon.png";
+
+  /// Assets for imagesChatBot
+  /// assets/images/chat_bot.png
+  static const String imagesChatBot = "assets/images/chat_bot.png";
 
   /// Assets for imagesChoosePageImage
   /// assets/images/choose_page_image.png
@@ -279,34 +303,19 @@ class Assets {
       "assets/images/doctors/details_file2.png";
 
   /// Assets for imagesDoctorsDoctorF
-  /// assets/images/doctors/doctor_f.png
+  /// assets/images/doctors/doctor_f.jpg
   static const String imagesDoctorsDoctorF =
-      "assets/images/doctors/doctor_f.png";
-
-  /// Assets for imagesDoctorsDoctorF2
-  /// assets/images/doctors/doctor_f2.png
-  static const String imagesDoctorsDoctorF2 =
-      "assets/images/doctors/doctor_f2.png";
-
-  /// Assets for imagesDoctorsDoctorF3
-  /// assets/images/doctors/doctor_f3.png
-  static const String imagesDoctorsDoctorF3 =
-      "assets/images/doctors/doctor_f3.png";
-
-  /// Assets for imagesDoctorsDoctorF4
-  /// assets/images/doctors/doctor_f4.png
-  static const String imagesDoctorsDoctorF4 =
-      "assets/images/doctors/doctor_f4.png";
+      "assets/images/doctors/doctor_f.jpg";
 
   /// Assets for imagesDoctorsDoctorM
-  /// assets/images/doctors/doctor_m.png
+  /// assets/images/doctors/doctor_m.jpg
   static const String imagesDoctorsDoctorM =
-      "assets/images/doctors/doctor_m.png";
+      "assets/images/doctors/doctor_m.jpg";
 
   /// Assets for imagesDoctorsDoctorM2
-  /// assets/images/doctors/doctor_m2.png
+  /// assets/images/doctors/doctor_m2.jpg
   static const String imagesDoctorsDoctorM2 =
-      "assets/images/doctors/doctor_m2.png";
+      "assets/images/doctors/doctor_m2.jpg";
 
   /// Assets for imagesDoctorsDoctorM3
   /// assets/images/doctors/doctor_m3.png
@@ -318,10 +327,20 @@ class Assets {
   static const String imagesDoctorsDoctorM4 =
       "assets/images/doctors/doctor_m4.png";
 
-  /// Assets for imagesDoctorsWalletFrame
-  /// assets/images/doctors/wallet_frame.png
-  static const String imagesDoctorsWalletFrame =
-      "assets/images/doctors/wallet_frame.png";
+  /// Assets for imagesDoctorsDoctorM5
+  /// assets/images/doctors/doctor_m5.png
+  static const String imagesDoctorsDoctorM5 =
+      "assets/images/doctors/doctor_m5.png";
+
+  /// Assets for imagesDoctorsDoctorM6
+  /// assets/images/doctors/doctor_m6.png
+  static const String imagesDoctorsDoctorM6 =
+      "assets/images/doctors/doctor_m6.png";
+
+  /// Assets for imagesDoctorsDoctorM7
+  /// assets/images/doctors/doctor_m7.png
+  static const String imagesDoctorsDoctorM7 =
+      "assets/images/doctors/doctor_m7.png";
 
   /// Assets for imagesFileOne
   /// assets/images/file_one.png
@@ -341,29 +360,29 @@ class Assets {
       "assets/images/patient_home_banner.png";
 
   /// Assets for imagesPatientsPatientF
-  /// assets/images/patients/patient_f.png
+  /// assets/images/patients/patient_f.jpg
   static const String imagesPatientsPatientF =
-      "assets/images/patients/patient_f.png";
+      "assets/images/patients/patient_f.jpg";
 
   /// Assets for imagesPatientsPatientF2
-  /// assets/images/patients/patient_f2.png
+  /// assets/images/patients/patient_f2.jpg
   static const String imagesPatientsPatientF2 =
-      "assets/images/patients/patient_f2.png";
+      "assets/images/patients/patient_f2.jpg";
 
   /// Assets for imagesPatientsPatientF3
-  /// assets/images/patients/patient_f3.png
+  /// assets/images/patients/patient_f3.jpg
   static const String imagesPatientsPatientF3 =
-      "assets/images/patients/patient_f3.png";
+      "assets/images/patients/patient_f3.jpg";
 
   /// Assets for imagesPatientsPatientM
-  /// assets/images/patients/patient_m.png
+  /// assets/images/patients/patient_m.jpg
   static const String imagesPatientsPatientM =
-      "assets/images/patients/patient_m.png";
+      "assets/images/patients/patient_m.jpg";
 
   /// Assets for imagesPatientsPatientM2
-  /// assets/images/patients/patient_m2.png
+  /// assets/images/patients/patient_m2.jpg
   static const String imagesPatientsPatientM2 =
-      "assets/images/patients/patient_m2.png";
+      "assets/images/patients/patient_m2.jpg";
 
   /// Assets for imagesPatientsPatientM3
   /// assets/images/patients/patient_m3.png
@@ -403,6 +422,10 @@ class Assets {
   /// Assets for imagesVisa
   /// assets/images/visa.png
   static const String imagesVisa = "assets/images/visa.png";
+
+  /// Assets for imagesWalletFrame
+  /// assets/images/wallet_frame.png
+  static const String imagesWalletFrame = "assets/images/wallet_frame.png";
 
   /// Assets for svgsAppointmentCalender
   /// assets/svgs/appointment_calender.svg

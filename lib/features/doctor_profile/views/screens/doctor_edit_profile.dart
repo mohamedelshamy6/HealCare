@@ -4,9 +4,9 @@ import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 import 'package:heal_care/core/widgets/custom_app_header.dart';
 import 'package:heal_care/core/widgets/custom_button.dart';
-import 'package:heal_care/features/patient_profile/views/widgets/profile_header.dart';
 import '../../../../core/widgets/custom_drop_down.dart';
 import '../../../auth/view/widgets/tff_with_label.dart';
+import '../widgets/doctor_profile_header.dart';
 
 class DoctorEditProfile extends StatelessWidget {
   const DoctorEditProfile({super.key});
@@ -26,7 +26,7 @@ class DoctorEditProfile extends StatelessWidget {
                   horizSpace: MediaQuery.sizeOf(context).width < 400 ? 56 : 70,
                 ),
                 verticalSpace(16),
-                ProfileHeader(),
+                DoctorProfileHeader(),
                 verticalSpace(32),
                 TFFWithLabel(
                   label: 'Doctor\'s name',

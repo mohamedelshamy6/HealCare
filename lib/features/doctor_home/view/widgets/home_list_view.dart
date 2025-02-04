@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../data/models/patient_model.dart';
 import 'doctor_card_home.dart';
 
 class HomeListView extends StatelessWidget {
@@ -7,11 +8,15 @@ class HomeListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverList.builder(itemCount: 3,itemBuilder: (context,index){
-      return Padding(
-        padding: EdgeInsets.only(bottom: 16.h),
-        child: DoctorCardHome(),
-      );
-    });
+    return SliverList.builder(
+        itemCount: patients.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.only(bottom: 16.h),
+            child: DoctorCardHome(
+              patient: patients[index],
+            ),
+          );
+        });
   }
 }
