@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/app_images.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 
 class ChatBubble extends StatelessWidget {
-  const ChatBubble({super.key, required this.message, required this.date});
+  const ChatBubble({super.key, required this.message, required this.date, required this.image});
   final String message;
   final String date;
+  final String image;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -23,7 +23,7 @@ class ChatBubble extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 19.r,
-                backgroundImage: AssetImage(Assets.imagesDoctorsDoctorF3),
+                backgroundImage: AssetImage(image),
               ),
               horizontalSpace(8.87),
               Stack(

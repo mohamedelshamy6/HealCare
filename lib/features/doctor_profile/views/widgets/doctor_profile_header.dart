@@ -26,7 +26,7 @@ class DoctorProfileHeader extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(32.r),
                 image: const DecorationImage(
-                  image: AssetImage(Assets.imagesPatientsPatientM),
+                  image: AssetImage(Assets.imagesDoctorsDoctorM2),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -46,7 +46,7 @@ class DoctorProfileHeader extends StatelessWidget {
         ),
         verticalSpace(16),
         Text(
-          'Lucas Scott',
+          'Dr. Mena Wasef',
           style: AppTextStyles.poppinsBlack(16, FontWeight.w800),
         ),
       ],

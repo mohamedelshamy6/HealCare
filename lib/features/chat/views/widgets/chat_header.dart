@@ -5,10 +5,15 @@ import 'package:heal_care/core/helpers/app_images.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
+import 'package:heal_care/features/doctor_home/data/models/patient_model.dart';
+
+import '../../../patient_home/data/models/doctors_model.dart';
 
 class ChatHeader extends StatelessWidget {
+  final Object model;
   const ChatHeader({
     super.key,
+    required this.model,
   });
 
   @override
@@ -30,36 +35,45 @@ class ChatHeader extends StatelessWidget {
               ),
             ),
             MediaQuery.sizeOf(context).width > 400
-                ? horizontalSpace(23.25)
-                : horizontalSpace(12),
+                ? horizontalSpace(12)
+                : horizontalSpace(6),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 25.r,
-                        backgroundImage:
-                            AssetImage(Assets.imagesDoctorsDoctorM),
-                      ),
-                      horizontalSpace(13.25),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Dr. Kawsar',
-                            style:
-                                AppTextStyles.poppinsBlack(18, FontWeight.w400),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 25.r,
+                          backgroundImage: AssetImage(model is DoctorsModel
+                              ? (model as DoctorsModel).image
+                              : (model as PatientModel).image),
+                        ),
+                        horizontalSpace(13.25),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                model is DoctorsModel
+                                    ? (model as DoctorsModel).name
+                                    : (model as PatientModel).name,
+                                style: AppTextStyles.poppinsBlack(
+                                    18, FontWeight.w400),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              Text(
+                                'Online',
+                                style: AppTextStyles.poppinsMainColor(
+                                    15, FontWeight.w400),
+                              ),
+                            ],
                           ),
-                          Text(
-                            'Online',
-                            style: AppTextStyles.poppinsMainColor(
-                                15, FontWeight.w400),
-                          ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                   Row(
                     children: [

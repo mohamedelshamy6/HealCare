@@ -24,4 +24,5 @@ class Routes {
   static const String eWalletHistory = 'eWalletHistory';
   static const String insideChat = 'insideChat';
   static const String detailsScreen = 'detailsScreen';
+  static const String chatBot = 'chatBot';
 }

@@ -6,9 +6,14 @@ import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 
 class ChatBubbleForFriend extends StatelessWidget {
-  const ChatBubbleForFriend({super.key, required this.message, required this.date});
+  const ChatBubbleForFriend(
+      {super.key,
+      required this.message,
+      required this.date,
+      required this.type});
   final String message;
   final String date;
+  final String type;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -58,7 +63,9 @@ class ChatBubbleForFriend extends StatelessWidget {
               horizontalSpace(8.87),
               CircleAvatar(
                 radius: 19.r,
-                backgroundImage: AssetImage(Assets.imagesDoctorsDoctorM),
+                backgroundImage: AssetImage(type == 'patient'
+                    ? Assets.imagesPatientsPatientF
+                    : Assets.imagesDoctorsDoctorM2),
               ),
             ],
           ),

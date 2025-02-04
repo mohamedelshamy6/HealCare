@@ -25,23 +25,7 @@ class PatientProfile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Stack(
-                  alignment: Alignment.centerRight,
-                  children: [
-                    CustomAppHeader(canBack: false, title: 'Profile'),
-                    InkWell(
-                      highlightColor: Colors.transparent,
-                      splashFactory: NoSplash.splashFactory,
-                      child: Icon(Icons.logout),
-                      onTap: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          Routes.choose,
-                          (route) => false,
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                CustomAppHeader(canBack: false, title: 'Profile'),
                 verticalSpace(16),
                 Center(child: ProfileHeader()),
                 verticalSpace(24),
@@ -136,6 +120,29 @@ class PatientProfile extends StatelessWidget {
                   ],
                 ),
                 verticalSpace(8),
+                Divider(height: 0),
+                InkWell(
+                  highlightColor: Colors.transparent,
+                  splashFactory: NoSplash.splashFactory,
+                  child: ListTile(
+                    trailing: Icon(
+                      Icons.logout,
+                      color: AppColors.tFFErrorColor,
+                    ),
+                    title: Text(
+                      'Logout',
+                      style: AppTextStyles.poppinsMainColor(16, FontWeight.w500)
+                          .copyWith(color: AppColors.tFFErrorColor),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      Routes.choose,
+                      (route) => false,
+                    );
+                  },
+                ),
+                Divider(height: 0),
               ],
             ),
           ),

@@ -21,12 +21,12 @@ List<InformationModel> informationList = [
   InformationModel(
     icon: Assets.iconsGenderIconBlue,
     label: 'Gender',
-    value: 'Male',
+    value: 'Female',
   ),
   InformationModel(
     icon: Assets.iconsAgeIconBlue,
     label: 'Age',
-    value: '22',
+    value: '21',
   ),
   InformationModel(
     icon: Assets.iconsBloodtypeIconBlue,
@@ -36,12 +36,12 @@ List<InformationModel> informationList = [
   InformationModel(
     icon: Assets.iconsWeightIconBlue,
     label: 'Weight',
-    value: '85kg',
+    value: '50kg',
   ),
   InformationModel(
     icon: Assets.iconsHeightIconBlue,
     label: 'Height',
-    value: '185cm',
+    value: '165cm',
   ),
   InformationModel(
     icon: Assets.iconsLocationIconBlue,

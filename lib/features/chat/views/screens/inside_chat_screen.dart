@@ -8,13 +8,20 @@ import 'package:heal_care/core/theme/app_text_styles.dart';
 import 'package:heal_care/core/widgets/custom_text_form_field.dart';
 import 'package:heal_care/features/chat/views/widgets/chat_bubble.dart';
 import 'package:heal_care/features/chat/views/widgets/chat_header.dart';
-import 'package:heal_care/features/chat/views/widgets/message.dart';
+import 'package:heal_care/features/chat/data/models/message.dart';
 
+import '../../../doctor_home/data/models/patient_model.dart';
+import '../../../patient_home/data/models/doctors_model.dart';
 import '../widgets/chat_bubble_for_friend.dart';
 
 class InsideChatScreen extends StatefulWidget {
-  const InsideChatScreen({super.key, required this.chatIndex});
+  const InsideChatScreen({
+    super.key,
+    required this.chatIndex,
+    required this.model,
+  });
   final int chatIndex;
+  final Object model;
   @override
   State<InsideChatScreen> createState() => _InsideChatScreenState();
 }
@@ -48,6 +55,9 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String image = (widget.model is DoctorsModel
+        ? ((widget.model) as DoctorsModel).image
+        : ((widget.model) as PatientModel).image);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -55,7 +65,10 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ChatHeader(),
+              ChatHeader(
+                  model: widget.model is DoctorsModel
+                      ? (widget.model) as DoctorsModel
+                      : (widget.model) as PatientModel),
               verticalSpace(11),
               Expanded(
                 child: widget.chatIndex == 0
@@ -81,6 +94,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                             );
                           }
                           return ChatBubble(
+                            image: image,
                             message: messages[index - 1].text,
                             date:
                                 '${messages[index - 1].timestamp.hour}:${messages[index - 1].timestamp.minute}',
@@ -100,65 +114,78 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                             ),
                           ),
                           verticalSpace(13),
+                          ChatBubbleForFriend(
+                            type: widget.model is DoctorsModel
+                                ? 'patient'
+                                : 'doctor',
+                            message: 'hi',
+                            date: '18:57',
+                          ),
                           ChatBubble(
+                            image: image,
                             message: 'hi',
                             date: '18:57',
                           ),
                           ChatBubbleForFriend(
-                            message: 'hi',
+                            type: widget.model is DoctorsModel
+                                ? 'patient'
+                                : 'doctor',
+                            message:
+                                'Hi doctor, I am cardio patient. I need your help imidiately.',
                             date: '18:57',
                           ),
-                          ChatBubbleForFriend(
-                            message: 'im nader',
-                            date: '18:57',
-                          ),
                           ChatBubble(
-                            message: 'nice to meet you',
-                            date: '18:58',
-                          ),
-                          ChatBubble(
-                            message: 'im sara',
-                            date: '18:58',
-                          ),
-                          ChatBubble(
-                            message: 'how old are u',
+                            image: image,
+                            message:
+                                'Hi, don’t worry! I am here. Let me know your situation now.',
                             date: '18:58',
                           ),
                           ChatBubbleForFriend(
-                            message: '22',
-                            date: '18:59',
-                          ),
-                          ChatBubbleForFriend(
-                            message: 'and u??',
+                            type: widget.model is DoctorsModel
+                                ? 'patient'
+                                : 'doctor',
+                            message:
+                                'Hi doctor, I am cardio patient. I need your help imidiately.',
                             date: '18:59',
                           ),
                           ChatBubble(
-                            message: 'same',
+                            image: image,
+                            message:
+                                'Hi, don’t worry! I am here. Let me know your situation now.',
                             date: '19:00',
                           ),
                           ChatBubbleForFriend(
-                            message: 'ooh good',
-                            date: '19:00',
-                          ),
-                          ChatBubbleForFriend(
-                            message: 'have a nice day',
+                            type: widget.model is DoctorsModel
+                                ? 'patient'
+                                : 'doctor',
+                            message:
+                                'Hi doctor, I am cardio patient. I need your help imidiately.',
                             date: '19:00',
                           ),
                           ChatBubble(
-                            message: 'thanks my friend',
+                            image: image,
+                            message:
+                                'Hi, don’t worry! I am here. Let me know your situation now.',
                             date: '19:00',
                           ),
                           ChatBubbleForFriend(
-                            message: 'bye 🥰',
+                            message:
+                                'Hi doctor, I am cardio patient. I need your help imidiately.',
+                            type: widget.model is DoctorsModel
+                                ? 'patient'
+                                : 'doctor',
                             date: '19:01',
                           ),
                           ChatBubble(
-                            message: 'bye 🤗',
+                            image: image,
+                            message:
+                                'Hi, don’t worry! I am here. Let me know your situation now.',
                             date: '19:01',
                           ),
                         ],
                       ),
               ),
+              verticalSpace(16),
               Row(
                 children: [
                   Expanded(

@@ -26,7 +26,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> patientPages = [
       PatientBookingScreen(),
-      DoctorChat(),
+      DoctorChat(type: 'patient'),
       PatientHomeScreen(),
       NotificationsScreen(type: 'patient'),
       PatientProfile(),
@@ -34,7 +34,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
     List<Widget> doctorPages = [
       DoctorBooking(),
-      DoctorChat(),
+      DoctorChat(type: 'doctor'),
       DoctorHomeScreen(),
       DoctorWallet(),
       DoctorProfile()

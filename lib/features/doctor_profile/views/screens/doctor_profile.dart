@@ -4,6 +4,7 @@ import 'package:heal_care/core/routing/routes.dart';
 import 'package:heal_care/features/doctor_profile/views/widgets/doctor_profile_header.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_app_header.dart';
 import '../../data/models/information_model.dart';
 
@@ -116,6 +117,29 @@ class DoctorProfile extends StatelessWidget {
                   style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                 ),
                 verticalSpace(8),
+                Divider(height: 0),
+                InkWell(
+                  highlightColor: Colors.transparent,
+                  splashFactory: NoSplash.splashFactory,
+                  child: ListTile(
+                    trailing: Icon(
+                      Icons.logout,
+                      color: AppColors.tFFErrorColor,
+                    ),
+                    title: Text(
+                      'Logout',
+                      style: AppTextStyles.poppinsMainColor(16, FontWeight.w500)
+                          .copyWith(color: AppColors.tFFErrorColor),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      Routes.choose,
+                      (route) => false,
+                    );
+                  },
+                ),
+                Divider(height: 0),
               ],
             ),
           ),

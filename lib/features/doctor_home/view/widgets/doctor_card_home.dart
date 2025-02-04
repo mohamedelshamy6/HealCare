@@ -6,10 +6,13 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 import '../../../../core/helpers/app_images.dart';
+import '../../data/models/patient_model.dart';
 
 class DoctorCardHome extends StatelessWidget {
+  final PatientModel patient;
   const DoctorCardHome({
     super.key,
+    required this.patient,
   });
 
   @override
@@ -24,18 +27,19 @@ class DoctorCardHome extends StatelessWidget {
         children: [
           Row(
             children: [
-              SizedBox(
-                height: 48.h,
-                width: 48.w,
-                child: Image.asset(Assets.imagesPatientsPatientM2),
+              CircleAvatar(
+                radius: 24.r,
+                backgroundImage: AssetImage(
+                  patient.image,
+                ),
               ),
-              horizontalSpace(3),
+              horizontalSpace(8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Jennifer Miller',
+                    patient.name,
                     style: AppTextStyles.poppinsBlack(14, FontWeight.w600),
                   ),
                   verticalSpace(4),

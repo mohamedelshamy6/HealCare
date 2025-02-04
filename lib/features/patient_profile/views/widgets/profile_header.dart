@@ -26,8 +26,8 @@ class ProfileHeader extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(32.r),
                 image: const DecorationImage(
-                  image: AssetImage(Assets.imagesPatientsPatientM),
-                  fit: BoxFit.fill,
+                  image: AssetImage(Assets.imagesPatientsPatientF),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -46,7 +46,7 @@ class ProfileHeader extends StatelessWidget {
         ),
         verticalSpace(16),
         Text(
-          'Lucas Scott',
+          'Eman Abo Samra',
           style: AppTextStyles.poppinsBlack(16, FontWeight.w800),
         ),
       ],

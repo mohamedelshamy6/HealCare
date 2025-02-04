@@ -20,7 +20,7 @@ class DoctorWallet extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.fill,
-              image: AssetImage(Assets.imagesDoctorsWalletFrame),
+              image: AssetImage(Assets.imagesWalletFrame),
             ),
           ),
           child: Column(
