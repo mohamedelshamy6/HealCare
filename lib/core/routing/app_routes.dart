@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heal_care/features/doctor_profile/views/screens/doctor_edit_profile.dart';
+import '../../features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../features/chat/views/screens/chat_bot.dart';
 import '../../features/doctor_home/data/models/patient_model.dart';
 import '../../features/patient_profile/views/screens/patient_edit_profile.dart';

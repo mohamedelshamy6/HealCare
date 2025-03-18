@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/routing/routes.dart';
-import 'package:heal_care/features/chat/views/widgets/chat_item.dart';
-import 'package:heal_care/features/patient_home/data/models/doctors_model.dart';
+import '../../../../core/routing/routes.dart';
+import 'chat_item.dart';
+import '../../../patient_home/data/models/doctors_model.dart';
 
 import '../../../doctor_home/data/models/patient_model.dart';
 

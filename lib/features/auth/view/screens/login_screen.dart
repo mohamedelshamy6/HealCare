@@ -20,6 +20,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       body: SafeArea(
@@ -48,6 +50,7 @@ class LoginScreen extends StatelessWidget {
                     kbType: TextInputType.emailAddress,
                     validate: (email) =>
                         ValidationErrorTexts.emailValidation(email),
+                    controller: emailController,
                   ),
                   verticalSpace(20),
                   CustomTFF(
@@ -55,6 +58,7 @@ class LoginScreen extends StatelessWidget {
                     kbType: TextInputType.visiblePassword,
                     validate: (password) =>
                         ValidationErrorTexts.loginPasswordValidation(password),
+                    controller: passwordController,
                   ),
                   verticalSpace(8),
                   Align(

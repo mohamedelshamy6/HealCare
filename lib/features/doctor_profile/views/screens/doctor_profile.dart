@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/routing/routes.dart';
-import 'package:heal_care/features/doctor_profile/views/widgets/doctor_profile_header.dart';
+import '../../../../core/routing/routes.dart';
+import '../widgets/doctor_profile_header.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';

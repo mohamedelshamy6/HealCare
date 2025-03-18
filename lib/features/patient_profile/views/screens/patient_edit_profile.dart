@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/core/theme/app_text_styles.dart';
-import 'package:heal_care/core/widgets/custom_app_header.dart';
-import 'package:heal_care/core/widgets/custom_button.dart';
-import 'package:heal_care/features/patient_profile/views/widgets/profile_header.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/custom_app_header.dart';
+import '../../../../core/widgets/custom_button.dart';
+import '../widgets/profile_header.dart';
 
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -16,6 +16,9 @@ class PatientEditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? bloodSelectedValue;
+    String? genderSelectedValue;
+    String? diseaseSelectedValue;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -32,6 +35,9 @@ class PatientEditProfile extends StatelessWidget {
                 ProfileHeader(),
                 verticalSpace(32),
                 CustomDropdown(
+                  isValueNull: true,
+                  selectedValue: diseaseSelectedValue,
+                  onItemChanged: (value) => diseaseSelectedValue = value,
                   itemList: <String>[
                     'Blood Pressure',
                     'Fever',
@@ -43,6 +49,9 @@ class PatientEditProfile extends StatelessWidget {
                 ),
                 verticalSpace(12),
                 CustomDropdown(
+                  isValueNull: true,
+                  selectedValue: bloodSelectedValue,
+                  onItemChanged: (value) => bloodSelectedValue = value,
                   itemList: <String>[
                     'A+',
                     'A-',
@@ -68,6 +77,9 @@ class PatientEditProfile extends StatelessWidget {
                     horizontalSpace(8),
                     Expanded(
                       child: CustomDropdown(
+                        isValueNull: true,
+                        selectedValue: genderSelectedValue,
+                        onItemChanged: (value) => genderSelectedValue = value,
                         itemList: <String>[
                           'Male',
                           'Female',

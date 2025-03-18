@@ -2,22 +2,29 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
+// ignore: must_be_immutable
 class CustomDropdown<T> extends StatefulWidget {
   final List<T> itemList;
   final String hint, label;
-  const CustomDropdown(
-      {super.key,
-      required this.itemList,
-      required this.hint,
-      required this.label});
+  T? selectedValue;
+  final bool? isValueNull;
+  final Function(String value) onItemChanged;
+
+  CustomDropdown({
+    super.key,
+    required this.itemList,
+    required this.hint,
+    required this.label,
+    this.selectedValue,
+    required this.onItemChanged,
+    required this.isValueNull,
+  });
 
   @override
   State<CustomDropdown<T>> createState() => _CustomDropdownState();
 }
 
 class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
-  T? selectedValue;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,10 +40,13 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
           decoration: BoxDecoration(
             color: AppColors.dropDownColor,
             borderRadius: BorderRadius.circular(8),
+            border: widget.isValueNull == null || widget.isValueNull!
+                ? null
+                : Border.all(color: AppColors.tFFErrorColor),
           ),
           child: DropdownButton<T>(
             borderRadius: BorderRadius.circular(8),
-            value: selectedValue,
+            value: widget.selectedValue,
             hint: Text(
               widget.hint,
               style: AppTextStyles.poppinsGrey(13, FontWeight.w400),
@@ -55,8 +65,9 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
             }).toList(),
             onChanged: (T? newValue) {
               setState(() {
-                selectedValue = newValue;
+                widget.selectedValue = newValue;
               });
+              widget.onItemChanged(newValue.toString());
             },
           ),
         ),

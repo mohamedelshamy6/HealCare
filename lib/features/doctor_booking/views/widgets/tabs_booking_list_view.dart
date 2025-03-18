@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/routing/routes.dart';
+import '../../../../core/routing/routes.dart';
 import '../../data/models/all_booking_model.dart';
 import 'booking_item.dart';
 

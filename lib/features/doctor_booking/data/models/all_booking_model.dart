@@ -1,5 +1,5 @@
 
-import 'package:heal_care/core/helpers/app_images.dart';
+import '../../../../core/helpers/app_images.dart';
 
 class AllBookingModel {
   final String? name;

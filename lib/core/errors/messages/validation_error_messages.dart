@@ -70,6 +70,18 @@ class ValidationErrorTexts {
     return null;
   }
 
+  static String? urlValidation(String? link) {
+    if (link == null || link.isEmpty) {
+      return 'Please enter an url.';
+    }
+    if (!RegExp(
+            r'^(https?://)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+(/[^\s]*)?$')
+        .hasMatch(link)) {
+      return 'Invalid URL format';
+    }
+    return null;
+  }
+
   static String? loginPasswordValidation(String? password) {
     if (password == null || password.isEmpty) {
       return 'Please enter your password';

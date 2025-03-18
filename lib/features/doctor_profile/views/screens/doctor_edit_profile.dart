@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/core/theme/app_text_styles.dart';
-import 'package:heal_care/core/widgets/custom_app_header.dart';
-import 'package:heal_care/core/widgets/custom_button.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/custom_app_header.dart';
+import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_drop_down.dart';
 import '../../../auth/view/widgets/tff_with_label.dart';
 import '../widgets/doctor_profile_header.dart';
@@ -13,6 +13,8 @@ class DoctorEditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? specializationSelectedValue;
+    String? genderSelectedValue;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -52,6 +54,10 @@ class DoctorEditProfile extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomDropdown(
+                        isValueNull: true,
+                        selectedValue: specializationSelectedValue,
+                        onItemChanged: (value) =>
+                            specializationSelectedValue = value,
                         itemList: <String>[
                           'Eyes',
                           'Teeth',
@@ -66,6 +72,9 @@ class DoctorEditProfile extends StatelessWidget {
                     horizontalSpace(8),
                     Expanded(
                       child: CustomDropdown(
+                        isValueNull: true,
+                        selectedValue: genderSelectedValue,
+                        onItemChanged: (value) => genderSelectedValue = value,
                         itemList: <String>[
                           'Male',
                           'Female',
