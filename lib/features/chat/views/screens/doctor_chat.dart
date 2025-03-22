@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/spacing.dart';
-import 'package:heal_care/features/chat/views/widgets/chat_list_view.dart';
+import '../../../../core/helpers/spacing.dart';
+import '../widgets/chat_list_view.dart';
 import '../../../../core/widgets/custom_app_header.dart';
 
 class DoctorChat extends StatelessWidget {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/routing/routes.dart';
-import 'package:heal_care/features/doctor_profile/views/widgets/doctor_profile_header.dart';
+import 'package:heal_care/core/helpers/cache_helper.dart';
+import 'package:heal_care/core/helpers/helper_methods.dart';
+import '../../../../core/routing/routes.dart';
+import '../widgets/doctor_profile_header.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -25,23 +27,7 @@ class DoctorProfile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Stack(
-                  alignment: Alignment.centerRight,
-                  children: [
-                    CustomAppHeader(canBack: false, title: 'Profile'),
-                    InkWell(
-                      highlightColor: Colors.transparent,
-                      splashFactory: NoSplash.splashFactory,
-                      child: Icon(Icons.logout),
-                      onTap: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          Routes.choose,
-                          (route) => false,
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                CustomAppHeader(canBack: false, title: 'Profile'),
                 verticalSpace(16),
                 Center(child: DoctorProfileHeader()),
                 verticalSpace(24),
@@ -133,9 +119,16 @@ class DoctorProfile extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      Routes.choose,
-                      (route) => false,
+                    HelperMethods.showLogoutAlertDialog(
+                      context,
+                      () {
+                        CacheHelper().removeData(key: 'role');
+                        CacheHelper().deleteSecuredData(key: 'accessToken');
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          Routes.choose,
+                          (route) => false,
+                        );
+                      },
                     );
                   },
                 ),

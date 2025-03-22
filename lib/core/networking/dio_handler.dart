@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../errors/api/exceptions/exception_helper_methods.dart';
-import '../helpers/app_constants.dart';
+import '../helpers/helper_methods.dart';
 import 'api_services.dart';
 
 class DioHandler extends ApiServices {
@@ -9,7 +9,6 @@ class DioHandler extends ApiServices {
 
   DioHandler() {
     BaseOptions baseOptions = BaseOptions(
-      baseUrl: AppConstants.baseUrl,
       receiveTimeout: const Duration(seconds: 30),
       sendTimeout: const Duration(seconds: 30),
       connectTimeout: const Duration(seconds: 30),
@@ -17,7 +16,9 @@ class DioHandler extends ApiServices {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Connection': 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate, br'
+        'Accept-Encoding': 'gzip, deflate, br',
+        'apikey':
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmdGl2eXhvdGZhdmp2cnVrYnRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5NDEwNDIsImV4cCI6MjA0ODUxNzA0Mn0.lV9hHj2M12KpWO1mINsfmw-uOH43ki99pTp16Xk23XQ',
       },
     );
     dio = Dio(baseOptions);
@@ -28,6 +29,11 @@ class DioHandler extends ApiServices {
       responseHeader: true,
       responseBody: true,
       error: true,
+    ));
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        await HelperMethods.onRequset(options, handler);
+      },
     ));
   }
 

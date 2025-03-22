@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/routing/routes.dart';
+import '../../../../core/helpers/cache_helper.dart';
+import '../../../../core/helpers/helper_methods.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_app_header.dart';
@@ -136,9 +138,16 @@ class PatientProfile extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      Routes.choose,
-                      (route) => false,
+                    HelperMethods.showLogoutAlertDialog(
+                      context,
+                      () {
+                        CacheHelper().removeData(key: 'role');
+                        CacheHelper().deleteSecuredData(key: 'accessToken');
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          Routes.choose,
+                          (route) => false,
+                        );
+                      },
                     );
                   },
                 ),

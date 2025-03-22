@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/helpers/cache_helper.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/helpers/app_images.dart';
@@ -31,8 +32,13 @@ class _SplashScreenState extends State<SplashScreen>
     )..forward().whenComplete(
         () => Timer(
           const Duration(seconds: 2),
-          () => Navigator.pushNamedAndRemoveUntil(
-              context, Routes.choose, (route) => false),
+          () async =>
+              await CacheHelper().getSecuredData(key: 'accessToken') != null
+                  ? Navigator.pushNamedAndRemoveUntil(
+                      context, Routes.bottomNavBar, (route) => false,
+                      arguments: CacheHelper().getDataString(key: 'role'))
+                  : Navigator.pushNamedAndRemoveUntil(
+                      context, Routes.choose, (route) => false),
         ),
       );
     flipAnimation = Tween<double>(

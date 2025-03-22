@@ -41,8 +41,7 @@ class ExceptionHelperMethods {
         badResponseExceptionThrow(e);
       case 413:
         throw ApiException(
-          errorModel:
-              ErrorModel.fromJson({'message': 'Request Entity Too Large'}),
+          errorModel: ErrorModel.fromJson({'msg': 'Request Entity Too Large'}),
         );
       case 422:
         badResponseExceptionThrow(e);
@@ -61,7 +60,7 @@ class ExceptionHelperMethods {
     if (e.response != null || e.response!.data != null) {
       if (e.response!.data is String) {
         throw ApiException(
-          errorModel: ErrorModel.fromJson({'message': '${e.response!.data}'}),
+          errorModel: ErrorModel.fromJson({'msg': '${e.response!.data}'}),
         );
       } else if (e.response!.data is Map<String, dynamic>) {
         throw ApiException(
@@ -82,8 +81,8 @@ class ExceptionHelperMethods {
   }
 
   static Map<String, dynamic> get connectionErrorMessage =>
-      {'message': 'Try Again Later'};
+      {'msg': 'Try Again Later'};
 
   static Map<String, dynamic> get noInternetErrorMessage =>
-      {'message': 'No Internet Connection'};
+      {'msg': 'No Internet Connection'};
 }

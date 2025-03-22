@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/features/doctor_profile/views/screens/doctor_profile.dart';
+import '../../../doctor_profile/views/screens/doctor_profile.dart';
 
 import '../../../doctor_booking/views/screens/doctor_booking.dart';
 import '../../../chat/views/screens/doctor_chat.dart';

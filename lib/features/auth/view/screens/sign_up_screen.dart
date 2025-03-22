@@ -11,13 +11,33 @@ import '../../../../core/widgets/custom_app_header.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../widgets/continue_with_google.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   final String type;
   const SignUpScreen({super.key, required this.type});
 
   @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    nameController.dispose();
+    confirmPasswordController.dispose();
+    formKey.currentState?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -47,6 +67,7 @@ class SignUpScreen extends StatelessWidget {
                     kbType: TextInputType.name,
                     validate: (name) =>
                         ValidationErrorTexts.nameValidation(name),
+                    controller: nameController,
                   ),
                   verticalSpace(20),
                   CustomTFF(
@@ -54,6 +75,7 @@ class SignUpScreen extends StatelessWidget {
                     kbType: TextInputType.emailAddress,
                     validate: (email) =>
                         ValidationErrorTexts.emailValidation(email),
+                    controller: emailController,
                   ),
                   verticalSpace(20),
                   CustomTFF(
@@ -61,27 +83,36 @@ class SignUpScreen extends StatelessWidget {
                     kbType: TextInputType.visiblePassword,
                     validate: (password) =>
                         ValidationErrorTexts.signUpPasswordValidation(password),
+                    controller: passwordController,
                   ),
                   verticalSpace(20),
                   CustomTFF(
                     hintText: 'Confirm Password',
                     kbType: TextInputType.visiblePassword,
-                    //TODO Use the text from the password field.
                     validate: (passwordConfirmation) =>
                         ValidationErrorTexts.confirmPasswordValidation(
                       passwordConfirmation,
-                      passwordConfirmation,
+                      passwordController.text,
                     ),
+                    controller: confirmPasswordController,
                   ),
                   verticalSpace(32),
                   CustomButton(
                     buttonAction: () {
                       if (formKey.currentState!.validate()) {
-                        type == 'doctor'
+                        widget.type == 'doctor'
                             ? Navigator.pushNamed(
-                                context, Routes.doctorContinueSignUpScreen)
+                                context, Routes.doctorContinueSignUpScreen,
+                                arguments: [
+                                    emailController.text,
+                                    passwordController.text
+                                  ])
                             : Navigator.pushNamed(
-                                context, Routes.patientContinueSignUpScreen);
+                                context, Routes.patientContinueSignUpScreen,
+                                arguments: [
+                                    emailController.text,
+                                    passwordController.text
+                                  ]);
                       }
                     },
                     buttonText: 'Next',
@@ -94,7 +125,7 @@ class SignUpScreen extends StatelessWidget {
                     label: 'Already have an account?',
                     action: 'Sign In',
                     route: Routes.loginScreen,
-                    type: type,
+                    type: widget.type,
                   ),
                   verticalSpace(24),
                   ContinueWithGoogle(),

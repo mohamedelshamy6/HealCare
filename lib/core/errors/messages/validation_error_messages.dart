@@ -36,9 +36,6 @@ class ValidationErrorTexts {
     if (name.contains(RegExp(r'[^\w\s]+')) || name.contains('_')) {
       return 'Please enter a valid name';
     }
-    if (name.contains(' ')) {
-      return 'Please do not use space';
-    }
     if (!name.contains(RegExp(r'\D+'))) {
       return 'Please do not use numbers';
     }
@@ -61,11 +58,26 @@ class ValidationErrorTexts {
     if (!password.contains(RegExp(r'[A-Z]'))) {
       return 'Password must contain at least one uppercase letter';
     }
+    if (!password.contains(RegExp(r'[a-z]'))) {
+      return 'Password must contain at least one lowercase letter';
+    }
     if (!password.contains(RegExp(r'[0-9]'))) {
       return 'Password must contain at least one number';
     }
     if (password.contains(' ')) {
       return 'Please do not use space';
+    }
+    return null;
+  }
+
+  static String? urlValidation(String? link) {
+    if (link == null || link.isEmpty) {
+      return 'Please enter an url.';
+    }
+    if (!RegExp(
+            r'^(https?://)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+(/[^\s]*)?$')
+        .hasMatch(link)) {
+      return 'Invalid URL format';
     }
     return null;
   }

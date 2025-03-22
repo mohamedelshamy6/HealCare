@@ -46,6 +46,8 @@ class TFFWithLabel extends StatelessWidget {
         ),
         SizedBox(height: 8),
         CustomTFF(
+          controller: controller,
+          validate: validate,
           borderRadius: borderRadius ?? 8.r,
           hintText: hintText ?? '',
           enableFocusedBorder: false,

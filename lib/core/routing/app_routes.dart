@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heal_care/features/doctor_profile/views/screens/doctor_edit_profile.dart';
+import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
+import '../../features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../features/chat/views/screens/chat_bot.dart';
 import '../../features/doctor_home/data/models/patient_model.dart';
 import '../../features/patient_profile/views/screens/patient_edit_profile.dart';
@@ -28,6 +29,7 @@ import '../../features/patient_home/view/screens/patient_home_screen.dart';
 import '../../features/auth/view/screens/choose_screen.dart';
 import '../../features/auth/view/screens/login_screen.dart';
 import '../../features/splash/view/screens/splash.dart';
+import '../dependency_injection/dependency_injection.dart';
 import 'routes.dart';
 
 class CustomPageRoute extends MaterialPageRoute {
@@ -52,7 +54,13 @@ class AppRoutes {
         );
       case Routes.loginScreen:
         return MaterialPageRoute(
-          builder: (context) => LoginScreen(type: args as String),
+          builder: (context) => BlocProvider<AuthCubit>(
+            create: (context) => AuthCubit(
+              DependencyInjection.getIt(),
+              DependencyInjection.getIt(),
+            ),
+            child: LoginScreen(type: args as String),
+          ),
         );
       case Routes.signUpScreen:
         return MaterialPageRoute(
@@ -120,11 +128,27 @@ class AppRoutes {
         );
       case Routes.doctorContinueSignUpScreen:
         return MaterialPageRoute(
-          builder: (context) => DoctorContinueSignupScreen(),
+          builder: (context) => BlocProvider<AuthCubit>(
+            create: (context) => AuthCubit(
+                DependencyInjection.getIt(), DependencyInjection.getIt()),
+            child: DoctorContinueSignupScreen(
+              email: (args as List<String>)[0],
+              password: (args)[1],
+            ),
+          ),
         );
       case Routes.patientContinueSignUpScreen:
         return MaterialPageRoute(
-          builder: (context) => PatientContinueSignupScreen(),
+          builder: (context) => BlocProvider<AuthCubit>(
+            create: (context) => AuthCubit(
+              DependencyInjection.getIt(),
+              DependencyInjection.getIt(),
+            ),
+            child: PatientContinueSignupScreen(
+              email: (args as List<String>)[0],
+              password: (args)[1],
+            ),
+          ),
         );
       case Routes.insideChat:
         return MaterialPageRoute(
