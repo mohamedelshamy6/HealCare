@@ -102,9 +102,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (formKey.currentState!.validate()) {
                         widget.type == 'doctor'
                             ? Navigator.pushNamed(
-                                context, Routes.doctorContinueSignUpScreen)
+                                context, Routes.doctorContinueSignUpScreen,
+                                arguments: [
+                                    emailController.text,
+                                    passwordController.text
+                                  ])
                             : Navigator.pushNamed(
-                                context, Routes.patientContinueSignUpScreen);
+                                context, Routes.patientContinueSignUpScreen,
+                                arguments: [
+                                    emailController.text,
+                                    passwordController.text
+                                  ]);
                       }
                     },
                     buttonText: 'Next',

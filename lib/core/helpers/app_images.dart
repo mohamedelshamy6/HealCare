@@ -440,6 +440,10 @@ class Assets {
   /// assets/svgs/google.svg
   static const String svgsGoogle = "assets/svgs/google.svg";
 
+  /// Assets for svgsLogout
+  /// assets/svgs/logout.svg
+  static const String svgsLogout = "assets/svgs/logout.svg";
+
   /// Assets for svgsPaymentSuccess
   /// assets/svgs/payment_success.svg
   static const String svgsPaymentSuccess = "assets/svgs/payment_success.svg";

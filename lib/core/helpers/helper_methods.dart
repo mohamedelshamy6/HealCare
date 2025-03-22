@@ -1,15 +1,22 @@
 // import 'dart:ui';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../theme/app_colors.dart';
+import 'dart:convert';
+
 // import '../widgets/custom_border_button.dart';
 // import 'app_images.dart';
 
 // import '../routing/routes.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/custom_border_button.dart';
+import '../widgets/custom_button.dart';
+import 'app_images.dart';
+import 'cache_helper.dart';
 // import '../widgets/custom_button.dart';
 
 class HelperMethods {
@@ -134,76 +141,120 @@ class HelperMethods {
     );
   }
 
-  // static Future<Widget?> showLogoutAlertDialog(
-  //     context, Function() buttonAction) {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       surfaceTintColor: Colors.white,
-  //       backgroundColor: Colors.white,
-  //       content: SizedBox(
-  //         height: 277.h,
-  //         width: 325.w,
-  //         child: Padding(
-  //           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-  //           child: Column(
-  //             children: [
-  //               Container(
-  //                 decoration: const BoxDecoration(
-  //                   shape: BoxShape.circle,
-  //                   color: Colors.white,
-  //                 ),
-  //                 height: 120.h,
-  //                 width: 120.w,
-  //                 child: const Center(
-  //                   child: Icon(
-  //                     Icons.error,
-  //                     color: AppColors.tFFErrorColor,
-  //                   ),
-  //                 ),
-  //               ),
-  //               SizedBox(height: 16.h),
-  //               Text(
-  //                 'هل تريد تسجيل الخروج من حسابك ؟',
-  //                 textDirection: TextDirection.rtl,
-  //                 style: AppTextStyles.poppinsSemiBold16Black
-  //                     .copyWith(fontSize: 14.sp),
-  //               ),
-  //               SizedBox(height: 32.h),
-  //               Row(
-  //                 children: [
-  //                   Expanded(
-  //                     child: CustomButton(
-  //                       buttonText: 'تسجيل الخروج',
-  //                       buttonAction: buttonAction,
-  //                       height: 35.h,
-  //                       buttonStyle: AppTextStyles.poppinsSemiBold16Black
-  //                           .copyWith(color: Colors.white, fontSize: 14.sp),
-  //                       backgroundColor: AppColors.tFFErrorColor,
-  //                     ),
-  //                   ),
-  //                   SizedBox(width: 16.w),
-  //                   Expanded(
-  //                     child: CustomBorderButton(
-  //                       buttonText: 'إلغاء',
-  //                       buttonAction: () {
-  //                         Navigator.pop(context);
-  //                       },
-  //                       height: 30.h,
-  //                       buttonStyle: AppTextStyles.poppinsSemiBold16Black
-  //                           .copyWith(
-  //                               color: AppColors.mainBlue, fontSize: 14.sp),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  static Future<void> refreshAccessToken() async {
+    final refreshToken =
+        await CacheHelper().getSecuredData(key: 'refreshToken');
+
+    if (refreshToken == null) {
+      return;
+    }
+
+    final response =
+        await Supabase.instance.client.auth.refreshSession(refreshToken);
+
+    if (response.session != null) {
+      await CacheHelper().saveSecuredData(
+          key: 'accessToken', value: response.session!.accessToken);
+      await CacheHelper().saveSecuredData(
+          key: 'refreshToken', value: response.session!.refreshToken!);
+    }
+  }
+
+  static Future<void> checkAndRefreshToken() async {
+    final accessToken = await CacheHelper().getSecuredData(key: 'accessToken');
+
+    if (accessToken == null) {
+      return;
+    }
+
+    final isExpired = checkTokenExpiration(accessToken);
+    if (isExpired) {
+      await refreshAccessToken();
+    }
+  }
+
+  static bool checkTokenExpiration(String token) {
+    final parts = token.split('.');
+    if (parts.length != 3) return true;
+
+    final payload = jsonDecode(
+        utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
+    final exp = payload['exp'];
+    final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+    return now >= exp;
+  }
+
+  static Future onRequset(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    await checkAndRefreshToken();
+    final accessToken = await CacheHelper().getSecuredData(key: 'accessToken');
+
+    if (accessToken != null) {
+      options.headers['Authorization'] = 'Bearer $accessToken';
+    }
+    return handler.next(options);
+  }
+
+  static Future<Widget?> showLogoutAlertDialog(
+      context, Function() buttonAction) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        surfaceTintColor: Colors.white,
+        backgroundColor: Colors.white,
+        content: SizedBox(
+          height: 277.h,
+          width: 325.w,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+            child: Column(
+              children: [
+                SvgPicture.asset(
+                  Assets.svgsLogout,
+                  height: 120.h,
+                  width: 120.w,
+                ),
+                SizedBox(height: 16.h),
+                Text(
+                  'Are you sure you want to logout?',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.poppinsBlack(14, FontWeight.w600),
+                ),
+                SizedBox(height: 32.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        buttonText: 'Logout',
+                        buttonAction: buttonAction,
+                        height: 35.h,
+                        textStyle:
+                            AppTextStyles.poppinsWhite(14, FontWeight.w600),
+                        color: Color(0xffF14E2E),
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: CustomBorderButton(
+                        buttonText: 'Cancel',
+                        buttonAction: () {
+                          Navigator.pop(context);
+                        },
+                        height: 30.h,
+                        buttonStyle:
+                            AppTextStyles.poppinsMainColor(14, FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   static void svgPrecacheImage() {
     const cacheSvgImages = [];
