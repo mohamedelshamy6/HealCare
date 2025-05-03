@@ -29,9 +29,8 @@ void main() async {
       anonKey:
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmdGl2eXhvdGZhdmp2cnVrYnRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5NDEwNDIsImV4cCI6MjA0ODUxNzA0Mn0.lV9hHj2M12KpWO1mINsfmw-uOH43ki99pTp16Xk23XQ',
     ),
-    HelperMethods.checkAndRefreshToken(),
   ]);
-
+  await HelperMethods.checkAndRefreshToken();
   //? Load the google fonts to solve the loading bug.
   GoogleFonts.config.allowRuntimeFetching = false;
 

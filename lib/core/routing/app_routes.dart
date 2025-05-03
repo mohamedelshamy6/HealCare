@@ -134,6 +134,7 @@ class AppRoutes {
             child: DoctorContinueSignupScreen(
               email: (args as List<String>)[0],
               password: (args)[1],
+              name: (args)[2],
             ),
           ),
         );
@@ -147,6 +148,7 @@ class AppRoutes {
             child: PatientContinueSignupScreen(
               email: (args as List<String>)[0],
               password: (args)[1],
+              name: (args)[2],
             ),
           ),
         );
