@@ -1,11 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
+import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
+import '../../../../core/dependency_injection/dependency_injection.dart';
 import '../../../../core/errors/messages/error_messages.dart';
 import '../../../../core/helpers/app_constants.dart';
 import '../../../../core/helpers/cache_helper.dart';
 import '../../../../core/helpers/helper_methods.dart';
+import '../../../../core/helpers/image_picker_helper.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -17,11 +24,12 @@ import '../widgets/tff_with_label.dart';
 import '../widgets/upload_photo_widget.dart';
 
 class PatientContinueSignupScreen extends StatefulWidget {
-  final String email, password;
+  final String email, password, name;
   const PatientContinueSignupScreen({
     super.key,
     required this.email,
     required this.password,
+    required this.name,
   });
 
   @override
@@ -34,6 +42,7 @@ class _PatientContinueSignupScreenState
   String? diseaseSelectedValue;
   String? genderSelectedValue;
   String? bloodSelectedValue;
+  File? image;
   TextEditingController ageConotroller = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController heightCoontroller = TextEditingController();
@@ -43,6 +52,7 @@ class _PatientContinueSignupScreenState
   bool? isGenderSelected;
   bool? isBloodSelected;
   bool? isDiseaseSelected;
+  String? imageUrl;
   @override
   void dispose() {
     ageConotroller.dispose();
@@ -59,7 +69,7 @@ class _PatientContinueSignupScreenState
     return Scaffold(
       body: SafeArea(
         child: BlocListener<AuthCubit, AuthState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is SignUpLoading) {
               HelperMethods.showLoadingAlertDialog(context);
             }
@@ -69,10 +79,50 @@ class _PatientContinueSignupScreenState
                   key: 'accessToken', value: state.signUpModel!.accessToken!);
               CacheHelper().saveSecuredData(
                   key: 'refreshToken', value: state.signUpModel!.refreshToken!);
-              Navigator.pushNamedAndRemoveUntil(
-                  context, Routes.bottomNavBar, (route) => false,
-                  arguments: 'patient');
-              CacheHelper().saveData(key: 'role', value: 'patient');
+
+              image == null
+                  ? null
+                  : await DependencyInjection.getIt<supabase.SupabaseClient>()
+                      .storage
+                      .from('patients-media')
+                      .upload(
+                        'patient/${widget.name}/profile.png',
+                        image!,
+                        fileOptions: const supabase.FileOptions(upsert: true),
+                      )
+                      .then((value) {
+                      imageUrl =
+                          DependencyInjection.getIt<supabase.SupabaseClient>()
+                              .storage
+                              .from('patients-media')
+                              .getPublicUrl(value);
+                    });
+              context.read<PatientsCubit>().addPatient(
+                '${AppConstants.baseRestUrl}patients',
+                {
+                  'id': state.signUpModel?.user?.id,
+                  'email': widget.email,
+                  'name': widget.name,
+                  'image': imageUrl,
+                  'age': ageConotroller.text,
+                  'weight': weightController.text,
+                  'height': heightCoontroller.text,
+                  'address': addressController.text,
+                  'disease': diseaseSelectedValue,
+                  'gender': genderSelectedValue,
+                  'blood_type': bloodSelectedValue,
+                  'medical_history': medicalController.text,
+                },
+              ).then((value) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, Routes.bottomNavBar, (route) => false,
+                    arguments: 'patient');
+                CacheHelper().saveData(key: 'role', value: 'patient');
+              }).onError((_, error) {
+                HelperMethods.showCustomSnackBarError(
+                    context, ErrorMessages.errorMessage(error.toString()));
+                return null;
+              });
             }
             if (state is SignUpFailure) {
               Navigator.pop(context);
@@ -91,7 +141,18 @@ class _PatientContinueSignupScreenState
                     verticalSpace(16),
                     CustomAppHeader(canBack: true),
                     verticalSpace(12),
-                    UploadPhotoWidget(),
+                    UploadPhotoWidget(
+                      onTap: () async {
+                        final pickedImage = await ImagePickerHelper.getImage(
+                            imageSource: ImageSource.gallery);
+                        setState(() {
+                          if (pickedImage != null) {
+                            image = File(pickedImage.path);
+                          }
+                        });
+                      },
+                      imagePath: image,
+                    ),
                     verticalSpace(16),
                     CustomDropdown(
                       isValueNull: isDiseaseSelected,
@@ -170,7 +231,6 @@ class _PatientContinueSignupScreenState
                             itemList: <String>[
                               'Male',
                               'Female',
-                              'Rather Not Say',
                             ],
                             hint: 'Male',
                             label: 'Gender',
@@ -295,6 +355,19 @@ class _PatientContinueSignupScreenState
                                   {
                                     'email': widget.email,
                                     'password': widget.password,
+                                    'data': {
+                                      'name': widget.name,
+                                      'image': imageUrl,
+                                      'age': ageConotroller.text,
+                                      'weight': weightController.text,
+                                      'height': heightCoontroller.text,
+                                      'address': addressController.text,
+                                      'disease': diseaseSelectedValue,
+                                      'gender': genderSelectedValue,
+                                      'blood_type': bloodSelectedValue,
+                                      'medical_history': medicalController.text,
+                                      'type': 'patient',
+                                    }
                                   },
                                 );
                         }

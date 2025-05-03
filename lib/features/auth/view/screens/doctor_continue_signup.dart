@@ -1,10 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/dependency_injection/dependency_injection.dart';
 import 'package:heal_care/core/helpers/cache_helper.dart';
+import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 import '../../../../core/errors/messages/error_messages.dart';
 import '../../../../core/helpers/helper_methods.dart';
 import '../../../../core/errors/messages/validation_error_messages.dart';
+import '../../../../core/helpers/image_picker_helper.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -17,11 +24,12 @@ import '../../../../core/helpers/app_constants.dart';
 import '../widgets/upload_photo_widget.dart';
 
 class DoctorContinueSignupScreen extends StatefulWidget {
-  final String email, password;
+  final String email, password, name;
   const DoctorContinueSignupScreen({
     super.key,
     required this.email,
     required this.password,
+    required this.name,
   });
 
   @override
@@ -52,12 +60,14 @@ class _DoctorContinueSignupScreenState
 
   String? specializationSelectedValue;
   String? genderSelectedValue;
+  File? image;
+  String? imageUrl;
   bool? isGenderSelected;
   bool? isSpecializationSelected;
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is SignUpLoading) {
           HelperMethods.showLoadingAlertDialog(context);
         }
@@ -67,10 +77,49 @@ class _DoctorContinueSignupScreenState
               key: 'accessToken', value: state.signUpModel!.accessToken!);
           CacheHelper().saveSecuredData(
               key: 'refreshToken', value: state.signUpModel!.refreshToken!);
-          Navigator.pushNamedAndRemoveUntil(
-              context, Routes.bottomNavBar, (route) => false,
-              arguments: 'doctor');
-          CacheHelper().saveData(key: 'role', value: 'doctor');
+
+          image == null
+              ? null
+              : await DependencyInjection.getIt<supabase.SupabaseClient>()
+                  .storage
+                  .from('doctors-media')
+                  .upload(
+                    'doctor/${widget.name}/profile.png',
+                    image!,
+                    fileOptions: const supabase.FileOptions(upsert: true),
+                  )
+                  .then((value) {
+                  imageUrl =
+                      DependencyInjection.getIt<supabase.SupabaseClient>()
+                          .storage
+                          .from('doctors-media')
+                          .getPublicUrl(value);
+                });
+          context.read<DoctorsCubit>().addDoctor(
+            '${AppConstants.baseRestUrl}doctors',
+            {
+              'id': state.signUpModel?.user?.id,
+              'email': widget.email,
+              'name': widget.name,
+              'education': educationController.text,
+              'insta_pay_link': instapayController.text,
+              'specialization': specializationSelectedValue,
+              'gender': genderSelectedValue,
+              'address': addressController.text,
+              'experience': experienceController.text,
+              'bio': biographyController.text,
+              'image': imageUrl,
+            },
+          ).then((value) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.bottomNavBar, (route) => false,
+                arguments: 'doctor');
+            CacheHelper().saveData(key: 'role', value: 'doctor');
+          }).onError((_, error) {
+            HelperMethods.showCustomSnackBarError(
+                context, ErrorMessages.errorMessage(error.toString()));
+            return null;
+          });
         }
         if (state is SignUpFailure) {
           Navigator.pop(context);
@@ -91,7 +140,18 @@ class _DoctorContinueSignupScreenState
                     verticalSpace(16),
                     CustomAppHeader(canBack: true),
                     verticalSpace(12),
-                    UploadPhotoWidget(),
+                    UploadPhotoWidget(
+                      onTap: () async {
+                        final pickedImage = await ImagePickerHelper.getImage(
+                            imageSource: ImageSource.gallery);
+                        setState(() {
+                          if (pickedImage != null) {
+                            image = File(pickedImage.path);
+                          }
+                        });
+                      },
+                      imagePath: image,
+                    ),
                     verticalSpace(16),
                     TFFWithLabel(
                       label: 'Education',
@@ -165,7 +225,6 @@ class _DoctorContinueSignupScreenState
                             itemList: <String>[
                               'Male',
                               'Female',
-                              'Rather Not Say',
                             ],
                             hint: 'Male',
                             label: 'Gender',
@@ -225,6 +284,19 @@ class _DoctorContinueSignupScreenState
                                   {
                                     'email': widget.email,
                                     'password': widget.password,
+                                    'data': {
+                                      'name': widget.name,
+                                      'education': educationController.text,
+                                      'insta_pay_link': instapayController.text,
+                                      'specialization':
+                                          specializationSelectedValue,
+                                      'gender': genderSelectedValue,
+                                      'address': addressController.text,
+                                      'experience': experienceController.text,
+                                      'bio': biographyController.text,
+                                      'image': imageUrl,
+                                      'type': 'doctor',
+                                    }
                                   },
                                 );
                         }

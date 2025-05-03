@@ -47,9 +47,13 @@ class LoginScreen extends StatelessWidget {
                   CacheHelper().saveSecuredData(
                       key: 'refreshToken',
                       value: state.loginModel!.refreshToken!);
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, Routes.bottomNavBar, (route) => false,
-                      arguments: type);
+                  state.loginModel!.user!.userMetadata!.type == 'doctor'
+                      ? Navigator.pushNamedAndRemoveUntil(
+                          context, Routes.bottomNavBar, (route) => false,
+                          arguments: 'doctor')
+                      : Navigator.pushNamedAndRemoveUntil(
+                          context, Routes.bottomNavBar, (route) => false,
+                          arguments: 'patient');
                   CacheHelper().saveData(key: 'role', value: type);
                 }
                 if (state is LoginFailure) {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/spacing.dart';
@@ -5,13 +7,15 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class UploadPhotoWidget extends StatelessWidget {
-  const UploadPhotoWidget({super.key});
+  final void Function()? onTap;
+  final File? imagePath;
+  const UploadPhotoWidget({super.key, this.onTap, this.imagePath});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashFactory: NoSplash.splashFactory,
-      onTap: () {},
+      onTap: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,12 +29,20 @@ class UploadPhotoWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.dropDownColor,
                   shape: BoxShape.circle,
+                  image: imagePath != null
+                      ? DecorationImage(
+                          image: FileImage(imagePath!),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
                 ),
-                child: Icon(
-                  Icons.camera_alt,
-                  size: 24.r,
-                  color: Color(0xff676767),
-                ),
+                child: imagePath != null
+                    ? null
+                    : Icon(
+                        Icons.camera_alt,
+                        size: 24.r,
+                        color: Color(0xff676767),
+                      ),
               ),
               Container(
                 width: 25.w,

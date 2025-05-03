@@ -105,13 +105,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 context, Routes.doctorContinueSignUpScreen,
                                 arguments: [
                                     emailController.text,
-                                    passwordController.text
+                                    passwordController.text,
+                                    nameController.text,
                                   ])
                             : Navigator.pushNamed(
                                 context, Routes.patientContinueSignUpScreen,
                                 arguments: [
                                     emailController.text,
-                                    passwordController.text
+                                    passwordController.text,
+                                    nameController.text,
                                   ]);
                       }
                     },

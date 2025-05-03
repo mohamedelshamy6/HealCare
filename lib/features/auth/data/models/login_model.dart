@@ -34,7 +34,7 @@ class User {
   String? confirmedAt;
   String? lastSignInAt;
   AppMetadata? appMetadata;
-  UserMetadata? userMetadata;
+  UserMetaData? userMetadata;
   List<Identities>? identities;
   String? createdAt;
   String? updatedAt;
@@ -69,7 +69,7 @@ class User {
         ? AppMetadata.fromJson(json['app_metadata'])
         : null;
     userMetadata = json['user_metadata'] != null
-        ? UserMetadata.fromJson(json['user_metadata'])
+        ? UserMetaData.fromJson(json['user_metadata'])
         : null;
     if (json['identities'] != null) {
       identities = <Identities>[];
@@ -95,19 +95,71 @@ class AppMetadata {
   }
 }
 
-class UserMetadata {
+class UserMetaData {
+  String? address;
+  int? age;
+  String? bio;
+  String? bloodType;
+  String? disease;
+  String? education;
   String? email;
   bool? emailVerified;
+  String? experience;
+  String? gender;
+  int? height;
+  String? image;
+  String? instaPayLink;
+  String? medicalHistory;
+  String? name;
   bool? phoneVerified;
+  String? specialization;
   String? sub;
+  String? type;
+  int? weight;
 
-  UserMetadata({this.email, this.emailVerified, this.phoneVerified, this.sub});
+  UserMetaData(
+      {this.address,
+      this.age,
+      this.bio,
+      this.bloodType,
+      this.disease,
+      this.education,
+      this.email,
+      this.emailVerified,
+      this.experience,
+      this.gender,
+      this.height,
+      this.image,
+      this.instaPayLink,
+      this.medicalHistory,
+      this.name,
+      this.phoneVerified,
+      this.specialization,
+      this.sub,
+      this.type,
+      this.weight});
 
-  UserMetadata.fromJson(Map<String, dynamic> json) {
+  UserMetaData.fromJson(Map<String, dynamic> json) {
+    address = json['address'];
+    age = json['age'];
+    bio = json['bio'];
+    bloodType = json['blood_type'];
+    disease = json['disease'];
+    education = json['education'];
     email = json['email'];
     emailVerified = json['email_verified'];
+    experience = json['experience'];
+    gender = json['gender'];
+    height = json['height'];
+    image = json['image'];
+    instaPayLink = json['insta_pay_link'];
+    medicalHistory = json['medical_history'];
+    name = json['name'];
     phoneVerified = json['phone_verified'];
+    specialization = json['specialization'];
     sub = json['sub'];
+    type = json['type'];
+    weight = json['weight'];
   }
 }
 
@@ -115,7 +167,7 @@ class Identities {
   String? identityId;
   String? id;
   String? userId;
-  UserMetadata? identityData;
+  UserMetaData? identityData;
   String? provider;
   String? lastSignInAt;
   String? createdAt;
@@ -138,7 +190,7 @@ class Identities {
     id = json['id'];
     userId = json['user_id'];
     identityData = json['identity_data'] != null
-        ? UserMetadata.fromJson(json['identity_data'])
+        ? UserMetaData.fromJson(json['identity_data'])
         : null;
     provider = json['provider'];
     lastSignInAt = json['last_sign_in_at'];

@@ -62,7 +62,7 @@ class _CustomTFFState extends State<CustomTFF> {
               (widget.hintText.contains('password') ||
                       widget.hintText.contains('Email')
                   ? 50
-                  : 15),
+                  : 200),
         ),
       ],
       focusNode: widget.focusNode,
