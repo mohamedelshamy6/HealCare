@@ -8,7 +8,7 @@ import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../data/models/doctor_appointment_model.dart';
+import '../../data/models/doctors_model.dart';
 
 class PaymentSuccess extends StatelessWidget {
   final DoctorsModel doctorsModel;

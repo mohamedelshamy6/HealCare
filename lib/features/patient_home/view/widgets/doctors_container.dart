@@ -4,7 +4,7 @@ import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../data/models/doctor_appointment_model.dart';
+import '../../data/models/doctors_model.dart';
 
 class DoctorsContainer extends StatelessWidget {
   final int index;

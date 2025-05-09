@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
+import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import '../../features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../features/chat/views/screens/chat_bot.dart';
 import '../../features/doctor_home/data/models/patient_model.dart';
@@ -18,7 +19,7 @@ import '../../features/patient_home/view/screens/e_wallet_history.dart';
 import '../../features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
 import '../../features/bottom_navigation_bar/view/screens/custom_bottom_navigation_bar.dart';
 import '../../features/doctor_booking/logic/tabbar_cubit/tabbar_cubit.dart';
-import '../../features/patient_home/data/models/doctor_appointment_model.dart';
+import '../../features/patient_home/data/models/doctors_model.dart';
 import '../../features/patient_home/view/screens/all_doctors.dart';
 import '../../features/auth/view/screens/sign_up_screen.dart';
 import '../../features/patient_home/view/screens/booking_payment.dart';
@@ -96,6 +97,10 @@ class AppRoutes {
               BlocProvider<TabbarCubit>(
                 create: (context) => TabbarCubit(),
               ),
+              BlocProvider(
+                  create: (context) => DoctorsCubit(
+                        doctorsRepo: DependencyInjection.getIt(),
+                      )),
             ],
             child: CustomBottomNavigationBar(type: args as String),
           ),

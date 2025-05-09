@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/widgets/custom_app_header.dart';
 import '../../../../core/widgets/custom_date_picker.dart';
-import '../../data/models/doctor_appointment_model.dart';
+import '../../data/models/doctors_model.dart';
 
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/routing/routes.dart';

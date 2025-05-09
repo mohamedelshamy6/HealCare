@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/app_constants.dart';
 import '../../data/models/patients_model.dart';

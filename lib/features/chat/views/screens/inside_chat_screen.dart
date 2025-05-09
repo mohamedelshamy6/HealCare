@@ -11,7 +11,7 @@ import '../widgets/chat_header.dart';
 import '../../data/models/message.dart';
 
 import '../../../doctor_home/data/models/patient_model.dart';
-import '../../../patient_home/data/models/doctor_appointment_model.dart';
+import '../../../patient_home/data/models/doctors_model.dart';
 import '../widgets/chat_bubble_for_friend.dart';
 
 class InsideChatScreen extends StatefulWidget {
