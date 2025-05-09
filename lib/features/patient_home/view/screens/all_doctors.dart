@@ -1,18 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/helpers/app_images.dart';
-import '../../../../core/helpers/spacing.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/custom_app_header.dart';
-import '../../../../core/widgets/custom_text_form_field.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:heal_care/core/helpers/app_images.dart';
+import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/theme/app_colors.dart';
+import 'package:heal_care/core/theme/app_text_styles.dart';
+import 'package:heal_care/core/widgets/custom_app_header.dart';
+import 'package:heal_care/core/widgets/custom_text_form_field.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
+import 'package:heal_care/features/patient_home/view/widgets/doctors_container.dart';
+import 'package:heal_care/features/patient_home/view/widgets/filter_doctor_search_sheet.dart';
 
-import '../widgets/doctors_container.dart';
-import '../widgets/filter_doctor_search_sheet.dart';
+class AllDoctorsScreen extends StatefulWidget {
+  const AllDoctorsScreen({super.key, required this.doctorsModel});
+  final List<DoctorsModel> doctorsModel;
 
-class AllDoctorsScreen extends StatelessWidget {
-  const AllDoctorsScreen({super.key});
+  @override
+  State<AllDoctorsScreen> createState() => _AllDoctorsScreenState();
+}
+
+class _AllDoctorsScreenState extends State<AllDoctorsScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  late List<DoctorsModel> _filteredDoctors;
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredDoctors = widget.doctorsModel;
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  void _onSearchChanged() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredDoctors = widget.doctorsModel.where((doctor) {
+        final name = doctor.name?.toLowerCase() ?? '';
+        final spec = doctor.specialization?.toLowerCase() ?? '';
+        return name.contains(query) || spec.contains(query);
+      }).toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +63,13 @@ class AllDoctorsScreen extends StatelessWidget {
               ),
               verticalSpace(32),
               CustomTFF(
+                controller: _searchController,
                 hintText: 'Search',
                 kbType: TextInputType.text,
                 hintTextStyle: AppTextStyles.poppinsGrey(15, FontWeight.w400),
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(13.r),
-                  child: SvgPicture.asset(
-                    Assets.iconsSearchIconGrey,
-                  ),
+                  child: SvgPicture.asset(Assets.iconsSearchIconGrey),
                 ),
                 enableFocusedBorder: false,
                 suffixIcon: InkWell(
@@ -70,12 +102,21 @@ class AllDoctorsScreen extends StatelessWidget {
               ),
               verticalSpace(8),
               Expanded(
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => verticalSpace(12),
-                  itemCount: 8,
-                  itemBuilder: (context, index) =>
-                      DoctorsContainer(index: index),
-                ),
+                child: _filteredDoctors.isEmpty
+                    ? Center(
+                        child: Text(
+                          'No doctors found.',
+                          style:
+                              AppTextStyles.poppinsBlack(14, FontWeight.w500),
+                        ),
+                      )
+                    : ListView.separated(
+                        itemCount: _filteredDoctors.length,
+                        separatorBuilder: (context, index) => verticalSpace(12),
+                        itemBuilder: (context, index) => DoctorsContainer(
+                          doctorsModel: _filteredDoctors[index],
+                        ),
+                      ),
               ),
               verticalSpace(16),
             ],

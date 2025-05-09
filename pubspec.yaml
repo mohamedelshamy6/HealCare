@@ -22,6 +22,8 @@ dependencies:
   # For app deployment.
   flutter_native_splash: ^2.0.2
   flutter_launcher_icons: ^0.14.1
+  # For Loading.
+  shimmer: ^3.0.0
   # For networking.
   dio: ^5.4.0
   # For state Management & Logic.

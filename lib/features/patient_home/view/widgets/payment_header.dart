@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../data/models/doctors_model.dart';
+import '../../data/models/doctors_models.dart';
 
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -11,7 +11,7 @@ class PaymentHeader extends StatelessWidget {
     required this.doctorsModel,
   });
 
-  final DoctorsModel doctorsModel;
+  final DoctorssModel doctorsModel;
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/routing/routes.dart';
 import 'chat_item.dart';
-import '../../../patient_home/data/models/doctors_model.dart';
+import '../../../patient_home/data/models/doctors_models.dart';
 
 import '../../../doctor_home/data/models/patient_model.dart';
 
