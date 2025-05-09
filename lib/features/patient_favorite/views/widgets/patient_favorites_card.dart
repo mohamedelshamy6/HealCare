@@ -7,7 +7,7 @@ import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../patient_home/data/models/doctors_model.dart';
+import '../../../patient_home/data/models/doctor_appointment_model.dart';
 
 class PatientFavoritesCard extends StatelessWidget {
   final int index;

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/widgets/custom_app_header.dart';
-import '../../../patient_home/data/models/doctors_model.dart';
+import '../../../patient_home/data/models/doctor_appointment_model.dart';
 import '../widgets/patient_booking_card.dart';
 
 class PatientBookingScreen extends StatelessWidget {
