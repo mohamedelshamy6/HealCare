@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/widgets/custom_app_header.dart';
 import '../../../../core/widgets/custom_date_picker.dart';
-import '../../data/models/doctors_models.dart';
 
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/routing/routes.dart';
@@ -13,7 +13,7 @@ import '../widgets/doctor_status_container.dart';
 import '../widgets/visit_hours.dart';
 
 class BookDoctorAppointment extends StatelessWidget {
-  final DoctorssModel doctorsModel;
+  final DoctorsModel doctorsModel;
   const BookDoctorAppointment({
     super.key,
     required this.doctorsModel,
@@ -44,7 +44,7 @@ class BookDoctorAppointment extends StatelessWidget {
                         color: Colors.pink[200]!.withOpacity(0.35),
                         borderRadius: BorderRadius.circular(25.r),
                         image: DecorationImage(
-                          image: AssetImage(doctorsModel.image),
+                          image: AssetImage(doctorsModel.image.toString()),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -63,7 +63,7 @@ class BookDoctorAppointment extends StatelessWidget {
                 ),
                 verticalSpace(16),
                 Text(
-                  doctorsModel.name,
+                  doctorsModel.name.toString(),
                   style: AppTextStyles.poppinsBlack(
                     20,
                     FontWeight.w500,
@@ -80,9 +80,9 @@ class BookDoctorAppointment extends StatelessWidget {
                     ),
                     horizontalSpace(4),
                     Text(
-                      doctorsModel.job.contains(' - ')
-                          ? doctorsModel.job.split('-').first
-                          : doctorsModel.job.split('|').first,
+                      doctorsModel.experience!.contains(' - ')
+                          ? doctorsModel.experience!.split('-').first
+                          : (doctorsModel.experience!).split('|').first,
                       style: AppTextStyles.poppinsGrey(
                         12,
                         FontWeight.w500,

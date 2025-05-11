@@ -10,7 +10,6 @@ import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../data/models/doctors_models.dart';
 
 class FindDoctorsContainer extends StatelessWidget {
   const FindDoctorsContainer({
@@ -132,7 +131,7 @@ class FindDoctorsContainer extends StatelessWidget {
                 buttonAction: () {
                   Navigator.of(context).pushNamed(
                     Routes.bookDoctorAppointment,
-                    arguments: doctors[index],
+                    arguments: doctorsModel[index],
                   );
                 },
                 textStyle: AppTextStyles.poppinsMainColor(14, FontWeight.w600),

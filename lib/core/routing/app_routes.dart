@@ -111,7 +111,7 @@ class AppRoutes {
       case Routes.bookDoctorAppointment:
         return MaterialPageRoute(
           builder: (context) => BookDoctorAppointment(
-            doctorsModel: args as DoctorssModel,
+            doctorsModel: args as DoctorsModel,
           ),
         );
       case Routes.bookingPayment:
