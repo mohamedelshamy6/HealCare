@@ -8,16 +8,25 @@ class AppointenentSchedualRepositorie {
 
   AppointenentSchedualRepositorie({required this.apiServices});
 
-  Future<Either<String, AppointementScheduleModel>> getAppointementSchedule(String path, String doctorId) async {
+  Future<Either<String, AppointementScheduleModel>> getAppointementSchedule(
+    String path,
+    String doctorId,
+  ) async {
     try {
       final response = await apiServices.post(path, data: {
         "doctor_id_input": doctorId,
       });
 
+      if (response == null || response is! Map<String, dynamic>) {
+        return Left("there is No Avaliable Appointment for this Doctor");
+      }
+
       final model = AppointementScheduleModel.fromJson(response);
       return Right(model);
     } on ApiException catch (e) {
       return Left(e.errorModel.message ?? 'Unknown error');
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
     }
   }
 }

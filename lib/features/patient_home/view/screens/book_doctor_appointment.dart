@@ -13,6 +13,8 @@ import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/patient_home/logic/cubit/appointenent_schedual_cubit.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/core/dependency_injection/dependency_injection.dart';
+import 'package:heal_care/features/patient_home/view/widgets/shimmer_custom_date_picker.dart';
+import 'package:heal_care/features/patient_home/view/widgets/shimmer_visithours.dart';
 import '../widgets/doctor_status_container.dart';
 import '../widgets/visit_hours.dart';
 import 'package:intl/intl.dart';
@@ -48,7 +50,13 @@ class BookDoctorAppointment extends StatelessWidget {
                     AppointenentSchedualState>(
                   builder: (context, state) {
                     if (state is AppointmentScheduleLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Column(
+                        children: [
+                          ShimmerDatePicker(),
+                          verticalSpace(24),
+                          ShimmerVisitHours(),
+                        ],
+                      );
                     } else if (state is AppointenentSchedualSuccess) {
                       final schedule = state.schedule;
 
@@ -59,6 +67,10 @@ class BookDoctorAppointment extends StatelessWidget {
                               style: AppTextStyles.poppinsBlack(
                                   16, FontWeight.w600)),
                           verticalSpace(16),
+                          if (schedule.days.isEmpty)
+                            Text('No schedule available',
+                                style: AppTextStyles.poppinsGrey(
+                                    14, FontWeight.w400)),
                           CustomDatePicker(
                             onDateChange: (selectedDate) {
                               final formatted =
@@ -74,6 +86,13 @@ class BookDoctorAppointment extends StatelessWidget {
                               style: AppTextStyles.poppinsBlack(
                                   16, FontWeight.w600)),
                           verticalSpace(18),
+                          if (context
+                              .watch<AppointenentSchedualCubit>()
+                              .selectedDaySlots
+                              .isEmpty)
+                            Text('No slots available',
+                                style: AppTextStyles.poppinsGrey(
+                                    14, FontWeight.w400)),
                           VisitHours(
                             times: context
                                 .watch<AppointenentSchedualCubit>()
