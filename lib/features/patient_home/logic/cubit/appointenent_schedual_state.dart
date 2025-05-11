@@ -1,7 +1,4 @@
-
 part of 'appointenent_schedual_cubit.dart';
-
-
 
 sealed class AppointenentSchedualState {}
 
@@ -18,4 +15,13 @@ final class AppointenentSchedualSuccess extends AppointenentSchedualState {
 final class AppointenentSchedualError extends AppointenentSchedualState {
   final String error;
   AppointenentSchedualError(this.error);
+}
+
+final class AppointmentBookingLoading extends AppointenentSchedualState {}
+
+final class AppointmentBookingSuccess extends AppointenentSchedualState {}
+
+final class AppointmentBookingError extends AppointenentSchedualState {
+  final String error;
+  AppointmentBookingError(this.error);
 }
