@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/features/patient_booking/logic/cubit/appointementcubit_cubit.dart';
+import 'package:heal_care/features/patient_booking/views/widgets/shimmer_loading_booking_card.dart';
 
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/widgets/custom_app_header.dart';
@@ -24,7 +25,7 @@ class PatientBookingScreen extends StatelessWidget {
                 BlocBuilder<AppointementcubitCubit, AppointementcubitState>(
                   builder: (context, state) {
                     if (state is AppointementcubitLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const ShimmerLoadingBookingCard();
                     } else if (state is AppointementcubitSuccess) {
                       final appointments = state.appointments;
                       if (appointments.isEmpty) {

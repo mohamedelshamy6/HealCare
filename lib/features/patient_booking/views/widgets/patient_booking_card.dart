@@ -58,11 +58,15 @@ class PatientBookingCard extends StatelessWidget {
                   children: [
                     DeleteBookingButton(),
                     BookingReviewDoctorButton(
+                      doctorId: appointment.doctorId,
+                      patientId: appointment.patientId,
                         doctorName: doctor?.name ?? 'Unknown'),
                   ],
                 )
               : Center(
                   child: BookingReviewDoctorButton(
+                    doctorId: appointment.doctorId,
+                    patientId: appointment.patientId,
                       doctorName: doctor?.name ?? 'Unknown'),
                 ),
         ],
