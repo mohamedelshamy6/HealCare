@@ -1,5 +1,5 @@
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
-import 'package:heal_care/features/patient_booking/data/appoientment_model.dart';
+import 'package:heal_care/features/patient_booking/data/model/appoientment_model.dart';
 
 class AppointmentWithDoctorModel {
   final AppointmentModel appointment;

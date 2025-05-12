@@ -4,7 +4,7 @@ import 'package:heal_care/core/helpers/cache_helper.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
-import 'package:heal_care/features/patient_booking/data/appoientment_model.dart';
+import 'package:heal_care/features/patient_booking/data/model/appoientment_model.dart';
 import 'package:heal_care/features/patient_booking/data/repos/appointment_repositories.dart';
 
 part 'appointementcubit_state.dart';

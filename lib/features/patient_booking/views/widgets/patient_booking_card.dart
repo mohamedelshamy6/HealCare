@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:heal_care/core/helpers/app_images.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
-import 'package:heal_care/features/patient_booking/data/appoientment_model.dart';
+import 'package:heal_care/features/patient_booking/data/model/appoientment_model.dart';
 import 'package:heal_care/features/patient_booking/views/widgets/booking_review_doctor_button.dart';
 import 'package:heal_care/features/patient_booking/views/widgets/delete_booking_button.dart';
 import 'package:heal_care/features/patient_booking/views/widgets/patient_booking_card_header.dart';
