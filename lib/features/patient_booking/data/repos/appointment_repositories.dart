@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:heal_care/core/errors/api/exceptions/api_exception.dart';
 import 'package:heal_care/core/networking/api_services.dart';
-import 'package:heal_care/features/patient_booking/data/appoientment_model.dart';
+import 'package:heal_care/features/patient_booking/data/model/appoientment_model.dart';
 
 class AppointmentRepositories {
   final ApiServices apiServices;

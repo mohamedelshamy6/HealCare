@@ -1,0 +1,22 @@
+import 'package:dartz/dartz.dart';
+import 'package:heal_care/core/errors/api/exceptions/api_exception.dart';
+import 'package:heal_care/core/networking/api_services.dart';
+
+class RateRepositories {
+  final ApiServices apiServices;
+  RateRepositories(this.apiServices);
+
+  Future<Either<String, bool>> rateDoctor({
+    required String path,
+    required dynamic body,
+  }) async {
+    try {
+      await apiServices.post(path, data: body);
+      return const Right(true);
+    } on ApiException catch (e) {
+      return Left(e.errorModel.message ?? 'Error');
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+}
