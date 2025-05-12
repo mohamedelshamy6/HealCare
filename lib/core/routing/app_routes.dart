@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
+import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import '../../features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../features/chat/views/screens/chat_bot.dart';
 import '../../features/doctor_home/data/models/patient_model.dart';
@@ -18,7 +20,7 @@ import '../../features/patient_home/view/screens/e_wallet_history.dart';
 import '../../features/bottom_navigation_bar/logic/bottom_navigation_bar_cubit.dart';
 import '../../features/bottom_navigation_bar/view/screens/custom_bottom_navigation_bar.dart';
 import '../../features/doctor_booking/logic/tabbar_cubit/tabbar_cubit.dart';
-import '../../features/patient_home/data/models/doctors_model.dart';
+import '../../features/patient_home/data/models/doctors_models.dart';
 import '../../features/patient_home/view/screens/all_doctors.dart';
 import '../../features/auth/view/screens/sign_up_screen.dart';
 import '../../features/patient_home/view/screens/booking_payment.dart';
@@ -84,7 +86,9 @@ class AppRoutes {
         );
       case Routes.allDoctorsScreen:
         return MaterialPageRoute(
-          builder: (context) => AllDoctorsScreen(),
+          builder: (context) => AllDoctorsScreen(
+            doctorsModel: args as List<DoctorsModel>,
+          ),
         );
       case Routes.bottomNavBar:
         return MaterialPageRoute(
@@ -96,6 +100,10 @@ class AppRoutes {
               BlocProvider<TabbarCubit>(
                 create: (context) => TabbarCubit(),
               ),
+              BlocProvider(
+                  create: (context) => DoctorsCubit(
+                        doctorsRepo: DependencyInjection.getIt(),
+                      )..getAllDoctors()),
             ],
             child: CustomBottomNavigationBar(type: args as String),
           ),
@@ -115,7 +123,7 @@ class AppRoutes {
       case Routes.paymentSuccess:
         return MaterialPageRoute(
           builder: (context) => PaymentSuccess(
-            doctorsModel: args as DoctorsModel,
+            doctorsModel: args as DoctorssModel,
           ),
         );
       case Routes.notificationsScreen:
@@ -157,7 +165,7 @@ class AppRoutes {
           builder: (context) => InsideChatScreen(
             chatIndex: (args as List)[0] as int,
             model: args[1] == 'patient'
-                ? args[2] as DoctorsModel
+                ? args[2] as DoctorssModel
                 : args[2] as PatientModel,
           ),
         );
@@ -187,7 +195,7 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => ChatBotScreen(
             chatIndex: (args as List)[0] as int,
-            model: args[2] as DoctorsModel,
+            model: args[2] as DoctorssModel,
           ),
         );
     }

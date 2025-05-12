@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
-import '../../../patient_home/data/models/doctors_model.dart';
+import '../../../patient_home/data/models/doctors_models.dart';
 
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -12,7 +12,7 @@ import '../../../../core/widgets/custom_text_form_field.dart';
 
 class ChatBotScreen extends StatelessWidget {
   final int chatIndex;
-  final DoctorsModel model;
+  final DoctorssModel model;
   const ChatBotScreen(
       {super.key, required this.chatIndex, required this.model});
 

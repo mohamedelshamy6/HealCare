@@ -8,10 +8,10 @@ import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../data/models/doctors_model.dart';
+import '../../data/models/doctors_models.dart';
 
 class PaymentSuccess extends StatelessWidget {
-  final DoctorsModel doctorsModel;
+  final DoctorssModel doctorsModel;
   const PaymentSuccess({
     super.key,
     required this.doctorsModel,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import '../../../../core/widgets/custom_app_header.dart';
-import '../../data/models/doctors_model.dart';
 
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';

@@ -142,7 +142,9 @@ class PatientProfile extends StatelessWidget {
                       context,
                       () {
                         CacheHelper().removeData(key: 'role');
+                        CacheHelper().removeData(key: 'patient_Id');
                         CacheHelper().deleteSecuredData(key: 'accessToken');
+
                         Navigator.of(context).pushNamedAndRemoveUntil(
                           Routes.choose,
                           (route) => false,

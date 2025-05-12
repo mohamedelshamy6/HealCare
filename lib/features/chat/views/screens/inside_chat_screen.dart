@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:heal_care/features/patient_home/data/models/doctors_models.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -11,7 +12,6 @@ import '../widgets/chat_header.dart';
 import '../../data/models/message.dart';
 
 import '../../../doctor_home/data/models/patient_model.dart';
-import '../../../patient_home/data/models/doctors_model.dart';
 import '../widgets/chat_bubble_for_friend.dart';
 
 class InsideChatScreen extends StatefulWidget {
@@ -55,8 +55,8 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String image = (widget.model is DoctorsModel
-        ? ((widget.model) as DoctorsModel).image
+    String image = (widget.model is DoctorssModel
+        ? ((widget.model) as DoctorssModel).image
         : ((widget.model) as PatientModel).image);
     return Scaffold(
       body: SafeArea(
@@ -66,8 +66,8 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ChatHeader(
-                  model: widget.model is DoctorsModel
-                      ? (widget.model) as DoctorsModel
+                  model: widget.model is DoctorssModel
+                      ? (widget.model) as DoctorssModel
                       : (widget.model) as PatientModel),
               verticalSpace(11),
               Expanded(
@@ -115,7 +115,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                           ),
                           verticalSpace(13),
                           ChatBubbleForFriend(
-                            type: widget.model is DoctorsModel
+                            type: widget.model is DoctorssModel
                                 ? 'patient'
                                 : 'doctor',
                             message: 'hi',
@@ -127,7 +127,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                             date: '18:57',
                           ),
                           ChatBubbleForFriend(
-                            type: widget.model is DoctorsModel
+                            type: widget.model is DoctorssModel
                                 ? 'patient'
                                 : 'doctor',
                             message:
@@ -141,7 +141,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                             date: '18:58',
                           ),
                           ChatBubbleForFriend(
-                            type: widget.model is DoctorsModel
+                            type: widget.model is DoctorssModel
                                 ? 'patient'
                                 : 'doctor',
                             message:
@@ -155,7 +155,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                             date: '19:00',
                           ),
                           ChatBubbleForFriend(
-                            type: widget.model is DoctorsModel
+                            type: widget.model is DoctorssModel
                                 ? 'patient'
                                 : 'doctor',
                             message:
@@ -171,7 +171,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                           ChatBubbleForFriend(
                             message:
                                 'Hi doctor, I am cardio patient. I need your help imidiately.',
-                            type: widget.model is DoctorsModel
+                            type: widget.model is DoctorssModel
                                 ? 'patient'
                                 : 'doctor',
                             date: '19:01',

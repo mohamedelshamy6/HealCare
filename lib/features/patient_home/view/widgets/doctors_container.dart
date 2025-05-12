@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../data/models/doctors_model.dart';
 
 class DoctorsContainer extends StatelessWidget {
-  final int index;
+  final DoctorsModel doctorsModel;
   const DoctorsContainer({
     super.key,
-    required this.index,
+    required this.doctorsModel,
   });
 
   @override
@@ -18,10 +18,12 @@ class DoctorsContainer extends StatelessWidget {
     return InkWell(
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
-      onTap: () => Navigator.of(context).pushNamed(
-        Routes.bookDoctorAppointment,
-        arguments: doctors[index],
-      ),
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          Routes.bookDoctorAppointment,
+          
+        );
+      },
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.mainWhite,
@@ -40,7 +42,8 @@ class DoctorsContainer extends StatelessWidget {
                     image: DecorationImage(
                       fit: BoxFit.fill,
                       image: AssetImage(
-                        doctors[index].image,
+                        doctorsModel.image?.toString() ?? 
+                            'assets/default_image.png',
                       ),
                     ),
                     color: AppColors.mainColor,
@@ -74,7 +77,7 @@ class DoctorsContainer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    doctors[index].name,
+                    doctorsModel.name.toString(),
                     style: AppTextStyles.poppinsBlack(
                       16,
                       FontWeight.w500,
@@ -82,7 +85,7 @@ class DoctorsContainer extends StatelessWidget {
                   ),
                   verticalSpace(4),
                   Text(
-                    doctors[index].job,
+                   doctorsModel.specialization.toString(),
                     style: AppTextStyles.poppinsGrey(
                       10,
                       FontWeight.w400,

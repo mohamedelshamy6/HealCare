@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../data/models/doctors_model.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -30,7 +30,7 @@ class PaymentHeader extends StatelessWidget {
               color: Colors.pink[200]!.withOpacity(0.35),
               borderRadius: BorderRadius.circular(24.r),
               image: DecorationImage(
-                image: AssetImage(doctorsModel.image),
+                image: NetworkImage(doctorsModel.image.toString()),
                 fit: BoxFit.fill,
               ),
             ),
@@ -63,13 +63,13 @@ class PaymentHeader extends StatelessWidget {
                 ],
               ),
               Text(
-                doctorsModel.name,
+                doctorsModel.name.toString(),
                 style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
               ),
               Text(
-                doctorsModel.job.contains(' - ')
-                    ? doctorsModel.job.split('-').first
-                    : doctorsModel.job.split('|').first,
+                doctorsModel.education!.contains(' - ')
+                    ? doctorsModel.education!.split('-').first
+                    : doctorsModel.education!.split('|').first,
                 style: AppTextStyles.poppinsGrey(12, FontWeight.w500),
               ),
             ],

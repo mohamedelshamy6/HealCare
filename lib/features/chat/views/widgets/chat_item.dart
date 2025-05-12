@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../doctor_home/data/models/patient_model.dart';
-import '../../../patient_home/data/models/doctors_model.dart';
+import '../../../patient_home/data/models/doctors_models.dart';
 
 class ChatItem extends StatelessWidget {
   final Object model;
@@ -20,7 +20,7 @@ class ChatItem extends StatelessWidget {
           CircleAvatar(
             radius: 25.r,
             backgroundImage: AssetImage(type == 'patient'
-                ? (model as DoctorsModel).image
+                ? (model as DoctorssModel).image
                 : (model as PatientModel).image),
           ),
           horizontalSpace(16),
@@ -34,7 +34,7 @@ class ChatItem extends StatelessWidget {
                     Expanded(
                       child: Text(
                         type == 'patient'
-                            ? (model as DoctorsModel).name
+                            ? (model as DoctorssModel).name
                             : (model as PatientModel).name,
                         style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
                         overflow: TextOverflow.ellipsis,

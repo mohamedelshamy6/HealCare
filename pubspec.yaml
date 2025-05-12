@@ -22,6 +22,8 @@ dependencies:
   # For app deployment.
   flutter_native_splash: ^2.0.2
   flutter_launcher_icons: ^0.14.1
+  # For Loading.
+  shimmer: ^3.0.0
   # For networking.
   dio: ^5.4.0
   # For state Management & Logic.
@@ -48,6 +50,7 @@ dependencies:
   google_sign_in: ^6.2.2
   image_picker: ^1.1.2
   permission_handler: ^12.0.0+1
+  intl: ^0.19.0
 
 
 # An extension for generating assets file located in helpers folder.
