@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
+import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/patient_booking/logic/cubit/appointementcubit_cubit.dart';
 import '../../features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../features/chat/views/screens/chat_bot.dart';
 import '../../features/doctor_home/data/models/patient_model.dart';
@@ -104,6 +106,13 @@ class AppRoutes {
                   create: (context) => DoctorsCubit(
                         doctorsRepo: DependencyInjection.getIt(),
                       )..getAllDoctors()),
+              BlocProvider(
+                create: (context) => AppointementcubitCubit(
+                  DependencyInjection.getIt(),
+                  context.read<DoctorsCubit>(),
+                  context.read<PatientsCubit>(),
+                )..fetchAppointments(),
+              ),
             ],
             child: CustomBottomNavigationBar(type: args as String),
           ),

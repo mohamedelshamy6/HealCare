@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/helpers/app_images.dart';
-import '../../../../core/theme/app_colors.dart';
-
-import '../../../../core/helpers/spacing.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../patient_home/data/models/doctors_models.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:heal_care/core/helpers/app_images.dart';
+import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/theme/app_colors.dart';
+import 'package:heal_care/core/theme/app_text_styles.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 
 class PatientBookingCardHeader extends StatelessWidget {
-  final int index;
-  const PatientBookingCardHeader({
-    super.key, required this.index,
-  });
+  final DoctorsModel? doctor;
+
+  const PatientBookingCardHeader({super.key, required this.doctor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xffF9f9f9),
+        color: const Color(0xffF9f9f9),
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(color: AppColors.findDoctorsCardBorderColor),
       ),
@@ -32,7 +30,10 @@ class PatientBookingCardHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(6.r),
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: AssetImage(doctors[index].image),
+                image: doctor != null
+                    ? NetworkImage(doctor!.image ?? '')
+                    : AssetImage('assets/images/placeholder.png')
+                        as ImageProvider,
               ),
             ),
           ),
@@ -44,29 +45,29 @@ class PatientBookingCardHeader extends StatelessWidget {
                 Text.rich(
                   TextSpan(
                     text: 'Appointment with ',
-                    style: AppTextStyles.poppinsBlack(
-                      14,
-                      FontWeight.w400,
-                    ),
+                    style: AppTextStyles.poppinsBlack(14, FontWeight.w400),
                     children: [
                       TextSpan(
-                        text: doctors[index].name,
-                        style: AppTextStyles.poppinsMainColor(
-                          14,
-                          FontWeight.w700,
-                        ),
+                        text: doctor?.name ?? 'Unknown',
+                        style:
+                            AppTextStyles.poppinsMainColor(14, FontWeight.w700),
                       ),
                     ],
                   ),
-                  textAlign: TextAlign.start,
                 ),
                 verticalSpace(2),
-                Text(
-                  'Diagnostic Imaging (X-Ray, MRI, CT Scan) + 2 more',
-                  style: AppTextStyles.poppinsGrey(
-                    12,
-                    FontWeight.w400,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      doctor?.specialization ?? 'No Specialization',
+                      style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
+                    ),
+                    horizontalSpace(8),
+                    Text(
+                      doctor?.address ?? 'No Address',
+                      style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
+                    ),
+                  ],
                 ),
               ],
             ),
