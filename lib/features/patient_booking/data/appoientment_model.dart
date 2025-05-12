@@ -1,3 +1,5 @@
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
+
 class AppointmentModel {
   final String id;
   final String doctorId;
@@ -7,6 +9,8 @@ class AppointmentModel {
   final String status;
   final String createdAt;
 
+  DoctorsModel? doctor;  
+
   AppointmentModel({
     required this.id,
     required this.doctorId,
@@ -15,6 +19,7 @@ class AppointmentModel {
     required this.appointmentTime,
     required this.status,
     required this.createdAt,
+    this.doctor,
   });
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) {
@@ -27,17 +32,5 @@ class AppointmentModel {
       status: json['status'],
       createdAt: json['created_at'],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'doctor_id': doctorId,
-      'patient_id': patientId,
-      'appointment_date': appointmentDate,
-      'appointment_time': appointmentTime,
-      'status': status,
-      'created_at': createdAt,
-    };
   }
 }
