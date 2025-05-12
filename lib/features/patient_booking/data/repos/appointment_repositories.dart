@@ -9,10 +9,10 @@ class AppointmentRepositories {
   AppointmentRepositories(this.apiServices);
 
   Future<Either<String, List<AppointmentModel>>> getAppointments(
-      String patientId, String path) async {
+       String path) async {
     try {
       final response = await apiServices
-          .get(path, queryParameters: {'patient_id': patientId});
+          .get(path);
       final List<AppointmentModel> appointments = (response as List)
           .map((json) => AppointmentModel.fromJson(json))
           .toList();
