@@ -149,6 +149,8 @@ class HelperMethods {
       return;
     }
 
+   
+
     final response =
         await Supabase.instance.client.auth.refreshSession(refreshToken);
 

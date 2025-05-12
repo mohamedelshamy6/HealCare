@@ -1,5 +1,6 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 
@@ -18,6 +19,7 @@ class CustomDatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      height: 80.h,
       width: MediaQuery.of(context).size.width,
       child: DatePicker(
         DateTime.now(),

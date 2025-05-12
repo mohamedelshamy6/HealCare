@@ -3,56 +3,79 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 import 'package:heal_care/features/patient_home/data/models/appointement_schedual_model.dart';
+import 'dart:developer' as developer;
 
 class VisitHours extends StatefulWidget {
   final List<TimeSlot> times;
-  const VisitHours({super.key, required this.times});
+  final void Function(String)? onTimeSelected;
+
+  const VisitHours({super.key, required this.times, this.onTimeSelected});
 
   @override
   State<VisitHours> createState() => _VisitHoursState();
 }
 
 class _VisitHoursState extends State<VisitHours> {
-  int? selectedIndex;
+  String? selectedTime;
+
+  String formatTime(String time) {
+    try {
+      final parts = time.split(':');
+      if (parts.length != 2) return time;
+
+      int hour = int.tryParse(parts[0]) ?? 0;
+      final minute = parts[1];
+
+      if (hour == 0) {
+        return '12:$minute AM';
+      } else if (hour < 12) {
+        return '$hour:$minute AM';
+      } else if (hour == 12) {
+        return '12:$minute PM';
+      } else {
+        return '${hour - 12}:$minute PM';
+      }
+    } catch (e) {
+      developer.log('Error formatting time: $time, error: $e');
+      return time;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.times.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Wrap(
       spacing: 8.w,
       runSpacing: 12.h,
-      children: List.generate(widget.times.length, (index) {
-        final slot = widget.times[index];
-        final isSelected = selectedIndex == index;
+      children: widget.times.map((slot) {
+        final isSelected = selectedTime == slot.time;
         final isBooked = slot.isBooked;
 
-        // تحديد ألوان الخلفية والنص
-        Color bgColor;
-        TextStyle textStyle;
+        Color bgColor = isBooked
+            ? Colors.transparent
+            : isSelected
+                ? AppColors.mainColor
+                : Colors.white;
 
-        if (isBooked) {
-          bgColor = Colors.transparent;
-          textStyle = AppTextStyles.poppinsGrey(12, FontWeight.w500);
-        } else if (isSelected) {
-          bgColor = AppColors.mainColor;
-          textStyle = AppTextStyles.poppinsWhite(12, FontWeight.w500);
-        } else {
-          bgColor = Colors.white;
-          textStyle = AppTextStyles.poppinsBlack(12, FontWeight.w500);
-        }
-
-        final parsedTime = TimeOfDay(
-          hour: int.parse(slot.time.split(":")[0]),
-          minute: int.parse(slot.time.split(":")[1]),
-        );
-        final formattedTime = parsedTime.format(context);
+        TextStyle textStyle = isBooked
+            ? AppTextStyles.poppinsGrey(12, FontWeight.w500)
+            : isSelected
+                ? AppTextStyles.poppinsWhite(12, FontWeight.w500)
+                : AppTextStyles.poppinsBlack(12, FontWeight.w500);
 
         return GestureDetector(
           onTap: isBooked
               ? null
               : () {
                   setState(() {
-                    selectedIndex = index;
+                    selectedTime = slot.time;
                   });
+                  if (widget.onTimeSelected != null) {
+                    widget.onTimeSelected!(slot.time);
+                  }
                 },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -60,10 +83,10 @@ class _VisitHoursState extends State<VisitHours> {
               borderRadius: BorderRadius.circular(10),
               color: bgColor,
             ),
-            child: Text(formattedTime, style: textStyle),
+            child: Text(formatTime(slot.time), style: textStyle),
           ),
         );
-      }),
+      }).toList(),
     );
   }
 }

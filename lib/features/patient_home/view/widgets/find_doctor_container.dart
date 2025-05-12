@@ -132,6 +132,7 @@ class FindDoctorsContainer extends StatelessWidget {
                   Navigator.of(context).pushNamed(
                     Routes.bookDoctorAppointment,
                     arguments: doctorsModel[index],
+                    
                   );
                 },
                 textStyle: AppTextStyles.poppinsMainColor(14, FontWeight.w600),

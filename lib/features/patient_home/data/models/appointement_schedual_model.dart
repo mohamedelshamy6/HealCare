@@ -4,14 +4,20 @@ class AppointementScheduleModel {
   AppointementScheduleModel({required this.days});
 
   factory AppointementScheduleModel.fromJson(Map<String, dynamic> json) {
-    return AppointementScheduleModel(
-      days: json.map((date, slotsJson) => MapEntry(
-            date,
-            List<TimeSlot>.from(
-              slotsJson.map((slot) => TimeSlot.fromJson(slot)),
-            ),
-          )),
-    );
+    final Map<String, List<TimeSlot>> parsedDays = {};
+
+    json.forEach((date, slotsJson) {
+      if (slotsJson is List) {
+        parsedDays[date] = slotsJson.map((slot) {
+          if (slot is Map<String, dynamic>) {
+            return TimeSlot.fromJson(slot);
+          }
+          throw FormatException('Invalid slot format');
+        }).toList();
+      }
+    });
+
+    return AppointementScheduleModel(days: parsedDays);
   }
 
   Map<String, dynamic> toJson() {
@@ -30,8 +36,8 @@ class TimeSlot {
 
   factory TimeSlot.fromJson(Map<String, dynamic> json) {
     return TimeSlot(
-      time: json['time'],
-      isBooked: json['is_booked'],
+      time: json['time'] as String,
+      isBooked: json['is_booked'] as bool,
     );
   }
 

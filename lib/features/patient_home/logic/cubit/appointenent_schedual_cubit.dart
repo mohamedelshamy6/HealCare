@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/features/patient_home/data/models/appointement_schedual_model.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
@@ -25,7 +27,9 @@ class AppointenentSchedualCubit extends Cubit<AppointenentSchedualState> {
       (error) => emit(AppointenentSchedualError(error)),
       (data) {
         _schedule = data;
-        _selectedDay = data.days.keys.first;
+        if (data.days.isNotEmpty) {
+          _selectedDay = data.days.keys.first;
+        }
         emit(AppointenentSchedualSuccess(data));
       },
     );
@@ -39,11 +43,29 @@ class AppointenentSchedualCubit extends Cubit<AppointenentSchedualState> {
   }
 
   List<TimeSlot> get selectedDaySlots {
-    if (_selectedDay != null && _schedule != null) {
-      return _schedule!.days[_selectedDay!] ?? [];
+    if (_selectedDay == null || _schedule == null) {
+      return [];
     }
-    return [];
+
+    try {
+      final slots = _schedule!.days[_selectedDay!];
+      return slots ?? [];
+    } catch (e) {
+      log('Error getting time slots: $e');
+      return [];
+    }
   }
+
+  String? _selectedTime;
+
+  void selectTime(String time) {
+    _selectedTime = time;
+    if (_schedule != null) {
+      emit(AppointenentSchedualSuccess(_schedule!));
+    }
+  }
+
+  String? get selectedTime => _selectedTime;
 
   String? get selectedDay => _selectedDay;
 

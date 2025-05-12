@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:heal_care/core/networking/supabase_web_socket_services.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
+import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/auth/data/repos/doctors_repo.dart';
@@ -32,9 +33,9 @@ class DependencyInjection {
         () => DoctorsRepo(getIt<ApiServices>()));
     getIt.registerLazySingleton<PatientsRepo>(
         () => PatientsRepo(getIt<ApiServices>()));
-       getIt.registerLazySingleton<AppointenentSchedualRepositorie>(
-  () => AppointenentSchedualRepositorie(apiServices: getIt<ApiServices>() )
-);
-
+    getIt.registerLazySingleton<AppointenentSchedualRepositorie>(() =>
+        AppointenentSchedualRepositorie(apiServices: getIt<ApiServices>()));
+    getIt.registerLazySingleton<BookAppointmentRepository>(
+        () => BookAppointmentRepository(getIt<ApiServices>()));
   }
 }

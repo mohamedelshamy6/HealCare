@@ -117,7 +117,7 @@ class AppRoutes {
       case Routes.bookingPayment:
         return MaterialPageRoute(
           builder: (context) => BookingPayment(
-            doctorsModel: args as DoctorssModel,
+            doctorsModel: args as DoctorsModel,
           ),
         );
       case Routes.paymentSuccess:
