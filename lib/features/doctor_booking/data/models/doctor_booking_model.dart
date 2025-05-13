@@ -1,3 +1,5 @@
+import 'package:heal_care/features/auth/data/models/patients_model.dart';
+
 class DoctorBookingModel {
   String? id;
   String? doctorId;
@@ -6,6 +8,8 @@ class DoctorBookingModel {
   String? appointmentTime;
   String? status;
   String? createdAt;
+
+  PatientsModel? patient;
 
   DoctorBookingModel(
       {this.id,
@@ -26,15 +30,5 @@ class DoctorBookingModel {
     createdAt = json['created_at'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['doctor_id'] = doctorId;
-    data['patient_id'] = patientId;
-    data['appointment_date'] = appointmentDate;
-    data['appointment_time'] = appointmentTime;
-    data['status'] = status;
-    data['created_at'] = createdAt;
-    return data;
-  }
+ 
 }
