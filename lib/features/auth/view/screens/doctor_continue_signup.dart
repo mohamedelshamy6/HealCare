@@ -77,6 +77,7 @@ class _DoctorContinueSignupScreenState
               key: 'accessToken', value: state.signUpModel!.accessToken!);
           CacheHelper().saveSecuredData(
               key: 'refreshToken', value: state.signUpModel!.refreshToken!);
+          CacheHelper().saveData(key: 'doctor_Id', value: state.signUpModel!.user?.id);
 
           image == null
               ? null
