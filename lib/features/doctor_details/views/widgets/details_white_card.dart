@@ -2,24 +2,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../doctor_booking/data/models/all_booking_model.dart';
 
 class DetailsWhiteCard extends StatelessWidget {
   const DetailsWhiteCard({
     super.key,
-    required this.allBookingModel,
+    required this.doctorBookingModel,
     required this.selectedIndex,
   });
 
-  final AllBookingModel allBookingModel;
+  final DoctorBookingModel doctorBookingModel;
   final int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
+    final rawDate = doctorBookingModel.appointmentDate ?? '';
+    final parsedDate = DateTime.tryParse(rawDate);
+
+    final rawTime = doctorBookingModel.appointmentTime ?? '';
+    DateTime? parsedDateTime;
+    if (parsedDate != null && rawTime.isNotEmpty) {
+      parsedDateTime = DateTime.tryParse('$rawDate $rawTime');
+    }
+
+    final formattedDate = parsedDate != null
+        ? DateFormat('d MMMM yyyy', 'en_US').format(parsedDate)
+        : '';
+
+    final formattedTime = parsedDateTime != null
+        ? DateFormat.jm('en_US').format(parsedDateTime)
+        : '';
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 8.w),
@@ -36,7 +53,7 @@ class DetailsWhiteCard extends StatelessWidget {
               CircleAvatar(
                 radius: 30.r,
                 backgroundImage:
-                    AssetImage(allBookingModel.imageUrl!),
+                    AssetImage(doctorBookingModel.patient!.image??''),
               ),
               horizontalSpace(16),
               Expanded(
@@ -48,7 +65,7 @@ class DetailsWhiteCard extends StatelessWidget {
                           MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          allBookingModel.name!, // Use model data
+                          doctorBookingModel.patient!.name!, 
                           style: AppTextStyles.poppinsBlack(
                               16, FontWeight.w500),
                         ),
@@ -85,7 +102,7 @@ class DetailsWhiteCard extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      allBookingModel.jobAddress!,
+                      doctorBookingModel.patient!.address!,
                       style: AppTextStyles.poppinsGrey(
                           12, FontWeight.w400),
                     ),
@@ -115,7 +132,7 @@ class DetailsWhiteCard extends StatelessWidget {
                     ),
                     horizontalSpace(8),
                     Text(
-                      allBookingModel.startDate??'Monday, May 12',
+                      formattedDate,
                       style: AppTextStyles.poppinsBlack(
                           12, FontWeight.w500),
                     )
@@ -131,7 +148,7 @@ class DetailsWhiteCard extends StatelessWidget {
                     ),
                     horizontalSpace(8),
                     Text(
-                      allBookingModel.endDate??'11:00 - 12:00 Am',
+                      formattedTime,
                       style: AppTextStyles.poppinsBlack(
                           12, FontWeight.w500),
                     )
@@ -147,7 +164,7 @@ class DetailsWhiteCard extends StatelessWidget {
           ),
           verticalSpace(4),
           Text(
-            'I’m having very bad migraines from past few days. It’s now killing. I’m willing to get some dietary recommendation along with medicines.',
+            doctorBookingModel.patient!.medicalHistory??'',
             style: AppTextStyles.poppinsGrey(12, FontWeight.w600),
           ),
         ],

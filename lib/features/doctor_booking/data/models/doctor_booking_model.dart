@@ -11,14 +11,16 @@ class DoctorBookingModel {
 
   PatientsModel? patient;
 
-  DoctorBookingModel(
-      {this.id,
-      this.doctorId,
-      this.patientId,
-      this.appointmentDate,
-      this.appointmentTime,
-      this.status,
-      this.createdAt});
+  DoctorBookingModel({
+    this.id,
+    this.doctorId,
+    this.patientId,
+    this.appointmentDate,
+    this.appointmentTime,
+    this.status,
+    this.createdAt,
+    this.patient, 
+  });
 
   DoctorBookingModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -30,5 +32,5 @@ class DoctorBookingModel {
     createdAt = json['created_at'];
   }
 
- 
+  
 }

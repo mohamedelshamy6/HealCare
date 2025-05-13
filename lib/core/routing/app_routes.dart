@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
+import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
+import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
 import 'package:heal_care/features/patient_booking/logic/cubit/appointementcubit_cubit.dart';
 import '../../features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../features/chat/views/screens/chat_bot.dart';
 import '../../features/doctor_home/data/models/patient_model.dart';
 import '../../features/patient_profile/views/screens/patient_edit_profile.dart';
 import '../../features/chat/views/screens/inside_chat_screen.dart';
-import '../../features/doctor_booking/data/models/all_booking_model.dart';
 import '../../features/doctor_details/views/screens/details_screen.dart';
 import '../../features/patient_home/view/screens/book_doctor_appointment.dart';
 import '../../features/patient_home/view/screens/payment_success.dart';
@@ -103,15 +105,26 @@ class AppRoutes {
                 create: (context) => TabbarCubit(),
               ),
               BlocProvider(
-                  create: (context) => DoctorsCubit(
-                        doctorsRepo: DependencyInjection.getIt(),
-                      )..getAllDoctors()),
-              BlocProvider(
                 create: (context) => AppointementcubitCubit(
                   DependencyInjection.getIt(),
                   context.read<DoctorsCubit>(),
                   context.read<PatientsCubit>(),
                 )..fetchAppointments(),
+              ),
+              BlocProvider(
+                  create: (context) => DoctorsCubit(
+                        doctorsRepo: DependencyInjection.getIt(),
+                      )..getAllDoctors()),
+              BlocProvider(
+                create: (context) => PatientsCubit(
+                  patientsRepo: DependencyInjection.getIt(),
+                )..getAllPatients(),
+              ),
+              BlocProvider(
+                create: (context) => DoctorbookingCubit(
+                    DependencyInjection.getIt(),
+                    context.read<PatientsCubit>(),
+                    DependencyInjection.getIt<PatientsRepo>()),
               ),
             ],
             child: CustomBottomNavigationBar(type: args as String),
@@ -183,7 +196,7 @@ class AppRoutes {
           builder: (context) {
             final arg = routeSettings.arguments as Map<String, dynamic>;
             return DetailsScreen(
-              allBookingModel: arg['allBookingModel'] as AllBookingModel,
+              doctorBookingModel: arg['doctorBookingModel'] as DoctorBookingModel,
               selectedIndex: arg['selectedIndex'] as int,
             );
           },

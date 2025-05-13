@@ -1,5 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:heal_care/core/networking/supabase_web_socket_services.dart';
+import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
+import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/doctor_booking/data/repos/doctor_booking_repositories.dart';
+import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
+import 'package:heal_care/features/doctor_booking/logic/tabbar_cubit/tabbar_cubit.dart';
 import 'package:heal_care/features/patient_booking/data/repos/appointment_repositories.dart';
 import 'package:heal_care/features/patient_booking/data/repos/rate_repositories.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
@@ -43,5 +48,18 @@ class DependencyInjection {
         () => AppointmentRepositories(getIt<ApiServices>()));
     getIt.registerLazySingleton<RateRepositories>(
         () => RateRepositories(getIt<ApiServices>()));
+    getIt.registerLazySingleton<DoctorBookingRepositories>(
+        () => DoctorBookingRepositories(getIt<ApiServices>()));
+    // Logic Cubits
+    getIt.registerLazySingleton<DoctorsCubit>(
+        () => DoctorsCubit(doctorsRepo: getIt<DoctorsRepo>()));
+    getIt.registerLazySingleton<PatientsCubit>(
+        () => PatientsCubit(patientsRepo: getIt<PatientsRepo>()));
+    getIt.registerLazySingleton<TabbarCubit>(() => TabbarCubit());
+    getIt.registerFactory<DoctorbookingCubit>(() => DoctorbookingCubit(
+          getIt<DoctorBookingRepositories>(),
+          getIt<PatientsCubit>(),
+          getIt<PatientsRepo>(),
+        ));
   }
 }
