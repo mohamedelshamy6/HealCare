@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heal_care/features/doctor_home/data/models/notification_model.dart';
-import 'package:heal_care/features/doctor_home/data/repos/notification_repository.dart';
+import 'package:heal_care/features/notification/data/model/notification_model.dart';
+import 'package:heal_care/features/notification/data/repos/notification_repository.dart';
 
 part 'notification_state.dart';
 

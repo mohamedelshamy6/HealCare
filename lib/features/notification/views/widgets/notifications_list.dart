@@ -1,15 +1,22 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/helpers/spacing.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/helpers/app_images.dart';
-import '../../../../core/theme/app_text_styles.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:heal_care/core/helpers/app_images.dart';
+import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/theme/app_colors.dart';
+import 'package:heal_care/core/theme/app_text_styles.dart';
+import 'package:intl/intl.dart';
 
 class NotificationsList extends StatelessWidget {
+  final String body;
+  final String time;
+  final int index;
+
   const NotificationsList({
     super.key,
+    required this.body,
+    required this.time,
+    required this.index,
   });
 
   @override
@@ -21,79 +28,67 @@ class NotificationsList extends StatelessWidget {
     ];
     List<Color> colors = [
       AppColors.mainColor.withOpacity(0.1),
-      Color(0xffEEEEFB),
-      Color(0xffFFF6F2),
+      const Color(0xffEEEEFB),
+      const Color(0xffFFF6F2),
     ];
-    return Padding(
-      padding: EdgeInsets.only(bottom: 24.h),
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) => Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.all(6.r),
-              height: 30.h,
-              width: 30.w,
-              decoration: BoxDecoration(
-                color: colors[index],
-                borderRadius: BorderRadius.circular(5.r),
-              ),
-              child: Center(
-                child: SvgPicture.asset(icons[index]),
-              ),
-            ),
-            horizontalSpace(8),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  index != 2
-                      ? Text(
-                          'You have appointment with Mahbuba Islam at 9:00 pm today',
-                          style: AppTextStyles.poppinsBlack(
-                            13,
-                            FontWeight.w400,
-                          ),
-                        )
-                      : Text.rich(
-                          TextSpan(
-                            text:
-                                'Completed your profile to be better health consults. ',
-                            style: AppTextStyles.poppinsBlack(
-                              13,
-                              FontWeight.w400,
-                            ),
-                            children: [
-                              TextSpan(
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {},
-                                text: 'Complete Profile',
-                                style: AppTextStyles.poppinsMainColor(
-                                  13,
-                                  FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                  verticalSpace(4),
-                  Text(
-                    index == 0 ? 'Just Now' : '25 Minutes Ago',
-                    style: AppTextStyles.poppinsMainColor(
-                      12,
-                      FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+
+    final icon = icons[index % icons.length];
+    final color = colors[index % colors.length];
+
+    String formatDateTime(String isoDate) {
+      try {
+        final dateTime = DateTime.parse(isoDate).toLocal();
+        final formattedDate = DateFormat('d MMMM yyyy').format(dateTime);
+        final formattedTime = DateFormat('hh:mm a').format(dateTime);
+        return '$formattedDate • $formattedTime';
+      } catch (e) {
+        return isoDate;
+      }
+    }
+
+    if (body.isEmpty || time.isEmpty) {
+      return Container();
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.all(6.r),
+          height: 30.h,
+          width: 30.w,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(5.r),
+          ),
+          child: Center(
+            child: SvgPicture.asset(icon),
+          ),
         ),
-        separatorBuilder: (context, index) => SizedBox(height: 24.h),
-        itemCount: 3,
-      ),
+        horizontalSpace(8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                body,
+                style: AppTextStyles.poppinsBlack(
+                  13,
+                  FontWeight.w400,
+                ),
+              ),
+              verticalSpace(4),
+              Text(
+                formatDateTime(time),
+                style: AppTextStyles.poppinsMainColor(
+                  12,
+                  FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

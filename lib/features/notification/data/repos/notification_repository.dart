@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:heal_care/core/errors/api/exceptions/api_exception.dart';
 import 'package:heal_care/core/networking/api_services.dart';
-import 'package:heal_care/features/doctor_home/data/models/notification_model.dart';
+import 'package:heal_care/features/notification/data/model/notification_model.dart';
 
 class NotificationRepository {
   final ApiServices apiServices;
@@ -25,7 +25,6 @@ class NotificationRepository {
         return left('Unexpected response format');
       }
     } on ApiException catch (e) {
-      log(e.errorModel.message ?? 'API Exception with no message');
       return left(e.errorModel.message ?? 'API Error');
     } catch (e) {
       log('Unexpected error: $e');
