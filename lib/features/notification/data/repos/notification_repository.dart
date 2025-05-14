@@ -36,10 +36,10 @@ class NotificationRepository {
 
   Future<Either<String, bool>> seenNotification({
     required String path,
-    required dynamic body,
+    required dynamic data,
   }) async {
     try {
-      await apiServices.post(path, data: body);
+      await apiServices.post(path, data: data);
       return const Right(true);
     } on ApiException catch (e) {
       return Left(e.errorModel.message ?? 'Error in seen Notification');

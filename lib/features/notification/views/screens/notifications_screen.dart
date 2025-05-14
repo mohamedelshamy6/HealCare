@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/helpers/app_constants.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/widgets/custom_app_header.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
@@ -21,7 +22,7 @@ class NotificationsScreen extends StatelessWidget {
           if (doctor != null) {
             context.read<NotificationCubit>().fetchNotifications(
                   '${AppConstants.baseRestUrl}rpc/get_unread_notifications_for_doctor',
-                  doctor.id,
+                  context.read<DoctorsCubit>().doctorsModel.first.id,
                 );
           } else {
             debugPrint("No doctor found after success");
@@ -35,9 +36,15 @@ class NotificationsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomAppHeader(
+                CustomAppHeader(
                   canBack: true,
                   title: 'Notifications',
+                  seenAll: true,
+                  onSeenAllTap: () {
+                    context.read<NotificationCubit>().seenNotification(
+                        '${AppConstants.baseRestUrl}rpc/mark_notifications_as_read_for_doctor',
+                        context.read<DoctorsCubit>().doctorsModel.first.id);
+                  },
                 ),
                 verticalSpace(24),
                 Expanded(
@@ -61,14 +68,17 @@ class NotificationsScreen extends StatelessWidget {
                             .toList();
                         return ListView.separated(
                           itemCount: validNotifications.length,
-                          separatorBuilder: (_, __) => verticalSpace(16),
+                          separatorBuilder: (_, __) => Divider(
+                            height: 25.h,
+                            color: AppColors.mainColor.withOpacity(.5),
+                          ),
                           itemBuilder: (context, index) {
+                            final notification = validNotifications[index];
                             return NotificationsList(
-                              body: validNotifications[index].message ?? '',
-                              time:
-                                  validNotifications[index].createdAt?.toString() ??
-                                      '',
+                              body: notification.message ?? '',
+                              time: notification.createdAt?.toString() ?? '',
                               index: index,
+                              onTap: () {},
                             );
                           },
                         );

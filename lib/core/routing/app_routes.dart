@@ -161,6 +161,7 @@ class AppRoutes {
               BlocProvider<NotificationCubit>(
                 create: (context) => NotificationCubit(
                   DependencyInjection.getIt(),
+                  DependencyInjection.getIt<DoctorsCubit>(),
                 ),
               ),
             ],

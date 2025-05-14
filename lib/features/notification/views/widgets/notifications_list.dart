@@ -11,12 +11,14 @@ class NotificationsList extends StatelessWidget {
   final String body;
   final String time;
   final int index;
+  final VoidCallback onTap;
 
   const NotificationsList({
     super.key,
     required this.body,
     required this.time,
     required this.index,
+    required this.onTap,
   });
 
   @override

@@ -67,6 +67,7 @@ class DependencyInjection {
       () => NotificationRepository(getIt<ApiServices>()),
     );
     getIt.registerLazySingleton<NotificationCubit>(
-        () => NotificationCubit(getIt<NotificationRepository>()));
+        () => NotificationCubit(getIt<NotificationRepository>(),
+            getIt<DoctorsCubit>()));
   }
 }
