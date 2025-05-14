@@ -5,6 +5,8 @@ import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 import 'package:heal_care/features/doctor_booking/data/repos/doctor_booking_repositories.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
 import 'package:heal_care/features/doctor_booking/logic/tabbar_cubit/tabbar_cubit.dart';
+import 'package:heal_care/features/doctor_home/data/repos/notification_repository.dart';
+import 'package:heal_care/features/doctor_home/logic/cubit/notification_cubit.dart';
 import 'package:heal_care/features/patient_booking/data/repos/appointment_repositories.dart';
 import 'package:heal_care/features/patient_booking/data/repos/rate_repositories.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
@@ -61,5 +63,7 @@ class DependencyInjection {
           getIt<PatientsCubit>(),
           getIt<PatientsRepo>(),
         ));
+    getIt.registerLazySingleton<NotificationCubit>(
+        () => NotificationCubit(getIt<NotificationRepository>()));
   }
 }

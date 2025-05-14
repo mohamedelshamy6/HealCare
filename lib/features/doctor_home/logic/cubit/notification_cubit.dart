@@ -11,7 +11,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   Future<void> fetchNotifications(String path,dynamic doctorId) async {
     emit(NotificationLoading());
     final data = {
-      "doctor_id": doctorId,
+      "doc_id": doctorId,
     };
     
     final result = await notificationRepository.getNotifications(path, data);

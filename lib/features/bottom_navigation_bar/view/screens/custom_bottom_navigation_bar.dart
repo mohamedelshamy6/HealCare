@@ -28,7 +28,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       PatientBookingScreen(),
       DoctorChat(type: 'patient'),
       PatientHomeScreen(),
-      NotificationsScreen(type: 'patient'),
+      NotificationsScreen(),
       PatientProfile(),
     ];
 
