@@ -30,5 +30,21 @@ class NotificationRepository {
       log('Unexpected error: $e');
       return left('An unexpected error occurred');
     }
+
+    
+  }
+
+  Future<Either<String, bool>> seenNotification({
+    required String path,
+    required dynamic body,
+  }) async {
+    try {
+      await apiServices.post(path, data: body);
+      return const Right(true);
+    } on ApiException catch (e) {
+      return Left(e.errorModel.message ?? 'Error');
+    } catch (e) {
+      return Left(e.toString());
+    }
   }
 }
