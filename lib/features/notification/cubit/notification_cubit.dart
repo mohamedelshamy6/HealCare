@@ -20,4 +20,13 @@ class NotificationCubit extends Cubit<NotificationState> {
       (notifications) => emit(NotificationSuccess(notifications)),
     );
   }
+
+  Future<void> seenNotification(String path, dynamic body) async {
+    emit(NotificationSeenLoading());
+    final result = await notificationRepository.seenNotification(path: path, body: body);
+    result.fold(
+      (error) => emit(NotificationSeenError(error)),
+      (_) => emit(NotificationSeenSuccess()), 
+    );
+  }
 }

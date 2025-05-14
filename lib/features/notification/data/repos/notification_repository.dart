@@ -42,7 +42,7 @@ class NotificationRepository {
       await apiServices.post(path, data: body);
       return const Right(true);
     } on ApiException catch (e) {
-      return Left(e.errorModel.message ?? 'Error');
+      return Left(e.errorModel.message ?? 'Error in seen Notification');
     } catch (e) {
       return Left(e.toString());
     }

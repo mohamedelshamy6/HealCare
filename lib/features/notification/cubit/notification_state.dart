@@ -17,3 +17,15 @@ final class NotificationError extends NotificationState {
 
   NotificationError(this.error);
 }
+
+final class NotificationSeenSuccess extends NotificationState {
+
+}
+
+final class NotificationSeenError extends NotificationState {
+  final String error;
+
+  NotificationSeenError(this.error);
+}
+
+final class NotificationSeenLoading extends NotificationState {}
