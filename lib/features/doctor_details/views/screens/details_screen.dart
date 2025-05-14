@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_app_header.dart';
-import '../../../doctor_booking/data/models/all_booking_model.dart';
 
 import '../widgets/details_white_card.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({
     super.key,
-    required this.allBookingModel,
+    required this.doctorBookingModel,
     required this.selectedIndex,
   });
 
-  final AllBookingModel allBookingModel; // Add model parameter
-  final int selectedIndex; // Add index parameter
+  final DoctorBookingModel? doctorBookingModel;
+  final int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,9 @@ class DetailsScreen extends StatelessWidget {
                 ),
               ),
               verticalSpace(15.18),
-              DetailsWhiteCard(allBookingModel: allBookingModel, selectedIndex: selectedIndex),
+              DetailsWhiteCard(
+                  doctorBookingModel: doctorBookingModel!,
+                  selectedIndex: selectedIndex),
               verticalSpace(20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -50,7 +52,7 @@ class DetailsScreen extends StatelessWidget {
                     ),
                     verticalSpace(8),
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend pretium libero sit amet mollis. Duis ornare tempor molestie. Donec at elementum ligula.',
+                      doctorBookingModel!.patient!.medicalHistory ?? '',
                       style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                     ),
                     verticalSpace(24),
@@ -74,13 +76,11 @@ class DetailsScreen extends StatelessWidget {
                         SizedBox(
                             height: 143.h,
                             width: 157.w,
-                            child: Image.asset(
-                                Assets.imagesFileOne)),
+                            child: Image.asset(Assets.imagesFileOne)),
                         SizedBox(
                             height: 143.h,
                             width: 157.w,
-                            child: Image.asset(
-                                Assets.imagesFileTwo)),
+                            child: Image.asset(Assets.imagesFileTwo)),
                       ],
                     )
                   ],

@@ -1,25 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:heal_care/features/auth/data/models/patients_model.dart';
+import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../data/models/all_booking_model.dart';
 import '../../../../core/helpers/app_images.dart';
 
 class BookingItem extends StatelessWidget {
+  final PatientsModel patientsModel;
+  final DoctorBookingModel bookingModel;
   const BookingItem({
     super.key,
     required this.selectedIndex,
-    required this.allBookingModel,
+    required this.patientsModel,
+    required this.bookingModel,
   });
 
   final int selectedIndex;
-  final AllBookingModel allBookingModel;
 
   @override
   Widget build(BuildContext context) {
+    final rawDate = bookingModel.appointmentDate ?? '';
+    final parsedDate = DateTime.tryParse(rawDate);
+
+    final rawTime = bookingModel.appointmentTime ?? '';
+    DateTime? parsedDateTime;
+    if (parsedDate != null && rawTime.isNotEmpty) {
+      parsedDateTime = DateTime.tryParse('$rawDate $rawTime');
+    }
+
+    final formattedDate = parsedDate != null
+        ? DateFormat('d MMMM yyyy', 'en_US').format(parsedDate)
+        : '';
+
+    final formattedTime = parsedDateTime != null
+        ? DateFormat.jm('en_US').format(parsedDateTime)
+        : '';
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 18.h),
       decoration: BoxDecoration(
@@ -32,8 +53,8 @@ class BookingItem extends StatelessWidget {
             children: [
               CircleAvatar(
                   radius: 35.r,
-                  backgroundImage: AssetImage(allBookingModel.imageUrl ??
-                      Assets.imagesPatientsPatientM)),
+                  backgroundImage: NetworkImage(
+                      patientsModel.image ?? Assets.imagesPatientsPatientM)),
               horizontalSpace(15),
               Expanded(
                 child: Column(
@@ -41,15 +62,15 @@ class BookingItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      allBookingModel.name!,
+                      patientsModel.name!,
                       style: AppTextStyles.poppinsBlack(18, FontWeight.w600),
                     ),
                     Text(
-                      allBookingModel.specialty!,
+                      patientsModel.medicalHistory ?? '',
                       style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                     ),
                     Text(
-                      allBookingModel.jobAddress!,
+                      patientsModel.address ?? '',
                       style: AppTextStyles.poppinsGrey(14, FontWeight.w500),
                     ),
                     MediaQuery.of(context).size.width > 400
@@ -65,7 +86,7 @@ class BookingItem extends StatelessWidget {
                                   ),
                                   horizontalSpace(2),
                                   Text(
-                                    allBookingModel.startDate!,
+                                    formattedDate,
                                     style: AppTextStyles.poppinsBlack(
                                         10, FontWeight.w400),
                                   ),
@@ -80,7 +101,7 @@ class BookingItem extends StatelessWidget {
                                   ),
                                   horizontalSpace(2),
                                   Text(
-                                    allBookingModel.endDate!,
+                                    formattedTime,
                                     style: AppTextStyles.poppinsBlack(
                                         10, FontWeight.w400),
                                   ),
@@ -99,7 +120,7 @@ class BookingItem extends StatelessWidget {
                                   ),
                                   horizontalSpace(4),
                                   Text(
-                                    allBookingModel.startDate!,
+                                    bookingModel.appointmentDate ?? '',
                                     style: AppTextStyles.poppinsBlack(
                                         10, FontWeight.w400),
                                   ),
@@ -115,7 +136,7 @@ class BookingItem extends StatelessWidget {
                                   ),
                                   horizontalSpace(4),
                                   Text(
-                                    allBookingModel.endDate!,
+                                    patientsModel.medicalHistory ?? '',
                                     style: AppTextStyles.poppinsBlack(
                                         10, FontWeight.w400),
                                   ),

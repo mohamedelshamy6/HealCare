@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
 import '../../../../core/routing/routes.dart';
-import '../../data/models/all_booking_model.dart';
 import 'booking_item.dart';
 
 class TabsBookingListView extends StatelessWidget {
@@ -11,7 +11,7 @@ class TabsBookingListView extends StatelessWidget {
     required this.selectedIndex,
   });
 
-  final List<AllBookingModel> allBookingModel;
+  final List<DoctorBookingModel> allBookingModel;
   final int selectedIndex;
 
   @override
@@ -27,13 +27,14 @@ class TabsBookingListView extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context)
                           .pushNamed(Routes.detailsScreen, arguments: {
-                        'allBookingModel': allBookingModel[index], // Pass model
+                        'doctorBookingModel': allBookingModel[index],
                         'selectedIndex': selectedIndex,
                       });
                     },
                     child: BookingItem(
                       selectedIndex: selectedIndex,
-                      allBookingModel: allBookingModel[index],
+                      patientsModel: allBookingModel[index].patient!,
+                      bookingModel: allBookingModel[index],
                     ),
                   ))
               : Padding(
@@ -43,13 +44,16 @@ class TabsBookingListView extends StatelessWidget {
                       Navigator.of(context).pushNamed(
                         Routes.detailsScreen,
                         arguments: {
-                        'allBookingModel': allBookingModel[index], // Pass model
-                        'selectedIndex': selectedIndex,
-                      });
+                          'doctorBookingModel':
+                              allBookingModel[index],
+                          'selectedIndex': selectedIndex,
+                        },
+                      );
                     },
                     child: BookingItem(
+                      bookingModel: allBookingModel[index],
                       selectedIndex: selectedIndex,
-                      allBookingModel: allBookingModel[index],
+                      patientsModel: allBookingModel[index].patient!,
                     ),
                   ),
                 );
