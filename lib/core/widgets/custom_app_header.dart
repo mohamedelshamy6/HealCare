@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/theme/app_colors.dart';
 import '../helpers/spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
@@ -8,12 +9,19 @@ class CustomAppHeader extends StatelessWidget {
   final String? title;
   final double? horizSpace;
   final void Function()? onTap;
+  final List<Widget>? actionsWidgets;
+  final bool? seenAll;
+  final void Function()? onSeenAllTap;
+
   const CustomAppHeader({
     super.key,
     this.canBack,
     this.title,
     this.onTap,
     this.horizSpace,
+    this.actionsWidgets,
+    this.seenAll,
+    this.onSeenAllTap,
   });
 
   @override
@@ -41,6 +49,22 @@ class CustomAppHeader extends StatelessWidget {
         Text(
           title ?? '',
           style: AppTextStyles.poppinsBlack(18, FontWeight.w500),
+        ),
+        Spacer(),
+        seenAll == null || seenAll == false ? Container() : horizontalSpace(24),
+        GestureDetector(
+          onTap: onSeenAllTap,
+          child: Text(
+            'Seen All',
+            style: AppTextStyles.poppinsBlack(
+              14,
+              FontWeight.w500,
+            ).copyWith(
+              color: AppColors.tFFErrorColor,
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.tFFErrorColor,
+            ),
+          ),
         ),
       ],
     );

@@ -1,56 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/helpers/spacing.dart';
-import '../../../../core/widgets/custom_app_header.dart';
-
-import '../../../../core/theme/app_text_styles.dart';
-import '../widgets/notifications_list.dart';
+import 'package:heal_care/core/helpers/app_constants.dart';
+import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/theme/app_colors.dart';
+import 'package:heal_care/core/widgets/custom_app_header.dart';
+import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
+import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
+import 'package:heal_care/features/notification/views/widgets/notification_shimmer.dart';
+import 'package:heal_care/features/notification/views/widgets/notifications_list.dart';
 
 class NotificationsScreen extends StatelessWidget {
-  final String type;
-  const NotificationsScreen({super.key, required this.type});
+  const NotificationsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return BlocListener<DoctorsCubit, DoctorsState>(
+      listener: (context, state) {
+        if (state is DoctorsSuccess) {
+          final doctor = context.read<DoctorsCubit>().doctorsModel.firstOrNull;
+          if (doctor != null) {
+            context.read<NotificationCubit>().fetchNotifications(
+                  '${AppConstants.baseRestUrl}rpc/get_unread_notifications_for_doctor',
+                  context.read<DoctorsCubit>().doctorsModel.first.id,
+                );
+          } else {
+            debugPrint("No doctor found after success");
+          }
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(24.r),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomAppHeader(
-                  canBack: type == 'patient' ? false : true,
+                  canBack: true,
                   title: 'Notifications',
-                  horizSpace: type == 'patient'
-                      ? null
-                      : MediaQuery.sizeOf(context).width < 400
-                          ? 42
-                          : 64,
+                  seenAll: true,
+                  onSeenAllTap: () {
+                    context.read<NotificationCubit>().seenNotification(
+                        '${AppConstants.baseRestUrl}rpc/mark_notifications_as_read_for_doctor',
+                        context.read<DoctorsCubit>().doctorsModel.first.id);
+                  },
                 ),
                 verticalSpace(24),
-                // ? THIS IS TEMPORARY CODE FOR UI.
-                // ? =============================================================
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => index == 2
-                        ? SizedBox()
-                        : Padding(
-                            padding: EdgeInsets.only(bottom: 8.h),
-                            child: Text(
-                              index == 0
-                                  ? 'Today - 20 Sep, 2020'
-                                  : '19 Sep, 2020',
-                              style: AppTextStyles.poppinsBlack(
-                                  16, FontWeight.w400),
-                            ),
+                Expanded(
+                  child: BlocBuilder<NotificationCubit, NotificationState>(
+                    builder: (context, state) {
+                      if (state is NotificationLoading) {
+                        return const NotificationShimmer();
+                      } else if (state is NotificationError) {
+                        return Center(child: Text(state.error));
+                      } else if (state is NotificationSuccess) {
+                        final notifications = state.notifications;
+                        if (notifications.isEmpty) {
+                          return const Center(
+                            child: Text("No notifications found"),
+                          );
+                        }
+                        final validNotifications = notifications
+                            .where((n) =>
+                                n.message?.isNotEmpty == true &&
+                                n.createdAt != null)
+                            .toList();
+                        return ListView.separated(
+                          itemCount: validNotifications.length,
+                          separatorBuilder: (_, __) => Divider(
+                            height: 25.h,
+                            color: AppColors.mainColor.withOpacity(.5),
                           ),
-                    separatorBuilder: (context, index) => NotificationsList(),
-                    itemCount: 3,
+                          itemBuilder: (context, index) {
+                            final notification = validNotifications[index];
+                            return NotificationsList(
+                              body: notification.message ?? '',
+                              time: notification.createdAt?.toString() ?? '',
+                              index: index,
+                              onTap: () {},
+                            );
+                          },
+                        );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
                   ),
                 ),
               ],

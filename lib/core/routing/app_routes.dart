@@ -7,6 +7,7 @@ import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
+import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
 import 'package:heal_care/features/patient_booking/logic/cubit/appointementcubit_cubit.dart';
 import '../../features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../features/chat/views/screens/chat_bot.dart';
@@ -150,7 +151,21 @@ class AppRoutes {
         );
       case Routes.notificationsScreen:
         return MaterialPageRoute(
-          builder: (context) => NotificationsScreen(type: args as String),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider<DoctorsCubit>(
+                create: (context) => DoctorsCubit(
+                  doctorsRepo: DependencyInjection.getIt(),
+                )..getAllDoctors(),
+              ),
+              BlocProvider<NotificationCubit>(
+                create: (context) => NotificationCubit(
+                  DependencyInjection.getIt(),
+                  DependencyInjection.getIt<DoctorsCubit>(),
+                ),
+              ),
+            ],
+            child: NotificationsScreen()),
         );
       case Routes.patientFavoriteScreen:
         return MaterialPageRoute(
