@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-
 import 'package:heal_care/core/errors/api/exceptions/api_exception.dart';
 import 'package:heal_care/core/networking/api_services.dart';
 import 'package:heal_care/features/doctor_home/data/models/notification_model.dart';
@@ -11,18 +10,25 @@ class NotificationRepository {
   NotificationRepository(this.apiServices);
 
   Future<Either<String, List<NotificationModel>>> getNotifications(
-      String path, dynamic data) async {
+      String path, Map<String, dynamic> data) async {
     try {
       final response = await apiServices.post(path, data: data);
-      var notifications = (response as List)
-          .map((notification) => NotificationModel.fromJson(notification))
-          .toList();
-      return right(notifications);
+
+      if (response is List) {
+        final notifications = response
+            .map((notification) => NotificationModel.fromJson(notification))
+            .toList()
+            .cast<NotificationModel>();
+        return right(notifications);
+      } else {
+        log('Unexpected response format: $response');
+        return left('Unexpected response format');
+      }
     } on ApiException catch (e) {
-      log(e.errorModel.message!);
-      return left(e.errorModel.message!);
+      log(e.errorModel.message ?? 'API Exception with no message');
+      return left(e.errorModel.message ?? 'API Error');
     } catch (e) {
-      log(e.toString());
+      log('Unexpected error: $e');
       return left('An unexpected error occurred');
     }
   }
