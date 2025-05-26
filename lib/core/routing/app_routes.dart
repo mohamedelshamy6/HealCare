@@ -106,16 +106,15 @@ class AppRoutes {
                 create: (context) => TabbarCubit(),
               ),
               BlocProvider(
-                create: (context) => AppointementcubitCubit(
-                  DependencyInjection.getIt(),
-                  context.read<DoctorsCubit>(),
-                  context.read<PatientsCubit>(),
-                )..fetchAppointments(),
-              ),
-              BlocProvider(
                   create: (context) => DoctorsCubit(
                         doctorsRepo: DependencyInjection.getIt(),
                       )..getAllDoctors()),
+              BlocProvider(
+                  create: (context) => AppointementcubitCubit(
+                        DependencyInjection.getIt(),
+                        context.read<DoctorsCubit>(),
+                        context.read<PatientsCubit>(),
+                      )..fetchAppointments()),
               BlocProvider(
                 create: (context) => PatientsCubit(
                   patientsRepo: DependencyInjection.getIt(),
@@ -146,26 +145,24 @@ class AppRoutes {
       case Routes.paymentSuccess:
         return MaterialPageRoute(
           builder: (context) => PaymentSuccess(
-            doctorsModel: args as DoctorssModel,
+            doctorsModel: args as DoctorsModel,
           ),
         );
       case Routes.notificationsScreen:
         return MaterialPageRoute(
-          builder: (context) => MultiBlocProvider(
-            providers: [
-              BlocProvider<DoctorsCubit>(
-                create: (context) => DoctorsCubit(
-                  doctorsRepo: DependencyInjection.getIt(),
-                )..getAllDoctors(),
+          builder: (context) => MultiBlocProvider(providers: [
+            BlocProvider<DoctorsCubit>(
+              create: (context) => DoctorsCubit(
+                doctorsRepo: DependencyInjection.getIt(),
+              )..getAllDoctors(),
+            ),
+            BlocProvider<NotificationCubit>(
+              create: (context) => NotificationCubit(
+                DependencyInjection.getIt(),
+                DependencyInjection.getIt<DoctorsCubit>(),
               ),
-              BlocProvider<NotificationCubit>(
-                create: (context) => NotificationCubit(
-                  DependencyInjection.getIt(),
-                  DependencyInjection.getIt<DoctorsCubit>(),
-                ),
-              ),
-            ],
-            child: NotificationsScreen()),
+            ),
+          ], child: NotificationsScreen()),
         );
       case Routes.patientFavoriteScreen:
         return MaterialPageRoute(
@@ -211,7 +208,8 @@ class AppRoutes {
           builder: (context) {
             final arg = routeSettings.arguments as Map<String, dynamic>;
             return DetailsScreen(
-              doctorBookingModel: arg['doctorBookingModel'] as DoctorBookingModel,
+              doctorBookingModel:
+                  arg['doctorBookingModel'] as DoctorBookingModel,
               selectedIndex: arg['selectedIndex'] as int,
             );
           },

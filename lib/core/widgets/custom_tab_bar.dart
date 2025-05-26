@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../theme/app_colors.dart';
@@ -7,18 +6,18 @@ import '../theme/app_text_styles.dart';
 class CustomTabBar extends StatelessWidget {
   const CustomTabBar({
     super.key,
-    required this.selectedIndex, this.onTabChange,
+    required this.selectedIndex,
+    this.onTabChange,
   });
 
   final int selectedIndex;
-  final Function(int index)?onTabChange;
+  final Function(int index)? onTabChange;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: AppColors.mainWhite,
-          borderRadius: BorderRadius.circular(8)),
+          color: AppColors.mainWhite, borderRadius: BorderRadius.circular(8)),
       height: 44.h,
       // width: 349.w,
       child: Center(
@@ -41,23 +40,19 @@ class CustomTabBar extends StatelessWidget {
           indicatorColor: AppColors.lighterBlue,
           tabs: [
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 12.w, vertical: 4.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               child: Text('All'),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 12.w, vertical: 4.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               child: Text('Upcoming'),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 12.w, vertical: 4.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               child: Text('Completed'),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 12.w, vertical: 4.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               child: Text('Canceled'),
             ),
           ],

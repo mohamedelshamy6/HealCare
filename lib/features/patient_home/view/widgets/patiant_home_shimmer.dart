@@ -5,7 +5,8 @@ import 'package:shimmer/shimmer.dart';
 class PatientHomeShimmer extends StatelessWidget {
   const PatientHomeShimmer({super.key});
 
-  Widget shimmerBox({double? height, double? width, BorderRadius? borderRadius}) {
+  Widget shimmerBox(
+      {double? height, double? width, BorderRadius? borderRadius}) {
     return Container(
       height: height,
       width: width,
@@ -30,7 +31,8 @@ class PatientHomeShimmer extends StatelessWidget {
             // Header
             shimmerBox(height: 24.h, width: 200.w),
             SizedBox(height: 32.h),
-            shimmerBox(height: 20.h, width: 180.w), // Upcoming Appointments title
+            shimmerBox(
+                height: 20.h, width: 180.w), // Upcoming Appointments title
             SizedBox(height: 16.h),
             shimmerBox(height: 140.h, width: double.infinity), // Banner
 
@@ -72,7 +74,8 @@ class PatientHomeShimmer extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(radius: 32.r, backgroundColor: Colors.grey[400]),
+                      CircleAvatar(
+                          radius: 32.r, backgroundColor: Colors.grey[400]),
                       SizedBox(height: 12.h),
                       shimmerBox(height: 12.h, width: 100.w),
                       SizedBox(height: 8.h),

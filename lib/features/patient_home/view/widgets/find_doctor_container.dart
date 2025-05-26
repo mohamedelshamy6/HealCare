@@ -13,7 +13,8 @@ import '../../../../core/theme/app_text_styles.dart';
 
 class FindDoctorsContainer extends StatelessWidget {
   const FindDoctorsContainer({
-    super.key, required this.doctorsModel,
+    super.key,
+    required this.doctorsModel,
   });
 
   final List<DoctorsModel> doctorsModel;
@@ -132,7 +133,6 @@ class FindDoctorsContainer extends StatelessWidget {
                   Navigator.of(context).pushNamed(
                     Routes.bookDoctorAppointment,
                     arguments: doctorsModel[index],
-                    
                   );
                 },
                 textStyle: AppTextStyles.poppinsMainColor(14, FontWeight.w600),

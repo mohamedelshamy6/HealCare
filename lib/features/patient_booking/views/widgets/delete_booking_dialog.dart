@@ -80,9 +80,9 @@ class DeleteBookingDialog extends StatelessWidget {
                           child: Center(
                             child: Text(
                               'No',
-                              style:
-                                  AppTextStyles.poppinsBlack(16, FontWeight.w500)
-                                      .copyWith(color: AppColors.tFFErrorColor),
+                              style: AppTextStyles.poppinsBlack(
+                                      16, FontWeight.w500)
+                                  .copyWith(color: AppColors.tFFErrorColor),
                             ),
                           ),
                         ),

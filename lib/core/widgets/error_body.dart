@@ -1,7 +1,5 @@
 // ToDo Need modification in the future.
 
-
-
 // import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 

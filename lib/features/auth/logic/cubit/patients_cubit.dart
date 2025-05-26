@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/app_constants.dart';
@@ -11,7 +10,7 @@ class PatientsCubit extends Cubit<PatientsState> {
   PatientsCubit({required this.patientsRepo}) : super(PatientsInitial());
 
   final PatientsRepo patientsRepo;
-  List<PatientsModel> patientsModel=[];
+  List<PatientsModel> patientsModel = [];
   Future<void> getAllPatients() async {
     emit(PatientsLoading());
     final patientsModel = await patientsRepo

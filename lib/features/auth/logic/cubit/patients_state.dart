@@ -1,6 +1,5 @@
 part of 'patients_cubit.dart';
 
-
 sealed class PatientsState {}
 
 final class PatientsInitial extends PatientsState {}
@@ -18,3 +17,6 @@ final class PatientsFailure extends PatientsState {
 
   PatientsFailure({required this.error});
 }
+
+
+

@@ -1,4 +1,3 @@
-
 // import '../../../../core/helpers/app_images.dart';
 
 // class AllBookingModel {
@@ -67,5 +66,5 @@
 //           jobAddress: 'Migraines',
 //           startDate: '02 February 2023',
 //           endDate: '1:00 PM - 2:00 PM'),
-    
+
 //     ];

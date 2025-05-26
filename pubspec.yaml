@@ -36,8 +36,6 @@ dependencies:
   dartz: ^0.10.1
   # For secured cahce.
   flutter_secure_storage: ^9.2.2
-  # For providing a calendar as a horizontal timeline.
-  date_picker_timeline: ^1.2.6
   # Firebase dependencies.
   firebase_core: ^3.8.0
   firebase_crashlytics: ^4.1.5
@@ -50,7 +48,13 @@ dependencies:
   google_sign_in: ^6.2.2
   image_picker: ^1.1.2
   permission_handler: ^12.0.0+1
-  intl: ^0.19.0
+  intl: ^0.20.2
+  # for payment.
+  pay_with_paymob: ^1.4.0
+  url_launcher: ^6.2.5
+
+
+
 
 
 # An extension for generating assets file located in helpers folder.

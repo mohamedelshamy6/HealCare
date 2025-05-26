@@ -5,7 +5,11 @@ import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 
 class ChatBubble extends StatelessWidget {
-  const ChatBubble({super.key, required this.message, required this.date, required this.image});
+  const ChatBubble(
+      {super.key,
+      required this.message,
+      required this.date,
+      required this.image});
   final String message;
   final String date;
   final String image;

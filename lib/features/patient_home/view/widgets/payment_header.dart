@@ -70,6 +70,8 @@ class PaymentHeader extends StatelessWidget {
                 doctorsModel.education!.contains(' - ')
                     ? doctorsModel.education!.split('-').first
                     : doctorsModel.education!.split('|').first,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
                 style: AppTextStyles.poppinsGrey(12, FontWeight.w500),
               ),
             ],

@@ -12,7 +12,6 @@ import 'package:heal_care/features/patient_booking/data/repos/rate_repositories.
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../features/auth/data/repos/doctors_repo.dart';
 import '../../features/auth/data/repos/login_repo.dart';
 import '../../features/auth/data/repos/patients_repo.dart';
@@ -52,7 +51,10 @@ class DependencyInjection {
         () => RateRepositories(getIt<ApiServices>()));
     getIt.registerLazySingleton<DoctorBookingRepositories>(
         () => DoctorBookingRepositories(getIt<ApiServices>()));
-    // Logic Cubits
+    getIt.registerLazySingleton<NotificationRepository>(
+        () => NotificationRepository(getIt<ApiServices>()));
+
+    // Cubits
     getIt.registerLazySingleton<DoctorsCubit>(
         () => DoctorsCubit(doctorsRepo: getIt<DoctorsRepo>()));
     getIt.registerLazySingleton<PatientsCubit>(
@@ -63,11 +65,7 @@ class DependencyInjection {
           getIt<PatientsCubit>(),
           getIt<PatientsRepo>(),
         ));
-    getIt.registerLazySingleton<NotificationRepository>(
-      () => NotificationRepository(getIt<ApiServices>()),
-    );
-    getIt.registerLazySingleton<NotificationCubit>(
-        () => NotificationCubit(getIt<NotificationRepository>(),
-            getIt<DoctorsCubit>()));
+    getIt.registerLazySingleton<NotificationCubit>(() => NotificationCubit(
+        getIt<NotificationRepository>(), getIt<DoctorsCubit>()));
   }
 }

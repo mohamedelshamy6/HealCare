@@ -37,17 +37,22 @@ class NotificationShimmer extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(height: 14.h, width: 120.w, color: Colors.white),
+                        Container(
+                            height: 14.h, width: 120.w, color: Colors.white),
                         SizedBox(height: 6.h),
-                        Container(height: 12.h, width: 180.w, color: Colors.white),
+                        Container(
+                            height: 12.h, width: 180.w, color: Colors.white),
                         SizedBox(height: 6.h),
-                        Container(height: 12.h, width: 140.w, color: Colors.white),
+                        Container(
+                            height: 12.h, width: 140.w, color: Colors.white),
                         SizedBox(height: 12.h),
                         Row(
                           children: [
-                            Container(height: 10.h, width: 70.w, color: Colors.white),
+                            Container(
+                                height: 10.h, width: 70.w, color: Colors.white),
                             SizedBox(width: 10.w),
-                            Container(height: 10.h, width: 60.w, color: Colors.white),
+                            Container(
+                                height: 10.h, width: 60.w, color: Colors.white),
                           ],
                         )
                       ],

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -53,7 +52,7 @@ class DetailsWhiteCard extends StatelessWidget {
               CircleAvatar(
                 radius: 30.r,
                 backgroundImage:
-                    AssetImage(doctorBookingModel.patient!.image??''),
+                    AssetImage(doctorBookingModel.patient!.image ?? ''),
               ),
               horizontalSpace(16),
               Expanded(
@@ -61,13 +60,12 @@ class DetailsWhiteCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          doctorBookingModel.patient!.name!, 
-                          style: AppTextStyles.poppinsBlack(
-                              16, FontWeight.w500),
+                          doctorBookingModel.patient!.name!,
+                          style:
+                              AppTextStyles.poppinsBlack(16, FontWeight.w500),
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(
@@ -78,7 +76,7 @@ class DetailsWhiteCard extends StatelessWidget {
                                 : selectedIndex == 1
                                     ? AppColors.mainColor
                                     : selectedIndex == 2
-                                        ?AppColors.lightGreen
+                                        ? AppColors.lightGreen
                                         : AppColors.lightOrange,
                           ),
                           child: Text(
@@ -103,8 +101,7 @@ class DetailsWhiteCard extends StatelessWidget {
                     ),
                     Text(
                       doctorBookingModel.patient!.address!,
-                      style: AppTextStyles.poppinsGrey(
-                          12, FontWeight.w400),
+                      style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                     ),
                   ],
                 ),
@@ -113,8 +110,7 @@ class DetailsWhiteCard extends StatelessWidget {
           ),
           verticalSpace(12),
           Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: 12.w, vertical: 14.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
             decoration: BoxDecoration(
               color: AppColors.detailsDateColor,
               borderRadius: BorderRadius.circular(8.r),
@@ -133,8 +129,7 @@ class DetailsWhiteCard extends StatelessWidget {
                     horizontalSpace(8),
                     Text(
                       formattedDate,
-                      style: AppTextStyles.poppinsBlack(
-                          12, FontWeight.w500),
+                      style: AppTextStyles.poppinsBlack(12, FontWeight.w500),
                     )
                   ],
                 ),
@@ -149,8 +144,7 @@ class DetailsWhiteCard extends StatelessWidget {
                     horizontalSpace(8),
                     Text(
                       formattedTime,
-                      style: AppTextStyles.poppinsBlack(
-                          12, FontWeight.w500),
+                      style: AppTextStyles.poppinsBlack(12, FontWeight.w500),
                     )
                   ],
                 ),
@@ -164,7 +158,7 @@ class DetailsWhiteCard extends StatelessWidget {
           ),
           verticalSpace(4),
           Text(
-            doctorBookingModel.patient!.medicalHistory??'',
+            doctorBookingModel.patient!.medicalHistory ?? '',
             style: AppTextStyles.poppinsGrey(12, FontWeight.w600),
           ),
         ],

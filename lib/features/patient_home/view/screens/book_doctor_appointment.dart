@@ -48,6 +48,7 @@ class BookDoctorAppointment extends StatelessWidget {
               child: Column(
                 children: [
                   CustomAppHeader(
+                    seenAll: false,
                     horizSpace:
                         MediaQuery.sizeOf(context).width < 400 ? 24 : 40,
                     canBack: true,
@@ -133,9 +134,10 @@ class BookDoctorAppointment extends StatelessWidget {
                           context,
                           'Appointment booked successfully',
                         );
-                        Navigator.pushNamed(
+                        Navigator.pushNamedAndRemoveUntil(
                           context,
                           Routes.bookingPayment,
+                          (route) => false,
                           arguments: doctorsModel,
                         );
                       } else if (state is AppointmentBookingError) {
@@ -195,4 +197,3 @@ class BookDoctorAppointment extends StatelessWidget {
     );
   }
 }
-
