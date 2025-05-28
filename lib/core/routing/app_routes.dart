@@ -5,6 +5,7 @@ import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
 import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
@@ -126,6 +127,13 @@ class AppRoutes {
                     context.read<PatientsCubit>(),
                     DependencyInjection.getIt<PatientsRepo>()),
               ),
+              BlocProvider(
+                create: (context) => ChatCubit(
+                  DependencyInjection.getIt(),
+                  DependencyInjection.getIt<DoctorsCubit>(),
+                  DependencyInjection.getIt<PatientsCubit>(),
+                ),
+              )
             ],
             child: CustomBottomNavigationBar(type: args as String),
           ),
