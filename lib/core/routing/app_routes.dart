@@ -140,10 +140,21 @@ class AppRoutes {
         );
       case Routes.bookDoctorAppointment:
         return MaterialPageRoute(
-          builder: (context) => BookDoctorAppointment(
-            doctorsModel: args as DoctorsModel,
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider<ChatCubit>(
+                  create: (context) => ChatCubit(
+                        DependencyInjection.getIt(),
+                        DependencyInjection.getIt<DoctorsCubit>(),
+                        DependencyInjection.getIt<PatientsCubit>(),
+                      )),
+            ],
+            child: BookDoctorAppointment(
+              doctorsModel: args as DoctorsModel,
+            ),
           ),
         );
+
       case Routes.bookingPayment:
         return MaterialPageRoute(
           builder: (context) => BookingPayment(

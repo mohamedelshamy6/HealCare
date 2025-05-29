@@ -14,6 +14,7 @@ import 'package:heal_care/core/widgets/custom_button.dart';
 import 'package:heal_care/core/widgets/custom_date_picker.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/data/models/patients_model.dart';
+import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:heal_care/features/patient_home/logic/cubit/appointenent_schedual_cubit.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
@@ -51,7 +52,7 @@ class BookDoctorAppointment extends StatelessWidget {
                     seenAll: false,
                     horizSpace:
                         MediaQuery.sizeOf(context).width < 400 ? 24 : 40,
-                    canBack: true,
+                    canBack: false,
                     title: 'Book Appointment',
                   ),
                   verticalSpace(24),
@@ -127,25 +128,40 @@ class BookDoctorAppointment extends StatelessWidget {
                   verticalSpace(32),
                   BlocListener<AppointenentSchedualCubit,
                       AppointenentSchedualState>(
-                    listener: (context, state) {
+                    listener: (context, state) async {
                       if (state is AppointmentBookingSuccess) {
-                        Navigator.pop(context);
+                        final patientId =
+                            CacheHelper().getData(key: 'patient_Id');
+                        final doctorId = doctorsModel.id;
+
+                        HelperMethods.showLoadingAlertDialog(context);
+
+                        if (patientId != null && doctorId != null) {
+                          try {
+                            await BlocProvider.of<ChatCubit>(context)
+                                .createConversation(
+                              doctorId: doctorId,
+                              patientId: patientId,
+                            );
+                          } catch (e) {
+                            log('Error creating conversation: $e');
+                          }
+                        } else {
+                          log('Doctor or Patient ID is null - Conversation not created');
+                        }
+
+                        Navigator.of(context).pop();
+
                         HelperMethods.showCustomSnackBarSuccess(
                           context,
                           'Appointment booked successfully',
                         );
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          Routes.bookingPayment,
+
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          Routes.bottomNavBar,
                           (route) => false,
-                          arguments: doctorsModel,
+                          arguments: 'patient',
                         );
-                      } else if (state is AppointmentBookingError) {
-                        HelperMethods.showCustomSnackBarError(
-                            context, state.error);
-                        log(state.error);
-                      } else if (state is AppointmentBookingLoading) {
-                        HelperMethods.showLoadingAlertDialog(context);
                       }
                     },
                     child: CustomButton(
@@ -155,9 +171,9 @@ class BookDoctorAppointment extends StatelessWidget {
                         final selectedTime = cubit.selectedTime;
 
                         if (selectedDay == null || selectedTime == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Please select date and time')),
+                          HelperMethods.showCustomSnackBarError(
+                            context,
+                            'Please select a date and time',
                           );
                           return;
                         }

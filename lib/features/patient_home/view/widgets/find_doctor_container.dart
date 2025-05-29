@@ -131,7 +131,7 @@ class FindDoctorsContainer extends StatelessWidget {
                 borderRadius: 8,
                 buttonAction: () {
                   Navigator.of(context).pushNamed(
-                    Routes.bookDoctorAppointment,
+                    Routes.bookingPayment,
                     arguments: doctorsModel[index],
                   );
                 },

@@ -15,20 +15,29 @@ class ChatCubit extends Cubit<ChatState> {
   final DoctorsCubit doctorsCubit;
   final PatientsCubit patientsCubit;
 
-  Future<void> createConversation() async {
-    emit(CreateChatConversitionLoading());
-    var result = await conversitionRepository.createConversition(
-      path: '${AppConstants.baseRestUrl}conversations',
-      body: {
-        'doctor_id': doctorsCubit.doctorsModel.first.id,
-        'patient_id': patientsCubit.patientsModel.first.id,
-      },
-    );
-    result.fold(
-      (error) => emit(CreateChatConversitionFailure(error)),
-      (_) {
-        emit(CreateChatConversitionSuccess());
-      },
-    );
-  }
+  Future<void> createConversation({
+  required String doctorId,
+  required String patientId,
+}) async {
+  if (isClosed) return;
+
+  emit(CreateChatConversitionLoading());
+
+  final result = await conversitionRepository.createConversition(
+    path: '${AppConstants.baseRestUrl}conversations',
+    body: {
+      'doctor_id': doctorId,
+      'patient_id': patientId,
+    },
+  );
+
+  if (isClosed) return;
+
+  result.fold(
+    (error) => emit(CreateChatConversitionFailure(error)),
+    (_) => emit(CreateChatConversitionSuccess()),
+  );
+}
+
+
 }
