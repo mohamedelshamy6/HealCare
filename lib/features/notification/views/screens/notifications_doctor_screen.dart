@@ -10,8 +10,8 @@ import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
 import 'package:heal_care/features/notification/views/widgets/notification_shimmer.dart';
 import 'package:heal_care/features/notification/views/widgets/notifications_list.dart';
 
-class NotificationsScreen extends StatelessWidget {
-  const NotificationsScreen({super.key});
+class NotificationsDoctorScreen extends StatelessWidget {
+  const NotificationsDoctorScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

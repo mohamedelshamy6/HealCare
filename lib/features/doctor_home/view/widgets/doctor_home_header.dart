@@ -7,8 +7,8 @@ import '../../../../core/theme/app_text_styles.dart';
 
 import '../../../../core/routing/routes.dart';
 
-class HomeHeader extends StatelessWidget {
-  const HomeHeader({
+class DoctorHomeHeader extends StatelessWidget {
+  const DoctorHomeHeader({
     super.key,
   });
 
@@ -45,7 +45,7 @@ class HomeHeader extends StatelessWidget {
           onTap: () {
             Navigator.pushNamed(
               context,
-              Routes.notificationsScreen,
+              Routes.notificationsDoctorScreen,
               arguments: 'doctor',
             );
           },

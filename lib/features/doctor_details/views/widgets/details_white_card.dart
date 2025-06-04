@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -50,10 +51,16 @@ class DetailsWhiteCard extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                radius: 30.r,
-                backgroundImage:
-                    AssetImage(doctorBookingModel.patient!.image ?? ''),
-              ),
+                  radius: 30.r,
+                  child: CachedNetworkImage(
+                    imageUrl: "${doctorBookingModel.patient!.image}",
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.person,
+                        size: 35.r, color: AppColors.mainGrey),
+                  )),
               horizontalSpace(16),
               Expanded(
                 child: Column(

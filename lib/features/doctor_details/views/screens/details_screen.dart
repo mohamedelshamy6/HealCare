@@ -52,7 +52,7 @@ class DetailsScreen extends StatelessWidget {
                     ),
                     verticalSpace(8),
                     Text(
-                      doctorBookingModel!.patient!.medicalHistory ?? '',
+                      doctorBookingModel!.patient!.medicalHistory ?? 'There is No Midical History',
                       style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                     ),
                     verticalSpace(24),

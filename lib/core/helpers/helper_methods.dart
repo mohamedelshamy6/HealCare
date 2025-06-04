@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../theme/app_colors.dart';
 import 'dart:convert';
@@ -194,6 +195,28 @@ class HelperMethods {
       options.headers['Authorization'] = 'Bearer $accessToken';
     }
     return handler.next(options);
+  }
+
+  static String formatTime(String? time24) {
+    if (time24 == null || time24.isEmpty) return 'N/A';
+    try {
+      final hour = int.parse(time24.split(':')[0]);
+      final minute = int.parse(time24.split(':')[1]);
+      final dt = DateTime(0, 1, 1, hour, minute);
+      return DateFormat.jm().format(dt); // e.g. 2:00 PM
+    } catch (e) {
+      return time24;
+    }
+  }
+
+  static String formatDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty) return 'N/A';
+    try {
+      final date = DateTime.parse(dateStr);
+      return DateFormat.yMMMMd().format(date);
+    } catch (e) {
+      return dateStr;
+    }
   }
 
   static Future<Widget?> showLogoutAlertDialog(

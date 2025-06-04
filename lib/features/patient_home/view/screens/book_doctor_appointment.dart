@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/helpers/app_constants.dart';
-import 'package:heal_care/core/helpers/cache_helper.dart';
 import 'package:heal_care/core/helpers/helper_methods.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/routing/routes.dart';
@@ -14,7 +11,6 @@ import 'package:heal_care/core/widgets/custom_button.dart';
 import 'package:heal_care/core/widgets/custom_date_picker.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/data/models/patients_model.dart';
-import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:heal_care/features/patient_home/logic/cubit/appointenent_schedual_cubit.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
@@ -28,8 +24,12 @@ import 'package:intl/intl.dart';
 class BookDoctorAppointment extends StatelessWidget {
   final DoctorsModel doctorsModel;
   final PatientsModel? patientsModel;
-  const BookDoctorAppointment(
-      {super.key, required this.doctorsModel, this.patientsModel});
+
+  const BookDoctorAppointment({
+    super.key,
+    required this.doctorsModel,
+    this.patientsModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +49,9 @@ class BookDoctorAppointment extends StatelessWidget {
               child: Column(
                 children: [
                   CustomAppHeader(
-                    seenAll: false,
                     horizSpace:
                         MediaQuery.sizeOf(context).width < 400 ? 24 : 40,
-                    canBack: false,
+                    canBack: true,
                     title: 'Book Appointment',
                   ),
                   verticalSpace(24),
@@ -126,83 +125,32 @@ class BookDoctorAppointment extends StatelessWidget {
                     },
                   ),
                   verticalSpace(32),
-                  BlocListener<AppointenentSchedualCubit,
-                      AppointenentSchedualState>(
-                    listener: (context, state) async {
-                      if (state is AppointmentBookingSuccess) {
-                        final patientId =
-                            CacheHelper().getData(key: 'patient_Id');
-                        final doctorId = doctorsModel.id;
+                  CustomButton(
+                    buttonAction: () {
+                      final cubit = context.read<AppointenentSchedualCubit>();
+                      final selectedDay = cubit.selectedDay;
+                      final selectedTime = cubit.selectedTime;
 
-                        HelperMethods.showLoadingAlertDialog(context);
-
-                        if (patientId != null && doctorId != null) {
-                          try {
-                            await BlocProvider.of<ChatCubit>(context)
-                                .createConversation(
-                              doctorId: doctorId,
-                              patientId: patientId,
-                            );
-                          } catch (e) {
-                            log('Error creating conversation: $e');
-                          }
-                        } else {
-                          log('Doctor or Patient ID is null - Conversation not created');
-                        }
-
-                        Navigator.of(context).pop();
-
-                        HelperMethods.showCustomSnackBarSuccess(
-                          context,
-                          'Appointment booked successfully',
-                        );
-
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          Routes.bottomNavBar,
-                          (route) => false,
-                          arguments: 'patient',
-                        );
+                      if (selectedDay == null || selectedTime == null) {
+                        HelperMethods.showCustomSnackBarError(context,
+                            'Please select a date and time for your appointment.');
+                        return;
                       }
+
+                      Navigator.pushNamed(
+                        context,
+                        Routes.bookingPayment,
+                        arguments: {
+                          'doctor': doctorsModel,
+                          'appointment_date': selectedDay,
+                          'appointment_time': selectedTime,
+                        },
+                      );
                     },
-                    child: CustomButton(
-                      buttonAction: () {
-                        final cubit = context.read<AppointenentSchedualCubit>();
-                        final selectedDay = cubit.selectedDay;
-                        final selectedTime = cubit.selectedTime;
-
-                        if (selectedDay == null || selectedTime == null) {
-                          HelperMethods.showCustomSnackBarError(
-                            context,
-                            'Please select a date and time',
-                          );
-                          return;
-                        }
-
-                        final id =
-                            CacheHelper().getData(key: 'patient_Id').toString();
-
-                        log(id.toString());
-
-                        final Map<String, dynamic> appointmentData = {
-                          "doctor_id": doctorsModel.id,
-                          "patient_id": id,
-                          "appointment_date": selectedDay,
-                          "appointment_time": selectedTime,
-                        };
-
-                        log('appointment_time : $selectedTime');
-
-                        cubit.bookAppointment(
-                          data: appointmentData,
-                          path: "${AppConstants.baseRestUrl}appointments",
-                        );
-                      },
-                      buttonText: 'Book Appointment',
-                      borderRadius: 8,
-                      height: 48.h,
-                      textStyle:
-                          AppTextStyles.poppinsWhite(14, FontWeight.w500),
-                    ),
+                    buttonText: 'Book Appointment',
+                    borderRadius: 8,
+                    height: 48.h,
+                    textStyle: AppTextStyles.poppinsWhite(14, FontWeight.w500),
                   ),
                 ],
               ),

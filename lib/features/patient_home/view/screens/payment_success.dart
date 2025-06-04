@@ -6,6 +6,7 @@ import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
 
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
 
@@ -42,12 +43,19 @@ class PaymentSuccess extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'You have successfully made an payment for appointment',
+                              'You have successfully made an appointment',
                               textAlign: TextAlign.center,
                               style: AppTextStyles.poppinsBlack(
                                   20, FontWeight.w700),
                             ),
-                            verticalSpace(150),
+                            verticalSpace(8),
+                            Text(
+                              'The appointment confirmation has been send to your email.',
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.poppinsGrey(
+                                  12, FontWeight.w500),
+                            ),
+                            verticalSpace(40),
                             Container(
                               height: 64.h,
                               width: 64.w,
@@ -55,8 +63,7 @@ class PaymentSuccess extends StatelessWidget {
                                 color: Colors.pink[200]!.withOpacity(0.35),
                                 borderRadius: BorderRadius.circular(24.r),
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                      doctorsModel.image ?? 'unkown'),
+                                  image: NetworkImage(doctorsModel.image.toString()),
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -69,17 +76,58 @@ class PaymentSuccess extends StatelessWidget {
                             ),
                             verticalSpace(8),
                             Text(
-                              doctorsModel.specialization!.contains(' - ')
-                                  ? doctorsModel.specialization!
-                                      .split('-')
-                                      .first
-                                  : doctorsModel.specialization!
-                                      .split('|')
-                                      .first,
+                              doctorsModel.experience!.contains(' - ')
+                                  ? doctorsModel.experience!.split('-').first
+                                  : doctorsModel.experience!.split('|').first,
                               style: AppTextStyles.poppinsGrey(
                                   12, FontWeight.w500),
                             ),
                             verticalSpace(28),
+                            Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.mainColor.withOpacity(0.3),
+                                    border:
+                                        Border.all(color: AppColors.mainColor),
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  padding: EdgeInsets.all(6.r),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      Assets.svgsAppointmentCalender,
+                                    ),
+                                  ),
+                                ),
+                                horizontalSpace(12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Appointment',
+                                        style: AppTextStyles.poppinsGrey(
+                                          12,
+                                          FontWeight.w500,
+                                        ),
+                                      ),
+                                      Wrap(
+                                        children: [
+                                          Text(
+                                            'Wednesday, 10 Jan 2024, 11:00',
+                                            style: AppTextStyles.poppinsBlack(
+                                              14,
+                                              FontWeight.w700,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -88,11 +136,11 @@ class PaymentSuccess extends StatelessWidget {
                     CustomButton(
                       buttonAction: () =>
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                        Routes.bookDoctorAppointment,
+                        Routes.bottomNavBar,
                         (route) => false,
-                        arguments: doctorsModel,
+                        arguments: 'patient',
                       ),
-                      buttonText: 'Book an Appointment',
+                      buttonText: 'Back to home',
                       textStyle:
                           AppTextStyles.poppinsWhite(14, FontWeight.w700),
                       borderRadius: 8.r,
