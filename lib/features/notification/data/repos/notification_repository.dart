@@ -30,8 +30,6 @@ class NotificationRepository {
       log('Unexpected error: $e');
       return left('An unexpected error occurred');
     }
-
-    
   }
 
   Future<Either<String, bool>> seenNotification({

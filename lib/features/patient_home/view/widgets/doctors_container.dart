@@ -21,7 +21,6 @@ class DoctorsContainer extends StatelessWidget {
       onTap: () {
         Navigator.of(context).pushNamed(
           Routes.bookDoctorAppointment,
-          
         );
       },
       child: Container(
@@ -42,7 +41,7 @@ class DoctorsContainer extends StatelessWidget {
                     image: DecorationImage(
                       fit: BoxFit.fill,
                       image: AssetImage(
-                        doctorsModel.image?.toString() ?? 
+                        doctorsModel.image?.toString() ??
                             'assets/default_image.png',
                       ),
                     ),
@@ -85,7 +84,7 @@ class DoctorsContainer extends StatelessWidget {
                   ),
                   verticalSpace(4),
                   Text(
-                   doctorsModel.specialization.toString(),
+                    doctorsModel.specialization.toString(),
                     style: AppTextStyles.poppinsGrey(
                       10,
                       FontWeight.w400,

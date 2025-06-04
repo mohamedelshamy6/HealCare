@@ -24,6 +24,7 @@ void main() async {
     Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     ),
+    
     Supabase.initialize(
       url: 'https://hftivyxotfavjvrukbts.supabase.co',
       anonKey:
@@ -53,6 +54,4 @@ void main() async {
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     runApp(const HealCare());
   });
-
-  
 }

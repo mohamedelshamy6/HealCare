@@ -51,21 +51,22 @@ class CustomAppHeader extends StatelessWidget {
           style: AppTextStyles.poppinsBlack(18, FontWeight.w500),
         ),
         Spacer(),
-        seenAll == null || seenAll == false ? Container() : horizontalSpace(24),
-        GestureDetector(
-          onTap: onSeenAllTap,
-          child: Text(
-            'Seen All',
-            style: AppTextStyles.poppinsBlack(
-              14,
-              FontWeight.w500,
-            ).copyWith(
-              color: AppColors.tFFErrorColor,
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.tFFErrorColor,
-            ),
-          ),
-        ),
+        seenAll == null || seenAll == false
+            ? Container()
+            : GestureDetector(
+                onTap: onSeenAllTap,
+                child: Text(
+                  'Seen All',
+                  style: AppTextStyles.poppinsBlack(
+                    14,
+                    FontWeight.w500,
+                  ).copyWith(
+                    color: AppColors.tFFErrorColor,
+                    decoration: TextDecoration.underline,
+                    decorationColor: AppColors.tFFErrorColor,
+                  ),
+                ),
+              ),
       ],
     );
   }

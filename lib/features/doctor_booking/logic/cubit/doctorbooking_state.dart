@@ -1,6 +1,5 @@
 part of 'doctorbooking_cubit.dart';
 
-
 sealed class DoctorbookingState {}
 
 final class DoctorbookingInitial extends DoctorbookingState {}

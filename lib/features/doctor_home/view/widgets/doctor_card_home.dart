@@ -1,15 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:heal_care/features/auth/data/models/patients_model.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 import '../../../../core/helpers/app_images.dart';
-import '../../data/models/patient_model.dart';
 
 class DoctorCardHome extends StatelessWidget {
-  final PatientModel patient;
+  final PatientsModel patient;
   const DoctorCardHome({
     super.key,
     required this.patient,
@@ -29,8 +30,13 @@ class DoctorCardHome extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 24.r,
-                backgroundImage: AssetImage(
-                  patient.image,
+                child: CachedNetworkImage(
+                  imageUrl: "${patient.image}",
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.person, size: 35.r, color: AppColors.mainGrey),
                 ),
               ),
               horizontalSpace(8),
@@ -39,12 +45,12 @@ class DoctorCardHome extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    patient.name,
+                    '${patient.name} ',
                     style: AppTextStyles.poppinsBlack(14, FontWeight.w600),
                   ),
                   verticalSpace(4),
                   Text(
-                    'Heart patient',
+                    '${patient.disease}',
                     style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
                   ),
                 ],

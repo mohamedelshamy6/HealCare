@@ -38,13 +38,13 @@ class PatientBookingCard extends StatelessWidget {
               SvgPicture.asset(Assets.iconsCalenderIconDarkblue,
                   width: 16.w, height: 16.h),
               Text(
-                appointment.appointmentDate, // التاريخ الحقيقي
+                appointment.appointmentDate,
                 style: AppTextStyles.poppinsBlack(10, FontWeight.w400),
               ),
               SvgPicture.asset(Assets.iconsClockIconDarkblue,
                   width: 14.w, height: 14.h),
               Text(
-                appointment.appointmentTime, // الوقت الحقيقي
+                appointment.appointmentTime,
                 style: AppTextStyles.poppinsBlack(10, FontWeight.w400),
               ),
               MediaQuery.of(context).size.width < 410
@@ -58,15 +58,15 @@ class PatientBookingCard extends StatelessWidget {
                   children: [
                     DeleteBookingButton(),
                     BookingReviewDoctorButton(
-                      doctorId: appointment.doctorId,
-                      patientId: appointment.patientId,
+                        doctorId: appointment.doctorId,
+                        patientId: appointment.patientId,
                         doctorName: doctor?.name ?? 'Unknown'),
                   ],
                 )
               : Center(
                   child: BookingReviewDoctorButton(
-                    doctorId: appointment.doctorId,
-                    patientId: appointment.patientId,
+                      doctorId: appointment.doctorId,
+                      patientId: appointment.patientId,
                       doctorName: doctor?.name ?? 'Unknown'),
                 ),
         ],

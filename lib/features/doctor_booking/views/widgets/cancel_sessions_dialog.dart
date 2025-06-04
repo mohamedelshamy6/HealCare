@@ -14,9 +14,9 @@ class CancelSessionsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.all(0), 
+      insetPadding: EdgeInsets.all(0),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.9, 
+        width: MediaQuery.of(context).size.width * 0.9,
         padding: EdgeInsets.symmetric(vertical: 32.h, horizontal: 31.h),
         decoration: BoxDecoration(
           color: AppColors.mainWhite,

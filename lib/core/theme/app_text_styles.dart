@@ -31,6 +31,7 @@ class AppTextStyles {
       fontWeight: fontWeight,
     );
   }
+
   static TextStyle poppinsMainColor(double fontSize, FontWeight fontWeight) {
     return setPoppinsTextStyle(
       color: AppColors.mainColor,
@@ -38,6 +39,7 @@ class AppTextStyles {
       fontWeight: fontWeight,
     );
   }
+
   static TextStyle poppinsGrey(double fontSize, FontWeight fontWeight) {
     return setPoppinsTextStyle(
       color: AppColors.mainGrey,

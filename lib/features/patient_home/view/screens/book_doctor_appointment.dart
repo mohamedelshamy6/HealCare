@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/helpers/app_constants.dart';
-import 'package:heal_care/core/helpers/cache_helper.dart';
 import 'package:heal_care/core/helpers/helper_methods.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/routing/routes.dart';
@@ -27,8 +24,12 @@ import 'package:intl/intl.dart';
 class BookDoctorAppointment extends StatelessWidget {
   final DoctorsModel doctorsModel;
   final PatientsModel? patientsModel;
-  const BookDoctorAppointment(
-      {super.key, required this.doctorsModel, this.patientsModel});
+
+  const BookDoctorAppointment({
+    super.key,
+    required this.doctorsModel,
+    this.patientsModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -124,67 +125,32 @@ class BookDoctorAppointment extends StatelessWidget {
                     },
                   ),
                   verticalSpace(32),
-                  BlocListener<AppointenentSchedualCubit,
-                      AppointenentSchedualState>(
-                    listener: (context, state) {
-                      if (state is AppointmentBookingSuccess) {
-                        Navigator.pop(context);
-                        HelperMethods.showCustomSnackBarSuccess(
-                          context,
-                          'Appointment booked successfully',
-                        );
-                        Navigator.pushNamed(
-                          context,
-                          Routes.bookingPayment,
-                          arguments: doctorsModel,
-                        );
-                      } else if (state is AppointmentBookingError) {
-                        HelperMethods.showCustomSnackBarError(
-                            context, state.error);
-                        log(state.error);
-                      } else if (state is AppointmentBookingLoading) {
-                        HelperMethods.showLoadingAlertDialog(context);
+                  CustomButton(
+                    buttonAction: () {
+                      final cubit = context.read<AppointenentSchedualCubit>();
+                      final selectedDay = cubit.selectedDay;
+                      final selectedTime = cubit.selectedTime;
+
+                      if (selectedDay == null || selectedTime == null) {
+                        HelperMethods.showCustomSnackBarError(context,
+                            'Please select a date and time for your appointment.');
+                        return;
                       }
+
+                      Navigator.pushNamed(
+                        context,
+                        Routes.bookingPayment,
+                        arguments: {
+                          'doctor': doctorsModel,
+                          'appointment_date': selectedDay,
+                          'appointment_time': selectedTime,
+                        },
+                      );
                     },
-                    child: CustomButton(
-                      buttonAction: () {
-                        final cubit = context.read<AppointenentSchedualCubit>();
-                        final selectedDay = cubit.selectedDay;
-                        final selectedTime = cubit.selectedTime;
-
-                        if (selectedDay == null || selectedTime == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Please select date and time')),
-                          );
-                          return;
-                        }
-
-                        final id =
-                            CacheHelper().getData(key: 'patient_Id').toString();
-
-                        log(id.toString());
-
-                        final Map<String, dynamic> appointmentData = {
-                          "doctor_id": doctorsModel.id,
-                          "patient_id": id,
-                          "appointment_date": selectedDay,
-                          "appointment_time": selectedTime,
-                        };
-
-                        log('appointment_time : $selectedTime');
-
-                        cubit.bookAppointment(
-                          data: appointmentData,
-                          path: "${AppConstants.baseRestUrl}appointments",
-                        );
-                      },
-                      buttonText: 'Book Appointment',
-                      borderRadius: 8,
-                      height: 48.h,
-                      textStyle:
-                          AppTextStyles.poppinsWhite(14, FontWeight.w500),
-                    ),
+                    buttonText: 'Book Appointment',
+                    borderRadius: 8,
+                    height: 48.h,
+                    textStyle: AppTextStyles.poppinsWhite(14, FontWeight.w500),
                   ),
                 ],
               ),
@@ -195,4 +161,3 @@ class BookDoctorAppointment extends StatelessWidget {
     );
   }
 }
-

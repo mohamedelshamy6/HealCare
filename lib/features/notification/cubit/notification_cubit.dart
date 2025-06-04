@@ -6,7 +6,8 @@ import 'package:heal_care/features/notification/data/repos/notification_reposito
 part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
-  NotificationCubit(this.notificationRepository,this.doctorsCubit) : super(NotificationInitial());
+  NotificationCubit(this.notificationRepository, this.doctorsCubit)
+      : super(NotificationInitial());
 
   final NotificationRepository notificationRepository;
   Future<void> fetchNotifications(String path, dynamic doctorId) async {
@@ -23,7 +24,6 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   final DoctorsCubit doctorsCubit;
-  
 
   Future<void> seenNotification(String path, dynamic doctorId) async {
     emit(NotificationSeenLoading());

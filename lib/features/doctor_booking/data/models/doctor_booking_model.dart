@@ -19,7 +19,7 @@ class DoctorBookingModel {
     this.appointmentTime,
     this.status,
     this.createdAt,
-    this.patient, 
+    this.patient,
   });
 
   DoctorBookingModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +31,4 @@ class DoctorBookingModel {
     status = json['status'];
     createdAt = json['created_at'];
   }
-
-  
 }

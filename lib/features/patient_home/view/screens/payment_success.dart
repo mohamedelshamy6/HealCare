@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
@@ -8,10 +9,9 @@ import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../data/models/doctors_models.dart';
 
 class PaymentSuccess extends StatelessWidget {
-  final DoctorssModel doctorsModel;
+  final DoctorsModel doctorsModel;
   const PaymentSuccess({
     super.key,
     required this.doctorsModel,
@@ -63,22 +63,22 @@ class PaymentSuccess extends StatelessWidget {
                                 color: Colors.pink[200]!.withOpacity(0.35),
                                 borderRadius: BorderRadius.circular(24.r),
                                 image: DecorationImage(
-                                  image: AssetImage(doctorsModel.image),
+                                  image: NetworkImage(doctorsModel.image.toString()),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
                             verticalSpace(12),
                             Text(
-                              doctorsModel.name,
+                              doctorsModel.name.toString(),
                               style: AppTextStyles.poppinsBlack(
                                   16, FontWeight.w700),
                             ),
                             verticalSpace(8),
                             Text(
-                              doctorsModel.job.contains(' - ')
-                                  ? doctorsModel.job.split('-').first
-                                  : doctorsModel.job.split('|').first,
+                              doctorsModel.experience!.contains(' - ')
+                                  ? doctorsModel.experience!.split('-').first
+                                  : doctorsModel.experience!.split('|').first,
                               style: AppTextStyles.poppinsGrey(
                                   12, FontWeight.w500),
                             ),

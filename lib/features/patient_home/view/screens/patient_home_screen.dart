@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
-import 'package:heal_care/features/doctor_home/view/widgets/home_header.dart';
 import 'package:heal_care/features/patient_home/view/screens/all_doctors.dart';
 import 'package:heal_care/features/patient_home/view/widgets/find_doctor_container.dart';
+import 'package:heal_care/features/patient_home/view/widgets/patient_home_header.dart';
 import 'package:heal_care/features/patient_home/view/widgets/patiant_home_shimmer.dart';
 import 'package:heal_care/features/patient_home/view/widgets/home_banner.dart';
 import 'package:heal_care/features/patient_home/view/widgets/home_categories.dart';
@@ -32,7 +32,7 @@ class PatientHomeScreen extends StatelessWidget {
                     verticalSpace(24),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      child: const HomeHeader(),
+                      child: const PatientHomeHeader(),
                     ),
                     verticalSpace(32),
                     Padding(

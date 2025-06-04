@@ -8,6 +8,7 @@ import 'package:heal_care/core/widgets/custom_app_bar.dart';
 import 'package:heal_care/core/widgets/custom_tab_bar.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
 import 'package:heal_care/features/doctor_booking/logic/tabbar_cubit/tabbar_cubit.dart';
 import 'package:heal_care/features/doctor_booking/views/widgets/book_shimmer.dart';
@@ -41,6 +42,11 @@ class DoctorBooking extends StatelessWidget {
 
           if (doctorId == null) {
             return const Center(child: Text('No doctor found.'));
+          }
+
+          final patientState = context.read<PatientsCubit>().state;
+          if (patientState is PatientsSuccess) {
+            context.read<DoctorbookingCubit>().fetchAppointments(doctorId);
           }
 
           return BlocListener<PatientsCubit, PatientsState>(
@@ -124,12 +130,41 @@ class DoctorBooking extends StatelessWidget {
                                           is DoctorbookingSuccess) {
                                         final allBookingModel =
                                             state.doctorBooking;
+
+                                        List<DoctorBookingModel>
+                                            filteredBookings;
+                                        switch (index) {
+                                          case 1: 
+                                            filteredBookings = allBookingModel
+                                                .where((booking) =>
+                                                    booking.status ==
+                                                    'scheduled')
+                                                .toList();
+                                            break;
+                                          case 2: 
+                                            filteredBookings = allBookingModel
+                                                .where((booking) =>
+                                                    booking.status ==
+                                                    'completed')
+                                                .toList();
+                                            break;
+                                          case 3: 
+                                            filteredBookings = allBookingModel
+                                                .where((booking) =>
+                                                    booking.status ==
+                                                    'canceled')
+                                                .toList();
+                                            break;
+                                          default: 
+                                            filteredBookings = allBookingModel;
+                                        }
+
                                         return TabsBookingListView(
-                                          allBookingModel: allBookingModel,
+                                          allBookingModel: filteredBookings,
                                           selectedIndex: index,
                                         );
                                       } else {
-                                        return const SizedBox.shrink();
+                                        return const BookingShimmer();
                                       }
                                     },
                                   );

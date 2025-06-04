@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,7 +14,8 @@ import '../../../../core/theme/app_text_styles.dart';
 
 class FindDoctorsContainer extends StatelessWidget {
   const FindDoctorsContainer({
-    super.key, required this.doctorsModel,
+    super.key,
+    required this.doctorsModel,
   });
 
   final List<DoctorsModel> doctorsModel;
@@ -40,11 +42,13 @@ class FindDoctorsContainer extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 18.r,
-                    backgroundImage: NetworkImage(
-                      doctorsModel[index].image.toString(),
-                    ),
+                  CachedNetworkImage(
+                    imageUrl: "${doctorsModel[index].image}",
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.person),
                   ),
                   horizontalSpace(8),
                   Expanded(
@@ -132,7 +136,6 @@ class FindDoctorsContainer extends StatelessWidget {
                   Navigator.of(context).pushNamed(
                     Routes.bookDoctorAppointment,
                     arguments: doctorsModel[index],
-                    
                   );
                 },
                 textStyle: AppTextStyles.poppinsMainColor(14, FontWeight.w600),

@@ -44,8 +44,7 @@ class TabsBookingListView extends StatelessWidget {
                       Navigator.of(context).pushNamed(
                         Routes.detailsScreen,
                         arguments: {
-                          'doctorBookingModel':
-                              allBookingModel[index],
+                          'doctorBookingModel': allBookingModel[index],
                           'selectedIndex': selectedIndex,
                         },
                       );

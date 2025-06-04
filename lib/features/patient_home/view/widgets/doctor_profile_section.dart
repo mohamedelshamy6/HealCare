@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/helpers/app_images.dart';
@@ -21,12 +22,20 @@ class DoctorProfileSection extends StatelessWidget {
               height: 92.h,
               width: 90.w,
               decoration: BoxDecoration(
-                color: Colors.pink[200]!.withOpacity(0.35),
-                borderRadius: BorderRadius.circular(25.r),
-                image: DecorationImage(
-                  image: AssetImage(doctorsModel.image.toString()),
-                  fit: BoxFit.fill,
+                borderRadius: BorderRadius.circular(16.r),
+                color: Colors.white,
+                border: Border.all(
+                  width: 2,
+                  color: const Color(0xFFE5E5E5),
                 ),
+              ),
+              child: CachedNetworkImage(
+                imageUrl: "${doctorsModel.image}",
+                fit: BoxFit.fill,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) =>
+                    Icon(Icons.person, size: 40.r, color: Colors.grey),
               ),
             ),
             CircleAvatar(

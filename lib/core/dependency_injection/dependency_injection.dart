@@ -2,6 +2,8 @@ import 'package:get_it/get_it.dart';
 import 'package:heal_care/core/networking/supabase_web_socket_services.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
+import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/doctor_booking/data/repos/doctor_booking_repositories.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
 import 'package:heal_care/features/doctor_booking/logic/tabbar_cubit/tabbar_cubit.dart';
@@ -12,7 +14,6 @@ import 'package:heal_care/features/patient_booking/data/repos/rate_repositories.
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../features/auth/data/repos/doctors_repo.dart';
 import '../../features/auth/data/repos/login_repo.dart';
 import '../../features/auth/data/repos/patients_repo.dart';
@@ -52,7 +53,13 @@ class DependencyInjection {
         () => RateRepositories(getIt<ApiServices>()));
     getIt.registerLazySingleton<DoctorBookingRepositories>(
         () => DoctorBookingRepositories(getIt<ApiServices>()));
-    // Logic Cubits
+    getIt.registerLazySingleton<NotificationRepository>(
+        () => NotificationRepository(getIt<ApiServices>()));
+
+    getIt.registerLazySingleton<CreateConversitionRepository>(
+        () => CreateConversitionRepository(getIt<ApiServices>()));
+
+    // Cubits
     getIt.registerLazySingleton<DoctorsCubit>(
         () => DoctorsCubit(doctorsRepo: getIt<DoctorsRepo>()));
     getIt.registerLazySingleton<PatientsCubit>(
@@ -63,11 +70,13 @@ class DependencyInjection {
           getIt<PatientsCubit>(),
           getIt<PatientsRepo>(),
         ));
-    getIt.registerLazySingleton<NotificationRepository>(
-      () => NotificationRepository(getIt<ApiServices>()),
-    );
-    getIt.registerLazySingleton<NotificationCubit>(
-        () => NotificationCubit(getIt<NotificationRepository>(),
-            getIt<DoctorsCubit>()));
+    getIt.registerLazySingleton<NotificationCubit>(() => NotificationCubit(
+        getIt<NotificationRepository>(), getIt<DoctorsCubit>()));
+    getIt.registerLazySingleton<ChatCubit>(
+        () => ChatCubit(
+              getIt<CreateConversitionRepository>(),
+              getIt<DoctorsCubit>(),
+              getIt<PatientsCubit>(),
+            ));
   }
 }

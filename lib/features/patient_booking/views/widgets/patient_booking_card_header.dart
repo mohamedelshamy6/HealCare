@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,13 +29,15 @@ class PatientBookingCardHeader extends StatelessWidget {
             height: 50.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6.r),
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: doctor != null
-                    ? NetworkImage(doctor!.image ?? '')
-                    : AssetImage('assets/images/placeholder.png')
-                        as ImageProvider,
-              ),
+              color: Colors.white,
+            ),
+            child: CachedNetworkImage(
+              imageUrl: "${doctor?.image}",
+              fit: BoxFit.fill,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  CircularProgressIndicator(value: downloadProgress.progress),
+              errorWidget: (context, url, error) =>
+                  Icon(Icons.person, size: 40.r, color: Colors.grey),
             ),
           ),
           horizontalSpace(8),

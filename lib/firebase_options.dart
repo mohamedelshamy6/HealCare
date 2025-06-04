@@ -65,7 +65,8 @@ class DefaultFirebaseOptions {
     projectId: 'healcare-79980',
     databaseURL: 'https://healcare-79980-default-rtdb.firebaseio.com',
     storageBucket: 'healcare-79980.firebasestorage.app',
-    iosClientId: '519935702638-jdvbtfh5lgmklbnrklc91dvrvgj07rrc.apps.googleusercontent.com',
+    iosClientId:
+        '519935702638-jdvbtfh5lgmklbnrklc91dvrvgj07rrc.apps.googleusercontent.com',
     iosBundleId: 'com.example.healCare',
   );
 }

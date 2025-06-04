@@ -20,7 +20,7 @@ class PatientBookingScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const CustomAppHeader(title: 'Booking'),
+                Center(child: const CustomAppHeader(title: 'Booking')),
                 verticalSpace(24),
                 BlocBuilder<AppointementcubitCubit, AppointementcubitState>(
                   builder: (context, state) {

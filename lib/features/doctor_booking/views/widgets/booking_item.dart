@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -53,8 +54,15 @@ class BookingItem extends StatelessWidget {
             children: [
               CircleAvatar(
                   radius: 35.r,
-                  backgroundImage: NetworkImage(
-                      patientsModel.image ?? Assets.imagesPatientsPatientM)),
+                  child: CachedNetworkImage(
+                    imageUrl: "${patientsModel.image}",
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.person,
+                        size: 30.r, color: AppColors.mainGrey),
+                  )),
               horizontalSpace(15),
               Expanded(
                 child: Column(

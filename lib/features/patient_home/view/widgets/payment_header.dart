@@ -36,43 +36,47 @@ class PaymentHeader extends StatelessWidget {
             ),
           ),
           horizontalSpace(16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    'Rating',
-                    style: AppTextStyles.poppinsGrey(12, FontWeight.w500),
-                  ),
-                  horizontalSpace(8),
-                  ...List.generate(
-                    5,
-                    (index) => Icon(
-                      Icons.star,
-                      color: Colors.yellow[800],
-                      size: 18.r,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Rating',
+                      style: AppTextStyles.poppinsGrey(12, FontWeight.w500),
                     ),
-                  ),
-                  horizontalSpace(8),
-                  Text(
-                    '5',
-                    style: AppTextStyles.poppinsGrey(12, FontWeight.w500),
-                  ),
-                ],
-              ),
-              Text(
-                doctorsModel.name.toString(),
-                style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
-              ),
-              Text(
-                doctorsModel.education!.contains(' - ')
-                    ? doctorsModel.education!.split('-').first
-                    : doctorsModel.education!.split('|').first,
-                style: AppTextStyles.poppinsGrey(12, FontWeight.w500),
-              ),
-            ],
+                    horizontalSpace(8),
+                    ...List.generate(
+                      5,
+                      (index) => Icon(
+                        Icons.star,
+                        color: Colors.yellow[800],
+                        size: 18.r,
+                      ),
+                    ),
+                    horizontalSpace(8),
+                    Text(
+                      '5',
+                      style: AppTextStyles.poppinsGrey(12, FontWeight.w500),
+                    ),
+                  ],
+                ),
+                Text(
+                  doctorsModel.name.toString(),
+                  style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
+                ),
+                Text(
+                  doctorsModel.education!.contains(' - ')
+                      ? doctorsModel.education!.split('-').first.trim()
+                      : doctorsModel.education!.split('|').first.trim(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: AppTextStyles.poppinsGrey(12, FontWeight.w500),
+                ),
+              ],
+            ),
           ),
         ],
       ),

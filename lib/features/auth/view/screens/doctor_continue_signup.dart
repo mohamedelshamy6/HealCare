@@ -77,7 +77,9 @@ class _DoctorContinueSignupScreenState
               key: 'accessToken', value: state.signUpModel!.accessToken!);
           CacheHelper().saveSecuredData(
               key: 'refreshToken', value: state.signUpModel!.refreshToken!);
-          CacheHelper().saveData(key: 'doctor_Id', value: state.signUpModel!.user?.id);
+          CacheHelper()
+              .saveData(key: 'doctor_Id', value: state.signUpModel!.user?.id);
+        
 
           image == null
               ? null
@@ -112,6 +114,7 @@ class _DoctorContinueSignupScreenState
               'image': imageUrl,
             },
           ).then((value) {
+            
             Navigator.pushNamedAndRemoveUntil(
                 context, Routes.bottomNavBar, (route) => false,
                 arguments: 'doctor');

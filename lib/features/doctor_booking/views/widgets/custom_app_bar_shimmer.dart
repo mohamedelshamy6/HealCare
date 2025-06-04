@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
-
-class CustomAppBarShimmer extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBarShimmer extends StatelessWidget
+    implements PreferredSizeWidget {
   final double? toolbarHeight;
 
   const CustomAppBarShimmer({super.key, this.toolbarHeight});

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/theme/app_colors.dart';
 
-import '../theme/app_colors.dart';
-
-class CustomRadio extends StatefulWidget {
-  final int value;
-  final int? groupValue;
+class CustomRadio<T> extends StatefulWidget {
+  final T value;
+  final T? groupValue;
   final bool? isDisabled;
-  final void Function(int) onChanged;
+  final void Function(T) onChanged;
+
   const CustomRadio({
     super.key,
     required this.value,
@@ -17,13 +17,13 @@ class CustomRadio extends StatefulWidget {
   });
 
   @override
-  State<CustomRadio> createState() => _CustomRadioState();
+  State<CustomRadio<T>> createState() => _CustomRadioState<T>();
 }
 
-class _CustomRadioState extends State<CustomRadio> {
+class _CustomRadioState<T> extends State<CustomRadio<T>> {
   @override
   Widget build(BuildContext context) {
-    bool selected = (widget.value == widget.groupValue);
+    bool selected = widget.value == widget.groupValue;
 
     return Padding(
       padding: EdgeInsets.all(8.r),
