@@ -50,11 +50,11 @@ class NotificationsDoctorScreen extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<NotificationCubit, NotificationState>(
                     builder: (context, state) {
-                      if (state is NotificationLoading) {
+                      if (state is NotificationDoctorLoading) {
                         return const NotificationShimmer();
-                      } else if (state is NotificationError) {
+                      } else if (state is NotificationDoctorError) {
                         return Center(child: Text(state.error));
-                      } else if (state is NotificationSuccess) {
+                      } else if (state is NotificationDoctorSuccess) {
                         final notifications = state.notifications;
                         if (notifications.isEmpty) {
                           return const Center(
