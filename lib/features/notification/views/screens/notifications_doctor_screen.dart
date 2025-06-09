@@ -20,8 +20,8 @@ class NotificationsDoctorScreen extends StatelessWidget {
         if (state is DoctorsSuccess) {
           final doctor = context.read<DoctorsCubit>().doctorsModel.firstOrNull;
           if (doctor != null) {
-            context.read<NotificationCubit>().fetchNotifications(
-                  '${AppConstants.baseRestUrl}rpc/get_unread_notifications_for_doctor',
+            context.read<NotificationCubit>().fetchNotificationsforDoctors(
+                  '${AppConstants.baseRestUrl}rpc/get_unread_notifications',
                   context.read<DoctorsCubit>().doctorsModel.first.id,
                 );
           } else {
@@ -41,8 +41,8 @@ class NotificationsDoctorScreen extends StatelessWidget {
                   title: 'Notifications',
                   seenAll: true,
                   onSeenAllTap: () {
-                    context.read<NotificationCubit>().seenNotification(
-                        '${AppConstants.baseRestUrl}rpc/mark_notifications_as_read_for_doctor',
+                    context.read<NotificationCubit>().seenNotificationforDoctors(
+                        '${AppConstants.baseRestUrl}rpc/mark_notifications_as_read',
                         context.read<DoctorsCubit>().doctorsModel.first.id);
                   },
                 ),
