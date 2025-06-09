@@ -58,7 +58,7 @@ class NotificationsDoctorScreen extends StatelessWidget {
                         final notifications = state.notifications;
                         if (notifications.isEmpty) {
                           return const Center(
-                            child: Text("No notifications found"),
+                            child: Text("No notifications found yet."),
                           );
                         }
                         final validNotifications = notifications

@@ -187,7 +187,21 @@ class AppRoutes {
             BlocProvider<NotificationCubit>(
               create: (context) => NotificationCubit(
                 DependencyInjection.getIt(),
-                DependencyInjection.getIt<DoctorsCubit>(),
+              ),
+            ),
+          ], child: NotificationsDoctorScreen()),
+        );
+      case Routes.notificationsPatientScreen:
+      return MaterialPageRoute(
+          builder: (context) => MultiBlocProvider(providers: [
+            BlocProvider<PatientsCubit>(
+              create: (context) => PatientsCubit(
+                patientsRepo: DependencyInjection.getIt(),
+              )..getAllPatients(),
+            ),
+            BlocProvider<NotificationCubit>(
+              create: (context) => NotificationCubit(
+                DependencyInjection.getIt(),
               ),
             ),
           ], child: NotificationsDoctorScreen()),

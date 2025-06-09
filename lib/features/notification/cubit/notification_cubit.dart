@@ -1,12 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/notification/data/model/notification_model.dart';
 import 'package:heal_care/features/notification/data/repos/notification_repository.dart';
 
 part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
-  NotificationCubit(this.notificationRepository, this.doctorsCubit)
+  NotificationCubit(this.notificationRepository)
       : super(NotificationInitial());
 
   final NotificationRepository notificationRepository;
@@ -40,7 +39,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     );
   }
 
-  final DoctorsCubit doctorsCubit;
+  // final DoctorsCubit doctorsCubit;
 
   Future<void> seenNotificationforDoctors(String path, dynamic doctorId) async {
     emit(NotificationSeenLoading());
