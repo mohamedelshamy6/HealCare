@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:heal_care/core/helpers/cache_helper.dart';
 import 'package:heal_care/features/auth/data/models/patient_favourotes_model.dart';
 import 'package:heal_care/features/auth/data/repos/patient_favourites_repo.dart';
 
@@ -9,7 +12,8 @@ import '../../data/repos/doctors_repo.dart';
 part 'doctors_state.dart';
 
 class DoctorsCubit extends Cubit<DoctorsState> {
-  DoctorsCubit({required this.doctorsRepo,required this.patientFavouritesRepo}) : super(DoctorsInitial());
+  DoctorsCubit({required this.doctorsRepo, required this.patientFavouritesRepo})
+      : super(DoctorsInitial());
 
   final DoctorsRepo doctorsRepo;
   List<DoctorsModel> doctorsModel = [];
@@ -27,20 +31,24 @@ class DoctorsCubit extends Cubit<DoctorsState> {
     });
   }
 
-  Future<void> getPatientFavourites(
-    String path,
-    dynamic data,
-  ) async {
-    emit(DoctorsLoading());
+  Future<void> getPatientFavourites() async {
+    emit(PatientFavouritesLoading());
+
+    final String patientId = CacheHelper().getData(key: 'patient_Id') ??
+        CacheHelper().getData(key: 'userId') ??
+        'No Id for Patient';
+        log('Patient ID: $patientId');
     final response = await patientFavouritesRepo.getPatientFavourites(
-      path,
-      data,
+      '${AppConstants.baseRestUrl}rpc/get_patient_favorites',
+      {
+        'patient_id': patientId
+      },
     );
     response.fold((error) {
-      emit(DoctorsFailure(error: error));
+      emit(PatientFavouritesFailure(error: error));
     }, (patientFavoritesModel) {
       this.patientFavoritesModel = patientFavoritesModel;
-      emit(DoctorsSuccess(doctorsModel: doctorsModel));
+      emit(PatientFavouritesSuccess(patientFavoritesModel: patientFavoritesModel));
     });
   }
 

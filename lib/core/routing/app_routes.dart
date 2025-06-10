@@ -115,6 +115,7 @@ class AppRoutes {
               BlocProvider(
                   create: (context) => DoctorsCubit(
                         doctorsRepo: DependencyInjection.getIt(),
+                        patientFavouritesRepo: DependencyInjection.getIt(),
                       )..getAllDoctors()),
               BlocProvider(
                   create: (context) => AppointementcubitCubit(
@@ -169,12 +170,9 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) => AppointenentSchedualCubit(
-              DependencyInjection.getIt<AppointenentSchedualRepositorie>(),
-              DependencyInjection.getIt<BookAppointmentRepository>(),
-              DependencyInjection.getIt<AddPaymentRepo>()
-              
-              
-            ),
+                DependencyInjection.getIt<AppointenentSchedualRepositorie>(),
+                DependencyInjection.getIt<BookAppointmentRepository>(),
+                DependencyInjection.getIt<AddPaymentRepo>()),
             child: BookingPayment(
               data: args as Map<String, dynamic>,
             ),
@@ -192,6 +190,7 @@ class AppRoutes {
             BlocProvider<DoctorsCubit>(
               create: (context) => DoctorsCubit(
                 doctorsRepo: DependencyInjection.getIt(),
+                patientFavouritesRepo: DependencyInjection.getIt(),
               )..getAllDoctors(),
             ),
             BlocProvider<NotificationCubit>(

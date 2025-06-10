@@ -17,3 +17,17 @@ final class DoctorsFailure extends DoctorsState {
 
   DoctorsFailure({required this.error});
 }
+
+final class PatientFavouritesSuccess extends DoctorsState {
+  final List<PatientFavouritesModel> patientFavoritesModel;
+
+  PatientFavouritesSuccess({required this.patientFavoritesModel});
+}
+
+final class PatientFavouritesFailure extends DoctorsState {
+  final String error;
+
+  PatientFavouritesFailure({required this.error});
+}
+
+final class PatientFavouritesLoading extends DoctorsState {}
