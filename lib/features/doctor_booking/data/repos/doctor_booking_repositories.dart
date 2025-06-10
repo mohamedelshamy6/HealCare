@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:heal_care/core/errors/api/exceptions/api_exception.dart';
 import 'package:heal_care/core/networking/api_services.dart';
@@ -12,6 +14,7 @@ class DoctorBookingRepositories {
   ) async {
     try {
       final response = await apiServices.get(path);
+      log("Response: $response");
       final List<DoctorBookingModel> doctorBooking = (response as List)
           .map((json) => DoctorBookingModel.fromJson(json))
           .toList();

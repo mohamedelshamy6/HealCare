@@ -1,3 +1,4 @@
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/core/helpers/app_constants.dart';
 import 'package:heal_care/features/auth/data/models/patients_model.dart';
@@ -44,6 +45,7 @@ class DoctorbookingCubit extends Cubit<DoctorbookingState> {
         }
 
         doctorBooking = data;
+
         emit(DoctorbookingSuccess(doctorBooking));
       },
     );

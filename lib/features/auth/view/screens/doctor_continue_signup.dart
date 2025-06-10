@@ -114,7 +114,8 @@ class _DoctorContinueSignupScreenState
               'image': imageUrl,
             },
           ).then((value) {
-            
+            CacheHelper().saveData(
+                key: 'doctor_Id', value: state.signUpModel?.user?.id ?? 'No Id for Doctor');
             Navigator.pushNamedAndRemoveUntil(
                 context, Routes.bottomNavBar, (route) => false,
                 arguments: 'doctor');
