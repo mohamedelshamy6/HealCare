@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:heal_care/core/errors/api/exceptions/api_exception.dart';
 import 'package:heal_care/core/networking/api_services.dart';
@@ -18,7 +20,7 @@ class AppointenentSchedualRepositorie {
         "doctor_id_input": doctorId,
       });
 
-      developer.log('Raw API Response: $response');
+      log('Raw API Response: $response');
 
       if (response == null || response is! Map<String, dynamic>) {
         return Left("there is No Avaliable Appointment for this Doctor");
