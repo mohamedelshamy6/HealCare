@@ -1,34 +1,50 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/notification/data/model/notification_model.dart';
 import 'package:heal_care/features/notification/data/repos/notification_repository.dart';
 
 part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
-  NotificationCubit(this.notificationRepository, this.doctorsCubit)
+  NotificationCubit(this.notificationRepository)
       : super(NotificationInitial());
 
   final NotificationRepository notificationRepository;
-  Future<void> fetchNotifications(String path, dynamic doctorId) async {
-    emit(NotificationLoading());
+  Future<void> fetchNotificationsforDoctors(
+      String path, dynamic doctorId) async {
+    emit(NotificationDoctorLoading());
     final data = {
-      "doc_id": doctorId,
+      "user_id": doctorId,
     };
 
-    final result = await notificationRepository.getNotifications(path, data);
+    final result =
+        await notificationRepository.getNotificationsforDoctors(path, data);
     result.fold(
-      (error) => emit(NotificationError(error)),
-      (notifications) => emit(NotificationSuccess(notifications)),
+      (error) => emit(NotificationDoctorError(error)),
+      (notifications) => emit(NotificationDoctorSuccess(notifications)),
     );
   }
 
-  final DoctorsCubit doctorsCubit;
+  Future<void> fetchNotificationsforPatient(
+      String path, dynamic patientId) async {
+    emit(NotificationPatientLoading());
+    final data = {
+      "user_id": patientId,
+    };
 
-  Future<void> seenNotification(String path, dynamic doctorId) async {
+    final result =
+        await notificationRepository.getNotificationsforPatients(path, data);
+    result.fold(
+      (error) => emit(NotificationPatientError(error)),
+      (notifications) => emit(NotificationPatientSuccess(notifications)),
+    );
+  }
+
+  
+
+  Future<void> seenNotification(String path, dynamic id) async {
     emit(NotificationSeenLoading());
     final data = {
-      "doc_id": doctorId,
+      "user_id": id,
     };
     final result =
         await notificationRepository.seenNotification(path: path, data: data);

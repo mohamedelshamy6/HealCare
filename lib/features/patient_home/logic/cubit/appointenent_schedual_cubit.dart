@@ -35,6 +35,8 @@ class AppointenentSchedualCubit extends Cubit<AppointenentSchedualState> {
     );
   }
 
+
+
   void selectDay(String selectedDay) {
     _selectedDay = selectedDay;
     if (_schedule != null) {

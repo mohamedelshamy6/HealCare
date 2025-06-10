@@ -4,18 +4,30 @@ sealed class NotificationState {}
 
 final class NotificationInitial extends NotificationState {}
 
-final class NotificationLoading extends NotificationState {}
+final class NotificationDoctorLoading extends NotificationState {}
 
-final class NotificationSuccess extends NotificationState {
+final class NotificationDoctorSuccess extends NotificationState {
   final List<NotificationModel> notifications;
 
-  NotificationSuccess(this.notifications);
+  NotificationDoctorSuccess(this.notifications);
 }
 
-final class NotificationError extends NotificationState {
+final class NotificationDoctorError extends NotificationState {
   final String error;
 
-  NotificationError(this.error);
+  NotificationDoctorError(this.error);
+}
+
+final class NotificationPatientLoading extends NotificationState {}
+final class NotificationPatientSuccess extends NotificationState {
+  final List<NotificationModel> notifications;
+
+  NotificationPatientSuccess(this.notifications);
+}
+final class NotificationPatientError extends NotificationState {
+  final String error;
+
+  NotificationPatientError(this.error);
 }
 
 final class NotificationSeenSuccess extends NotificationState {}

@@ -9,7 +9,7 @@ class NotificationRepository {
   final ApiServices apiServices;
   NotificationRepository(this.apiServices);
 
-  Future<Either<String, List<NotificationModel>>> getNotifications(
+  Future<Either<String, List<NotificationModel>>> getNotificationsforDoctors(
       String path, Map<String, dynamic> data) async {
     try {
       final response = await apiServices.post(path, data: data);
@@ -31,6 +31,32 @@ class NotificationRepository {
       return left('An unexpected error occurred');
     }
   }
+
+
+
+  Future<Either<String, List<NotificationModel>>> getNotificationsforPatients(
+      String path, Map<String, dynamic> data) async {
+    try {
+      final response = await apiServices.post(path, data: data);
+
+      if (response is List) {
+        final notifications = response
+            .map((notification) => NotificationModel.fromJson(notification))
+            .toList()
+            .cast<NotificationModel>();
+        return right(notifications);
+      } else {
+        log('Unexpected response format: $response');
+        return left('Unexpected response format');
+      }
+    } on ApiException catch (e) {
+      return left(e.errorModel.message ?? 'API Error');
+    } catch (e) {
+      log('Unexpected error: $e');
+      return left('An unexpected error occurred');
+    }
+  }
+   
 
   Future<Either<String, bool>> seenNotification({
     required String path,

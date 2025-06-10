@@ -71,7 +71,7 @@ class DependencyInjection {
           getIt<PatientsRepo>(),
         ));
     getIt.registerLazySingleton<NotificationCubit>(() => NotificationCubit(
-        getIt<NotificationRepository>(), getIt<DoctorsCubit>()));
+        getIt<NotificationRepository>()));
     getIt.registerLazySingleton<ChatCubit>(
         () => ChatCubit(
               getIt<CreateConversitionRepository>(),

@@ -20,8 +20,8 @@ class NotificationsDoctorScreen extends StatelessWidget {
         if (state is DoctorsSuccess) {
           final doctor = context.read<DoctorsCubit>().doctorsModel.firstOrNull;
           if (doctor != null) {
-            context.read<NotificationCubit>().fetchNotifications(
-                  '${AppConstants.baseRestUrl}rpc/get_unread_notifications_for_doctor',
+            context.read<NotificationCubit>().fetchNotificationsforDoctors(
+                  '${AppConstants.baseRestUrl}rpc/get_unread_notifications',
                   context.read<DoctorsCubit>().doctorsModel.first.id,
                 );
           } else {
@@ -42,7 +42,7 @@ class NotificationsDoctorScreen extends StatelessWidget {
                   seenAll: true,
                   onSeenAllTap: () {
                     context.read<NotificationCubit>().seenNotification(
-                        '${AppConstants.baseRestUrl}rpc/mark_notifications_as_read_for_doctor',
+                        '${AppConstants.baseRestUrl}rpc/mark_notifications_as_read',
                         context.read<DoctorsCubit>().doctorsModel.first.id);
                   },
                 ),
@@ -50,15 +50,15 @@ class NotificationsDoctorScreen extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<NotificationCubit, NotificationState>(
                     builder: (context, state) {
-                      if (state is NotificationLoading) {
+                      if (state is NotificationDoctorLoading) {
                         return const NotificationShimmer();
-                      } else if (state is NotificationError) {
+                      } else if (state is NotificationDoctorError) {
                         return Center(child: Text(state.error));
-                      } else if (state is NotificationSuccess) {
+                      } else if (state is NotificationDoctorSuccess) {
                         final notifications = state.notifications;
                         if (notifications.isEmpty) {
                           return const Center(
-                            child: Text("No notifications found"),
+                            child: Text("No notifications found yet."),
                           );
                         }
                         final validNotifications = notifications

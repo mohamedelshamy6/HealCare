@@ -9,6 +9,8 @@ import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
 import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
+import 'package:heal_care/features/notification/data/repos/notification_repository.dart';
+import 'package:heal_care/features/notification/views/screens/notifications_patients_screen.dart';
 import 'package:heal_care/features/patient_booking/logic/cubit/appointementcubit_cubit.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
@@ -125,6 +127,10 @@ class AppRoutes {
                 )..getAllPatients(),
               ),
               BlocProvider(
+                  create: (context) => NotificationCubit(
+                        DependencyInjection.getIt<NotificationRepository>(),
+                      )),
+              BlocProvider(
                 create: (context) => DoctorbookingCubit(
                     DependencyInjection.getIt(),
                     context.read<PatientsCubit>(),
@@ -164,6 +170,7 @@ class AppRoutes {
             create: (context) => AppointenentSchedualCubit(
               DependencyInjection.getIt<AppointenentSchedualRepositorie>(),
               DependencyInjection.getIt<BookAppointmentRepository>(),
+              
             ),
             child: BookingPayment(
               data: args as Map<String, dynamic>,
@@ -187,10 +194,20 @@ class AppRoutes {
             BlocProvider<NotificationCubit>(
               create: (context) => NotificationCubit(
                 DependencyInjection.getIt(),
-                DependencyInjection.getIt<DoctorsCubit>(),
               ),
             ),
           ], child: NotificationsDoctorScreen()),
+        );
+      case Routes.notificationsPatientScreen:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<PatientsCubit>(
+            create: (context) => PatientsCubit(
+              patientsRepo: DependencyInjection.getIt(),
+            )..getAllPatients(),
+            child: NotificationsPatientsScreen(
+              type: args as String,
+            ),
+          ),
         );
       case Routes.patientFavoriteScreen:
         return MaterialPageRoute(
