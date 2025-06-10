@@ -9,10 +9,10 @@ class PaymenthistoryCubit extends Cubit<PaymenthistoryState> {
 
   final PaymentHistoryRepo paymentHistoryRepo;
 
-  Future<void> fetchPaymentHistory(String path, dynamic patientId) async {
+  Future<void> fetchPaymentHistory(String path, dynamic userId) async {
     emit(PaymentHistoryLoading());
     final data = {
-      "user_id": patientId,
+      "user_id": userId,
     };
 
     final result = await paymentHistoryRepo.getPaymentHistory(path, data);
