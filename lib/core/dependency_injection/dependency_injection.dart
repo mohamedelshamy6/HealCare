@@ -11,6 +11,7 @@ import 'package:heal_care/features/notification/data/repos/notification_reposito
 import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
 import 'package:heal_care/features/patient_booking/data/repos/appointment_repositories.dart';
 import 'package:heal_care/features/patient_booking/data/repos/rate_repositories.dart';
+import 'package:heal_care/features/patient_home/data/repos/add_payment_repo.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -49,6 +50,8 @@ class DependencyInjection {
         () => BookAppointmentRepository(getIt<ApiServices>()));
     getIt.registerLazySingleton<AppointmentRepositories>(
         () => AppointmentRepositories(getIt<ApiServices>()));
+    getIt.registerLazySingleton<AddPaymentRepo>(
+        () => AddPaymentRepo(getIt<ApiServices>()));
     getIt.registerLazySingleton<RateRepositories>(
         () => RateRepositories(getIt<ApiServices>()));
     getIt.registerLazySingleton<DoctorBookingRepositories>(

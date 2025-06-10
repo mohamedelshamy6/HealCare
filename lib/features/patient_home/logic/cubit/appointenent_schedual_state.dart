@@ -25,3 +25,15 @@ final class AppointmentBookingError extends AppointenentSchedualState {
   final String error;
   AppointmentBookingError(this.error);
 }
+
+final class AddPaymentLoading extends AppointenentSchedualState {}
+
+final class AddPaymentSuccess extends AppointenentSchedualState {
+  final String status;
+  AddPaymentSuccess({required this.status});
+}
+
+final class AddPaymentError extends AppointenentSchedualState {
+  final String error;
+  AddPaymentError({required this.error});
+}

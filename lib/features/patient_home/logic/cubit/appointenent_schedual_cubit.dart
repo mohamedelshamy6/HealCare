@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/features/patient_home/data/models/appointement_schedual_model.dart';
+import 'package:heal_care/features/patient_home/data/repos/add_payment_repo.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 part 'appointenent_schedual_state.dart';
@@ -10,6 +11,7 @@ class AppointenentSchedualCubit extends Cubit<AppointenentSchedualState> {
   AppointenentSchedualCubit(
     this.appointenentSchedualRepositorie,
     this.bookAppointmentRepository,
+    this.addPaymentRepo,
   ) : super(AppointenentSchedualInitial());
 
   final AppointenentSchedualRepositorie appointenentSchedualRepositorie;
@@ -34,8 +36,6 @@ class AppointenentSchedualCubit extends Cubit<AppointenentSchedualState> {
       },
     );
   }
-
-
 
   void selectDay(String selectedDay) {
     _selectedDay = selectedDay;
@@ -83,6 +83,21 @@ class AppointenentSchedualCubit extends Cubit<AppointenentSchedualState> {
     result.fold(
       (error) => emit(AppointmentBookingError(error)),
       (_) => emit(AppointmentBookingSuccess()),
+    );
+  }
+
+  final AddPaymentRepo addPaymentRepo;
+
+  Future<void> addPayment({
+    required dynamic data,
+    required String path,
+  }) async {
+    emit(AddPaymentLoading());
+
+    final result = await addPaymentRepo.addPayment(path, data);
+    result.fold(
+      (error) => emit(AddPaymentError(error: error)),
+      (response) => emit(AddPaymentSuccess(status:  response.message.toString())),
     );
   }
 }
