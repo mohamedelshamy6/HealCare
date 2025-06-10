@@ -41,7 +41,7 @@ class NotificationsDoctorScreen extends StatelessWidget {
                   title: 'Notifications',
                   seenAll: true,
                   onSeenAllTap: () {
-                    context.read<NotificationCubit>().seenNotificationforDoctors(
+                    context.read<NotificationCubit>().seenNotification(
                         '${AppConstants.baseRestUrl}rpc/mark_notifications_as_read',
                         context.read<DoctorsCubit>().doctorsModel.first.id);
                   },

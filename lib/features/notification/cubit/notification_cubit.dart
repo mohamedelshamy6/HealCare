@@ -17,7 +17,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     };
 
     final result =
-        await notificationRepository.getNotifications(path, data);
+        await notificationRepository.getNotificationsforDoctors(path, data);
     result.fold(
       (error) => emit(NotificationDoctorError(error)),
       (notifications) => emit(NotificationDoctorSuccess(notifications)),
@@ -32,19 +32,19 @@ class NotificationCubit extends Cubit<NotificationState> {
     };
 
     final result =
-        await notificationRepository.getNotifications(path, data);
+        await notificationRepository.getNotificationsforPatients(path, data);
     result.fold(
       (error) => emit(NotificationPatientError(error)),
       (notifications) => emit(NotificationPatientSuccess(notifications)),
     );
   }
 
-  // final DoctorsCubit doctorsCubit;
+  
 
-  Future<void> seenNotificationforDoctors(String path, dynamic doctorId) async {
+  Future<void> seenNotification(String path, dynamic id) async {
     emit(NotificationSeenLoading());
     final data = {
-      "user_id": doctorId,
+      "user_id": id,
     };
     final result =
         await notificationRepository.seenNotification(path: path, data: data);

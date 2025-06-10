@@ -55,6 +55,8 @@ class LoginScreen extends StatelessWidget {
                           context, Routes.bottomNavBar, (route) => false,
                           arguments: 'patient');
                   CacheHelper().saveData(key: 'role', value: type);
+                  CacheHelper().saveData(
+                      key: 'userId', value: state.loginModel!.user!.id);
                 }
                 if (state is LoginFailure) {
                   Navigator.pop(context);

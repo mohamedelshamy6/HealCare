@@ -97,7 +97,7 @@ class AppMetadata {
 
 class UserMetaData {
   String? address;
-  int? age;
+  String? age;
   String? bio;
   String? bloodType;
   String? disease;
@@ -106,7 +106,7 @@ class UserMetaData {
   bool? emailVerified;
   String? experience;
   String? gender;
-  int? height;
+  String? height;
   String? image;
   String? instaPayLink;
   String? medicalHistory;
@@ -115,7 +115,7 @@ class UserMetaData {
   String? specialization;
   String? sub;
   String? type;
-  int? weight;
+  String? weight;
 
   UserMetaData(
       {this.address,
