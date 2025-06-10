@@ -21,7 +21,8 @@ class AppointementcubitCubit extends Cubit<AppointementcubitState> {
   Future<void> fetchAppointments() async {
     emit(AppointementcubitLoading());
 
-    final pId = CacheHelper().getData(key: 'patient_Id');
+    final pId = CacheHelper().getData(key: 'patient_Id')??
+        CacheHelper().getData(key: 'userId');
 
     if (pId == null || pId.toString().isEmpty) {
       emit(AppointementcubitFailure(error: "Missing patient ID"));

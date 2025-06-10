@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
@@ -24,17 +25,29 @@ class PaymentHeader extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 64.h,
-            width: 64.w,
-            decoration: BoxDecoration(
-              color: Colors.pink[200]!.withOpacity(0.35),
-              borderRadius: BorderRadius.circular(24.r),
-              image: DecorationImage(
-                image: NetworkImage(doctorsModel.image.toString()),
-                fit: BoxFit.fill,
+              height: 64.h,
+              width: 64.w,
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(24.r),
               ),
-            ),
-          ),
+              child: CachedNetworkImage(
+                imageUrl: doctorsModel.image ?? '',
+                imageBuilder: (context, imageProvider) => CircleAvatar(
+                  radius: 32.r,
+                  backgroundImage: imageProvider,
+                ),
+                placeholder: (context, url) => CircleAvatar(
+                  radius: 35.r,
+                  backgroundColor: Colors.grey[200],
+                ),
+                errorWidget: (context, url, error) => CircleAvatar(
+                  radius: 35.r,
+                  backgroundColor: Colors.grey[200],
+                  child:
+                      Icon(Icons.person, size: 35.r, color: Colors.grey[500]),
+                ),
+              )),
           horizontalSpace(16),
           Expanded(
             child: Column(

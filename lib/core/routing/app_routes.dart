@@ -170,6 +170,7 @@ class AppRoutes {
             create: (context) => AppointenentSchedualCubit(
               DependencyInjection.getIt<AppointenentSchedualRepositorie>(),
               DependencyInjection.getIt<BookAppointmentRepository>(),
+              
             ),
             child: BookingPayment(
               data: args as Map<String, dynamic>,

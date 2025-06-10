@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,13 +72,27 @@ class _BookingPaymentState extends State<BookingPayment> {
     final String time = widget.data['appointment_time'];
 
     final String patientId =
-        CacheHelper().getData(key: 'patient_Id').toString();
+        (CacheHelper().getData(key: 'patient_Id').toString());
+    final String? userId = CacheHelper().getData(key: 'userId');
+
+    String? patientIdCheck() {
+      if (patientId.isNotEmpty && patientId != "null") {
+        return patientId;
+      } else if (userId != null && userId.isNotEmpty && userId != "null") {
+        return userId;
+      }
+      return null;
+    }
+
+    final String? finalPatientId = patientIdCheck();
+
     final appointmentData = {
       "doctor_id": doctor.id,
-      "patient_id": patientId,
+      "patient_id": finalPatientId,
       "appointment_date": date,
       "appointment_time": time,
     };
+    log("Appointment Data: $appointmentData");
 
     if (selectedMethod == null) {
       HelperMethods.showCustomSnackBarError(
@@ -141,8 +157,6 @@ class _BookingPaymentState extends State<BookingPayment> {
       arguments: doctor,
     );
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
