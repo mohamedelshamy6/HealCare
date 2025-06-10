@@ -1,10 +1,10 @@
-class AddPayment {
+class AddPaymentModel {
   String? status;
   String? message;
 
-  AddPayment({this.status, this.message});
+  AddPaymentModel({this.status, this.message});
 
-  AddPayment.fromJson(Map<String, dynamic> json) {
+  AddPaymentModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
   }

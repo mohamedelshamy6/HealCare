@@ -12,6 +12,7 @@ import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
 import 'package:heal_care/features/notification/data/repos/notification_repository.dart';
 import 'package:heal_care/features/notification/views/screens/notifications_patients_screen.dart';
 import 'package:heal_care/features/patient_booking/logic/cubit/appointementcubit_cubit.dart';
+import 'package:heal_care/features/patient_home/data/repos/add_payment_repo.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:heal_care/features/patient_home/logic/cubit/appointenent_schedual_cubit.dart';
@@ -170,6 +171,8 @@ class AppRoutes {
             create: (context) => AppointenentSchedualCubit(
               DependencyInjection.getIt<AppointenentSchedualRepositorie>(),
               DependencyInjection.getIt<BookAppointmentRepository>(),
+              DependencyInjection.getIt<AddPaymentRepo>()
+              
               
             ),
             child: BookingPayment(

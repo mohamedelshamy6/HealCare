@@ -66,98 +66,171 @@ class _BookingPaymentState extends State<BookingPayment> {
     appointmentCubit = context.read<AppointenentSchedualCubit>();
   }
 
-  void makePayment() async {
-    final DoctorsModel doctor = widget.data['doctor'];
-    final String date = widget.data['appointment_date'];
-    final String time = widget.data['appointment_time'];
+ void makePayment() async {
+  final DoctorsModel doctor = widget.data['doctor'];
+  final String date = widget.data['appointment_date'];
+  final String time = widget.data['appointment_time'];
 
-    final String patientId =
-        (CacheHelper().getData(key: 'patient_Id').toString());
-    final String? userId = CacheHelper().getData(key: 'userId');
+  final String patientId =
+      (CacheHelper().getData(key: 'patient_Id').toString());
+  final String? userId = CacheHelper().getData(key: 'userId');
 
-    String? patientIdCheck() {
-      if (patientId.isNotEmpty && patientId != "null") {
-        return patientId;
-      } else if (userId != null && userId.isNotEmpty && userId != "null") {
-        return userId;
-      }
-      return null;
+  String? patientIdCheck() {
+    if (patientId.isNotEmpty && patientId != "null") {
+      return patientId;
+    } else if (userId != null && userId.isNotEmpty && userId != "null") {
+      return userId;
     }
+    return null;
+  }
 
-    final String? finalPatientId = patientIdCheck();
+  final String? finalPatientId = patientIdCheck();
 
-    final appointmentData = {
-      "doctor_id": doctor.id,
-      "patient_id": finalPatientId,
-      "appointment_date": date,
-      "appointment_time": time,
-    };
-    log("Appointment Data: $appointmentData");
+  // Validate patient ID before proceeding
+  if (finalPatientId == null) {
+    HelperMethods.showCustomSnackBarError(
+        context, "Patient ID not found. Please log in again.");
+    return;
+  }
 
-    if (selectedMethod == null) {
+  final appointmentData = {
+    "doctor_id": doctor.id,
+    "patient_id": finalPatientId,
+    "appointment_date": date,
+    "appointment_time": time,
+  };
+  log("Appointment Data: $appointmentData");
+
+  if (selectedMethod == null) {
+    HelperMethods.showCustomSnackBarError(
+        context, "Please select a payment method");
+    return;
+  }
+
+  // Function to handle payment failure
+  Future<void> handlePaymentFailure() async {
+    try {
+      // Add payment record with failure status
+      final paymentData = {
+        "doctor": doctor.id,
+        "patient": finalPatientId,
+        "price": "200",
+        "payment_status": "failure"
+      };
+
+      await appointmentCubit.addPayment(
+          data: paymentData, path: "${AppConstants.baseRestUrl}payments");
+
       HelperMethods.showCustomSnackBarError(
-          context, "Please select a payment method");
-      return;
+          context, 'Payment failed. Please try again.');
+      
+      log("Payment failed and recorded");
+    } catch (e) {
+      log("Failed to record payment failure: $e");
+      HelperMethods.showCustomSnackBarError(
+          context, 'Payment failed and could not be recorded.');
     }
+  }
 
-    if (selectedMethod == PaymentMethodType.creditCard) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => PaymentView(
-            onPaymentSuccess: () async {
-              await appointmentCubit.bookAppointment(
-                data: appointmentData,
-                path: "${AppConstants.baseRestUrl}appointments",
-              );
-
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Routes.paymentSuccess,
-                (route) => false,
-                arguments: doctor,
-              );
-              HelperMethods.showCustomSnackBarSuccess(
-                  context, 'Payment successful!');
-            },
-            onPaymentError: () {
-              HelperMethods.showCustomSnackBarError(
-                  context, 'Payment failed. Please try again.');
-            },
-            price: 200,
-          ),
-        ),
+  // Function to handle successful payment operations
+  Future<void> handlePaymentSuccess() async {
+    try {
+      // Book the appointment
+      await appointmentCubit.bookAppointment(
+        data: appointmentData,
+        path: "${AppConstants.baseRestUrl}appointments",
       );
-      return;
+
+      // Add payment record with success status
+      final paymentData = {
+        "doctor": doctor.id,
+        "patient": finalPatientId,
+        "price": "200",
+        "payment_status": "success"
+      };
+
+      await appointmentCubit.addPayment(
+          data: paymentData, path: "${AppConstants.baseRestUrl}rpc/add_payment_history");
+
+      // Navigate to success page
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        Routes.paymentSuccess,
+        (route) => false,
+        arguments: doctor,
+      );
+      
+      HelperMethods.showCustomSnackBarSuccess(context, 'Payment successful!');
+    } catch (e) {
+      log("Payment success handling error: $e");
+      // If anything fails during success handling, record as failure
+      await handlePaymentFailure();
     }
+  }
 
-    // InstaPay fallback logic
-    const instaPayUrl =
-        "instapay://payment?amount=200&to=instapay@healcare.com";
-    const fallbackUrl =
-        "https://instapay.eg/pay?to=instapay@healcare.com&amount=200";
-    final uri = Uri.parse(instaPayUrl);
-    final fallbackUri = Uri.parse(fallbackUrl);
+  if (selectedMethod == PaymentMethodType.creditCard) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => PaymentView(
+          onPaymentSuccess: () async {
+            await handlePaymentSuccess();
+          },
+          onPaymentError: () async {
+            await handlePaymentFailure();
+          },
+          price: 200,
+        ),
+      ),
+    );
+    return;
+  }
 
+  // InstaPay logic
+  const instaPayUrl =
+      "instapay://payment?amount=200&to=instapay@healcare.com";
+  const fallbackUrl =
+      "https://instapay.eg/pay?to=instapay@healcare.com&amount=200";
+  final uri = Uri.parse(instaPayUrl);
+  final fallbackUri = Uri.parse(fallbackUrl);
+
+  try {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
       await launchUrl(fallbackUri, mode: LaunchMode.externalApplication);
     }
-
-    // Proceed with booking the appointment after payment
-    await appointmentCubit.bookAppointment(
-      data: appointmentData,
-      path: "${AppConstants.baseRestUrl}appointments",
+    
+    // For InstaPay, show confirmation dialog to verify payment success
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Text('Payment Confirmation'),
+        content: Text('Did you complete the InstaPay payment successfully?'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await handlePaymentFailure();
+            },
+            child: Text('No, Failed'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await handlePaymentSuccess();
+            },
+            child: Text('Yes, Successful'),
+          ),
+        ],
+      ),
     );
-
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      Routes.paymentSuccess,
-      (route) => false,
-      arguments: doctor,
-    );
+    
+  } catch (e) {
+    log("InstaPay launch error: $e");
+    await handlePaymentFailure();
   }
-
+}
   @override
   Widget build(BuildContext context) {
     final doctor = widget.data['doctor'] as DoctorsModel;

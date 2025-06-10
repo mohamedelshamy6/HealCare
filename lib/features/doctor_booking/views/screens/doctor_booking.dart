@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -133,29 +135,32 @@ class DoctorBooking extends StatelessWidget {
 
                                         List<DoctorBookingModel>
                                             filteredBookings;
+
                                         switch (index) {
-                                          case 1: 
+                                          case 1:
                                             filteredBookings = allBookingModel
                                                 .where((booking) =>
                                                     booking.status ==
                                                     'scheduled')
                                                 .toList();
                                             break;
-                                          case 2: 
+                                          case 2:
                                             filteredBookings = allBookingModel
                                                 .where((booking) =>
                                                     booking.status ==
                                                     'completed')
                                                 .toList();
+                                            log('message: ${filteredBookings}');
                                             break;
-                                          case 3: 
+                                          case 3:
                                             filteredBookings = allBookingModel
                                                 .where((booking) =>
                                                     booking.status ==
-                                                    'canceled')
+                                                    'cancelled')
                                                 .toList();
+                                            log('message: ${filteredBookings}');
                                             break;
-                                          default: 
+                                          default:
                                             filteredBookings = allBookingModel;
                                         }
 

@@ -11,6 +11,7 @@ import 'package:heal_care/core/widgets/custom_button.dart';
 import 'package:heal_care/core/widgets/custom_date_picker.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/data/models/patients_model.dart';
+import 'package:heal_care/features/patient_home/data/repos/add_payment_repo.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:heal_care/features/patient_home/logic/cubit/appointenent_schedual_cubit.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
@@ -37,6 +38,7 @@ class BookDoctorAppointment extends StatelessWidget {
       create: (context) => AppointenentSchedualCubit(
         DependencyInjection.getIt<AppointenentSchedualRepositorie>(),
         DependencyInjection.getIt<BookAppointmentRepository>(),
+        DependencyInjection.getIt<AddPaymentRepo>(),
       )..fetchSchedule(
           "${AppConstants.baseRestUrl}/rpc/get_doctor_availability",
           doctorsModel.id ?? '',
