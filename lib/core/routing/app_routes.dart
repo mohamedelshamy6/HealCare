@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
+import 'package:heal_care/features/auth/data/models/patient_favourotes_model.dart';
 import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
@@ -114,6 +115,7 @@ class AppRoutes {
               ),
               BlocProvider(
                   create: (context) => DoctorsCubit(
+                        toogleFavouritesRepo: DependencyInjection.getIt(),
                         doctorsRepo: DependencyInjection.getIt(),
                         patientFavouritesRepo: DependencyInjection.getIt(),
                       )..getAllDoctors()),
@@ -154,14 +156,15 @@ class AppRoutes {
           builder: (context) => MultiBlocProvider(
             providers: [
               BlocProvider<ChatCubit>(
-                  create: (context) => ChatCubit(
-                        DependencyInjection.getIt(),
-                        DependencyInjection.getIt<DoctorsCubit>(),
-                        DependencyInjection.getIt<PatientsCubit>(),
-                      )),
+                create: (context) => ChatCubit(
+                  DependencyInjection.getIt(),
+                  DependencyInjection.getIt<DoctorsCubit>(),
+                  DependencyInjection.getIt<PatientsCubit>(),
+                ),
+              ),
             ],
             child: BookDoctorAppointment(
-              doctorsModel: args as DoctorsModel,
+              doctorsModel: args as DoctorsModel? ?? DoctorsModel(),
             ),
           ),
         );
@@ -189,6 +192,7 @@ class AppRoutes {
           builder: (context) => MultiBlocProvider(providers: [
             BlocProvider<DoctorsCubit>(
               create: (context) => DoctorsCubit(
+                toogleFavouritesRepo: DependencyInjection.getIt(),
                 doctorsRepo: DependencyInjection.getIt(),
                 patientFavouritesRepo: DependencyInjection.getIt(),
               )..getAllDoctors(),

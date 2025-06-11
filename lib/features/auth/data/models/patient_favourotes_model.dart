@@ -17,7 +17,7 @@ class PatientFavouritesModel {
     doctorName = json['doctor_name'];
     doctorImage = json['doctor_image'];
     specialization = json['specialization'];
-    averageRate = json['average_rate'];
+    averageRate = (json['average_rate'] as num?)?.toDouble();
   }
 
   Map<String, dynamic> toJson() {

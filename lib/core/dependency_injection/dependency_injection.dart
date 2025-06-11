@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:heal_care/core/networking/supabase_web_socket_services.dart';
 import 'package:heal_care/features/auth/data/repos/patient_favourites_repo.dart';
+import 'package:heal_care/features/auth/data/repos/toogle_favourites_repo.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
@@ -64,12 +65,15 @@ class DependencyInjection {
         () => NotificationRepository(getIt<ApiServices>()));
     getIt.registerLazySingleton<PaymentHistoryRepo>(
         () => PaymentHistoryRepo(getIt<ApiServices>()));
+    getIt.registerLazySingleton<ToogleFavouritesRepo>(
+        () => ToogleFavouritesRepo(getIt<ApiServices>()));
 
     getIt.registerLazySingleton<CreateConversitionRepository>(
         () => CreateConversitionRepository(getIt<ApiServices>()));
 
     // Cubits
     getIt.registerLazySingleton<DoctorsCubit>(() => DoctorsCubit(
+        toogleFavouritesRepo: getIt<ToogleFavouritesRepo>(),
         doctorsRepo: getIt<DoctorsRepo>(),
         patientFavouritesRepo: getIt<PatientFavouritesRepo>()));
     getIt.registerLazySingleton<PatientsCubit>(
