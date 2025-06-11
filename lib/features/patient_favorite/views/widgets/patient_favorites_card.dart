@@ -1,19 +1,24 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/helpers/app_images.dart';
-import '../../../../core/helpers/spacing.dart';
-import '../../../../core/routing/routes.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/widgets/custom_button.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../patient_home/data/models/doctors_models.dart';
+import 'package:heal_care/core/helpers/app_images.dart';
+import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/routing/routes.dart';
+import 'package:heal_care/core/theme/app_colors.dart';
+import 'package:heal_care/core/theme/app_text_styles.dart';
+import 'package:heal_care/core/widgets/custom_button.dart';
+import 'package:heal_care/features/auth/data/models/patient_favourotes_model.dart';
+import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 
 class PatientFavoritesCard extends StatelessWidget {
-  final int index;
+  final PatientFavouritesModel doctors;
+
   const PatientFavoritesCard({
     super.key,
-    required this.index,
+    required this.doctors,
   });
 
   @override
@@ -22,8 +27,10 @@ class PatientFavoritesCard extends StatelessWidget {
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
-        border:
-            Border.all(width: 2, color: AppColors.findDoctorsCardBorderColor),
+        border: Border.all(
+          width: 2,
+          color: AppColors.findDoctorsCardBorderColor,
+        ),
         color: AppColors.findDoctorsCardColor,
       ),
       child: Column(
@@ -31,61 +38,64 @@ class PatientFavoritesCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 18.r,
-                backgroundImage: AssetImage(
-                  doctors[index].image,
+              // Doctor Image
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: CachedNetworkImage(
+                  imageUrl: doctors.doctorImage ?? '',
+                  width: 60.w,
+                  height: 60.h,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.person),
                 ),
               ),
-              horizontalSpace(8),
+              horizontalSpace(12),
+
+              // Doctor Info
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      doctors[index].name,
-                      style: AppTextStyles.poppinsBlack(
-                        14,
-                        FontWeight.w600,
-                      ),
+                      doctors.doctorName ?? 'Unknown Doctor',
+                      style: AppTextStyles.poppinsBlack(14, FontWeight.w600),
                     ),
                     verticalSpace(4),
                     Text(
-                      doctors[index].job,
-                      style: AppTextStyles.poppinsBlack(
-                        14,
-                        FontWeight.w400,
-                      ).copyWith(color: Color(0xffAAB6C3)),
+                      doctors.specialization ?? 'General',
+                      style: AppTextStyles.poppinsBlack(14, FontWeight.w400)
+                          .copyWith(color: const Color(0xffAAB6C3)),
                     ),
                     verticalSpace(8),
                   ],
                 ),
               ),
+
+              // Favorite icon
               IconButton(
                 padding: EdgeInsets.zero,
-                style: ButtonStyle(
-                  padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                ),
-                onPressed: () {},
+                onPressed: () {
+                  context.read<DoctorsCubit>().removeFromFavourites(doctors);
+                },
                 icon: Image.asset(
+                  Assets.iconsFavoriteIconRed,
                   height: 20.h,
                   width: 22.w,
-                  Assets.iconsFavoriteIconRed,
                 ),
               ),
             ],
           ),
+
+          // Rating + Working Time
           Padding(
-            padding: EdgeInsets.only(left: 12.w),
+            padding: EdgeInsets.only(left: 12.w, top: 8.h),
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text(
-                  '4.8',
-                  style: AppTextStyles.poppinsBlack(
-                    14,
-                    FontWeight.w500,
-                  ),
+                  (doctors.averageRate?.toStringAsFixed(1) ?? '4.8'),
+                  style: AppTextStyles.poppinsBlack(14, FontWeight.w500),
                 ),
                 horizontalSpace(4),
                 Padding(
@@ -104,23 +114,32 @@ class PatientFavoritesCard extends StatelessWidget {
                 ),
                 horizontalSpace(8),
                 Text(
-                  '10:30am - 5:30pm',
-                  style: AppTextStyles.poppinsBlack(
-                    14,
-                    FontWeight.w500,
-                  ),
+                  '10:30am - 5:30pm', // ممكن تجيبها من `doctors.availableTime` لو كانت موجودة
+                  style: AppTextStyles.poppinsBlack(14, FontWeight.w500),
                 ),
               ],
             ),
           ),
+
           verticalSpace(16),
+
+          // Book Appointment Button
           CustomButton(
             buttonText: 'Book Appointment',
             borderRadius: 8,
             buttonAction: () {
+              // Convert PatientFavouritesModel to DoctorsModel
+              final doctorModel = DoctorsModel(
+                id: doctors.doctorId,
+                name: doctors.doctorName,
+                image: doctors.doctorImage,
+                specialization: doctors.specialization,
+                isFavourite: true,
+              );
+
               Navigator.of(context).pushNamed(
                 Routes.bookDoctorAppointment,
-                arguments: doctors[index],
+                arguments: doctorModel,
               );
             },
             textStyle: AppTextStyles.poppinsMainColor(14, FontWeight.w600),

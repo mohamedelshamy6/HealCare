@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
@@ -19,9 +20,8 @@ class DoctorsContainer extends StatelessWidget {
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
       onTap: () {
-        Navigator.of(context).pushNamed(
-          Routes.bookDoctorAppointment,
-        );
+        Navigator.of(context)
+            .pushNamed(Routes.bookDoctorAppointment, arguments: doctorsModel);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -38,20 +38,26 @@ class DoctorsContainer extends StatelessWidget {
                   width: 64.w,
                   height: 64.h,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(
-                        doctorsModel.image?.toString() ??
-                            'assets/default_image.png',
-                      ),
-                    ),
-                    color: AppColors.mainColor,
+                    color: AppColors.mainWhite,
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(22.r),
-                      bottomRight: Radius.circular(22.r),
-                      topLeft: Radius.circular(22.r),
-                      topRight: Radius.circular(12.r),
+                        bottomLeft: Radius.circular(22.r),
+                        bottomRight: Radius.circular(22.r),
+                        topLeft: Radius.circular(22.r),
+                        topRight: Radius.circular(12.r)),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: doctorsModel.image ?? '',
+                    fit: BoxFit.cover,
+                    imageBuilder: (context, imageProvider) => CircleAvatar(
+                      radius: 19.r,
+                      backgroundImage: imageProvider,
                     ),
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.person, size: 24.r),
                   ),
                 ),
                 Positioned(
