@@ -197,25 +197,36 @@ class HelperMethods {
     return handler.next(options);
   }
 
-  static String formatTime(String? time24) {
-    if (time24 == null || time24.isEmpty) return 'N/A';
+static String formatDate(String? date) {
+    if (date == null || date.isEmpty) return '';
     try {
-      final hour = int.parse(time24.split(':')[0]);
-      final minute = int.parse(time24.split(':')[1]);
-      final dt = DateTime(0, 1, 1, hour, minute);
-      return DateFormat.jm().format(dt); // e.g. 2:00 PM
+      final parsedDate = DateTime.parse(date);
+      return DateFormat('EEEE, d MMMM yyyy').format(parsedDate);
     } catch (e) {
-      return time24;
+      return date;
     }
   }
 
-  static String formatDate(String? dateStr) {
-    if (dateStr == null || dateStr.isEmpty) return 'N/A';
+  static String formatTime(String? time) {
+    if (time == null || time.isEmpty) return '';
     try {
-      final date = DateTime.parse(dateStr);
-      return DateFormat.yMMMMd().format(date);
+      final parts = time.split(':');
+      if (parts.length != 2) return time;
+
+      int hour = int.tryParse(parts[0]) ?? 0;
+      final minute = parts[1];
+
+      if (hour == 0) {
+        return '12:$minute AM';
+      } else if (hour < 12) {
+        return '$hour:$minute AM';
+      } else if (hour == 12) {
+        return '12:$minute PM';
+      } else {
+        return '${hour - 12}:$minute PM';
+      }
     } catch (e) {
-      return dateStr;
+      return time;
     }
   }
 

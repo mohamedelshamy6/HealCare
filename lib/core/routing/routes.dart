@@ -27,4 +27,5 @@ class Routes {
   static const String insideChat = 'insideChat';
   static const String detailsScreen = 'detailsScreen';
   static const String chatBot = 'chatBot';
+  static const String doctorBooking = 'doctorBooking';
 }

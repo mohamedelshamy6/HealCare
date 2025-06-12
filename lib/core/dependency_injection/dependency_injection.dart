@@ -6,6 +6,7 @@ import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
 import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
+import 'package:heal_care/features/doctor_booking/data/repos/cancel_appointment_model.dart';
 import 'package:heal_care/features/doctor_booking/data/repos/doctor_booking_repositories.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
 import 'package:heal_care/features/doctor_booking/logic/tabbar_cubit/tabbar_cubit.dart';
@@ -67,6 +68,8 @@ class DependencyInjection {
         () => PaymentHistoryRepo(getIt<ApiServices>()));
     getIt.registerLazySingleton<ToogleFavouritesRepo>(
         () => ToogleFavouritesRepo(getIt<ApiServices>()));
+    getIt.registerLazySingleton<CancelAppointmentRepo>(
+        () => CancelAppointmentRepo(getIt<ApiServices>()));
 
     getIt.registerLazySingleton<CreateConversitionRepository>(
         () => CreateConversitionRepository(getIt<ApiServices>()));
@@ -83,6 +86,7 @@ class DependencyInjection {
           getIt<DoctorBookingRepositories>(),
           getIt<PatientsCubit>(),
           getIt<PatientsRepo>(),
+          getIt<CancelAppointmentRepo>(),
         ));
     getIt.registerLazySingleton<NotificationCubit>(
         () => NotificationCubit(getIt<NotificationRepository>()));

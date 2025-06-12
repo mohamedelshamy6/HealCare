@@ -4,8 +4,7 @@ import 'package:heal_care/core/networking/api_services.dart';
 
 import '../models/cancel_appointment_model.dart';
 
-abstract class CancelAppointmentRepo {
-
+ class CancelAppointmentRepo {
   final ApiServices apiServices;
 
   CancelAppointmentRepo(this.apiServices);
