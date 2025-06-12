@@ -15,3 +15,17 @@ final class DoctorbookingFailure extends DoctorbookingState {
   final String message;
   DoctorbookingFailure(this.message);
 }
+
+final class DoctorbookingCancelAppointmentSuccess extends DoctorbookingState {
+  final String message;
+  DoctorbookingCancelAppointmentSuccess({required this.message});
+}
+
+final class DoctorbookingCancelAppointmentFailure extends DoctorbookingState {
+  final String message;
+  DoctorbookingCancelAppointmentFailure({required this.message});
+}
+
+final class DoctorbookingCancelAppointmentLoading extends DoctorbookingState {}
+
+

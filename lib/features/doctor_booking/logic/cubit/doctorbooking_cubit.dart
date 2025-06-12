@@ -5,13 +5,14 @@ import 'package:heal_care/features/auth/data/models/patients_model.dart';
 import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
+import 'package:heal_care/features/doctor_booking/data/repos/cancel_appointment_model.dart';
 import 'package:heal_care/features/doctor_booking/data/repos/doctor_booking_repositories.dart';
 
 part 'doctorbooking_state.dart';
 
 class DoctorbookingCubit extends Cubit<DoctorbookingState> {
   DoctorbookingCubit(
-      this.doctorBookingRepositories, this.patientsCubit, this.patientsRepo)
+      this.doctorBookingRepositories, this.patientsCubit, this.patientsRepo, this.cancelAppointmentRepo)
       : super(DoctorbookingInitial());
   final DoctorBookingRepositories doctorBookingRepositories;
   List<DoctorBookingModel> doctorBooking = [];
@@ -48,6 +49,23 @@ class DoctorbookingCubit extends Cubit<DoctorbookingState> {
 
         emit(DoctorbookingSuccess(doctorBooking));
       },
+    );
+  }
+
+  final CancelAppointmentRepo cancelAppointmentRepo;
+
+  Future<void> cancelAppointment(String appointmentId) async {
+    emit(DoctorbookingCancelAppointmentLoading());
+
+    final url = "${AppConstants.baseRestUrl}appointments/$appointmentId";
+
+    final result = await cancelAppointmentRepo.cancelAppointment(url, {
+      'status': 'canceled',
+    });
+
+    result.fold(
+      (error) => emit(DoctorbookingCancelAppointmentFailure(message: error)),
+      (data) => emit(DoctorbookingCancelAppointmentSuccess(message: data.message.toString())),
     );
   }
 }
