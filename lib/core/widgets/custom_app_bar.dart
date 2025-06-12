@@ -46,7 +46,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: InkWell(
                 onTap: actionsOnPressed,
                 child: SvgPicture.asset(
-                  ' Assets.iconsBlackIconsBlackNotification',
+                  'assets/icons/notification_icon_grey.svg',
                   height: 24.h,
                   width: 24.w,
                 ),

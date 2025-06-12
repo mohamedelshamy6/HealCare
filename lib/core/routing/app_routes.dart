@@ -8,7 +8,9 @@ import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
+import 'package:heal_care/features/doctor_booking/data/repos/cancel_appointment_model.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
+import 'package:heal_care/features/doctor_booking/views/screens/doctor_booking.dart';
 import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
 import 'package:heal_care/features/notification/data/repos/notification_repository.dart';
 import 'package:heal_care/features/notification/views/screens/notifications_patients_screen.dart';
@@ -138,7 +140,8 @@ class AppRoutes {
                 create: (context) => DoctorbookingCubit(
                     DependencyInjection.getIt(),
                     context.read<PatientsCubit>(),
-                    DependencyInjection.getIt<PatientsRepo>()),
+                    DependencyInjection.getIt<PatientsRepo>(),
+                    DependencyInjection.getIt<CancelAppointmentRepo>()),
               ),
               BlocProvider(
                 create: (context) => ChatCubit(
@@ -218,6 +221,10 @@ class AppRoutes {
       case Routes.patientFavoriteScreen:
         return MaterialPageRoute(
           builder: (context) => PatientFavoritesScreen(),
+        );
+      case Routes.doctorBooking:
+        return MaterialPageRoute(
+          builder: (context) => DoctorBooking(),
         );
       case Routes.doctorContinueSignUpScreen:
         return MaterialPageRoute(
