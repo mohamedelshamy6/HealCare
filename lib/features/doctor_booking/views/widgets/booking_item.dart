@@ -72,7 +72,6 @@ class BookingItem extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 17.w),
                 child: CustomButton(
                   buttonAction: () {
-                    // TODO: Implement attend session functionality
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Starting session...'),
