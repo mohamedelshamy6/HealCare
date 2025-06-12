@@ -13,3 +13,13 @@ final class CreateChatConversitionFailure extends ChatState {
 
   CreateChatConversitionFailure(this.error);
 }
+
+final class GetChatConversitionLoading extends ChatState {}
+
+final class GetChatConversitionSuccess extends ChatState {}
+
+final class GetChatConversitionFailure extends ChatState {
+  final String error;
+
+  GetChatConversitionFailure(this.error);
+}

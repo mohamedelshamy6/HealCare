@@ -13,7 +13,7 @@ class  GetConversationRepo {
   ) async {
     try {
       final response = await apiServices.get(path, data: data);
-      return Right(response);
+      return Right(response.map((e) => GetConversationsModel.fromJson(e)).toList());
     } on ApiException catch (e) {
       return Left(e.errorModel.message.toString());
     } 
