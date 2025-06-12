@@ -1,9 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:heal_care/core/helpers/helper_methods.dart';
 import 'package:heal_care/features/auth/data/models/patients_model.dart';
 import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
@@ -12,7 +9,8 @@ import 'package:heal_care/features/doctor_booking/views/widgets/booking_date_tim
 import 'package:heal_care/features/doctor_booking/views/widgets/booking_patient_info.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
-
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/custom_button.dart';
 
 class BookingItem extends StatelessWidget {
   final PatientsModel patientsModel;
@@ -61,11 +59,33 @@ class BookingItem extends StatelessWidget {
               appointmentTime: bookingModel.appointmentTime,
               isVertical: MediaQuery.of(context).size.width < 400,
             ),
+            verticalSpace(14),
             if (selectedIndex == 0) ...[
-              verticalSpace(14),
               BookingCancelButton(
                 appointmentId: bookingModel.id ?? '',
                 cubit: context.read<DoctorbookingCubit>(),
+              ),
+            ] else if (selectedIndex == 1 &&
+                bookingModel.status == 'scheduled') ...[
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 17.w),
+                child: CustomButton(
+                  buttonAction: () {
+                    // TODO: Implement attend session functionality
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Starting session...'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  },
+                  buttonText: 'Attend Session',
+                  borderRadius: 8.r,
+                  textStyle: AppTextStyles.poppinsWhite(14, FontWeight.w500),
+                  height: 40.h,
+                  color: AppColors.mainColor,
+                ),
               ),
             ],
           ],

@@ -48,7 +48,7 @@ class BookingPatientInfo extends StatelessWidget {
               ),
               verticalSpace(4),
               Text(
-                patientsModel.email ?? '',
+                patientsModel.disease ?? '',
                 style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
               ),
             ],

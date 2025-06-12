@@ -34,13 +34,11 @@ class DoctorBookingTabs extends StatelessWidget {
                   filteredBookings = allBookingModel
                       .where((booking) => booking.status == 'completed')
                       .toList();
-                  log('message: ${filteredBookings}');
                   break;
                 case 3:
                   filteredBookings = allBookingModel
                       .where((booking) => booking.status == 'cancelled')
                       .toList();
-                  log('message: ${filteredBookings}');
                   break;
                 default:
                   filteredBookings = allBookingModel;
