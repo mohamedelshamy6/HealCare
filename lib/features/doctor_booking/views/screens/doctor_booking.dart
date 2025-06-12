@@ -150,7 +150,6 @@ class DoctorBooking extends StatelessWidget {
                                                     booking.status ==
                                                     'completed')
                                                 .toList();
-                                            log('message: ${filteredBookings}');
                                             break;
                                           case 3:
                                             filteredBookings = allBookingModel
@@ -158,7 +157,6 @@ class DoctorBooking extends StatelessWidget {
                                                     booking.status ==
                                                     'cancelled')
                                                 .toList();
-                                            log('message: ${filteredBookings}');
                                             break;
                                           default:
                                             filteredBookings = allBookingModel;
