@@ -27,3 +27,13 @@ final class GetChatConversitionFailure extends ChatState {
 
   GetChatConversitionFailure(this.error);
 }
+
+final class SendMessageInConversationLoading extends ChatState {}
+
+final class SendMessageInConversationSuccess extends ChatState {}
+
+final class SendMessageInConversationFailure extends ChatState {
+  final String error;
+
+  SendMessageInConversationFailure(this.error);
+}

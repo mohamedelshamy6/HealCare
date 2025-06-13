@@ -19,6 +19,7 @@ import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
 import 'package:heal_care/features/chat/data/repos/get_conversation_repo.dart';
+import 'package:heal_care/features/chat/data/repos/send_message_in_conversation.dart';
 import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/patient_home/logic/cubit/appointenent_schedual_cubit.dart';
 import 'package:heal_care/features/patient_home/view/widgets/payment_header.dart';
@@ -256,6 +257,7 @@ class _BookingPaymentState extends State<BookingPayment> {
       create: (context) => ChatCubit(
         DependencyInjection.getIt<CreateConversitionRepository>(),
         DependencyInjection.getIt<GetConversationRepo>(),
+        DependencyInjection.getIt<SendMessageInConversation>(),
         context.read<DoctorsCubit>(),
         context.read<PatientsCubit>(),
       ),
