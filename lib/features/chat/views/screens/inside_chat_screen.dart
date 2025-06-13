@@ -10,7 +10,7 @@ import '../../../../core/widgets/custom_text_form_field.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/chat_header.dart';
 import '../../data/models/message.dart';
-
+import '../../data/models/get_conversations_model.dart';
 import '../../../doctor_home/data/models/patient_model.dart';
 import '../widgets/chat_bubble_for_friend.dart';
 
@@ -20,7 +20,7 @@ class InsideChatScreen extends StatefulWidget {
     required this.chatIndex,
     required this.model,
   });
-  final int chatIndex;
+  final String chatIndex;
   final Object model;
   @override
   State<InsideChatScreen> createState() => _InsideChatScreenState();
@@ -44,6 +44,18 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
         );
       }
     });
+
+    // Initialize messages from conversation if available
+    if (widget.model is GetConversationsModel) {
+      final conversation = widget.model as GetConversationsModel;
+      if (conversation.lastMessageContent != null) {
+        messages.add(Message(
+          text: conversation.lastMessageContent!,
+          timestamp: DateTime.parse(conversation.lastMessageSentAt ??
+              DateTime.now().toIso8601String()),
+        ));
+      }
+    }
   }
 
   @override
@@ -55,9 +67,15 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String image = (widget.model is DoctorssModel
-        ? ((widget.model) as DoctorssModel).image
-        : ((widget.model) as PatientModel).image);
+    String image = '';
+    if (widget.model is GetConversationsModel) {
+      image = (widget.model as GetConversationsModel).counterpartImage ?? '';
+    } else if (widget.model is DoctorssModel) {
+      image = (widget.model as DoctorssModel).image;
+    } else if (widget.model is PatientModel) {
+      image = (widget.model as PatientModel).image;
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -66,124 +84,39 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ChatHeader(
-                  model: widget.model is DoctorssModel
-                      ? (widget.model) as DoctorssModel
-                      : (widget.model) as PatientModel),
+                model: widget.model,
+              ),
               verticalSpace(11),
               Expanded(
-                child: widget.chatIndex == 0
-                    ? ListView.builder(
-                        controller: _scrollController,
-                        itemCount: messages.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                verticalSpace(20.25),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Yesterday',
-                                    style: AppTextStyles.poppinsGrey(
-                                        10, FontWeight.w400),
-                                  ),
-                                ),
-                                verticalSpace(13),
-                              ],
-                            );
-                          }
-                          return ChatBubble(
-                            image: image,
-                            message: messages[index - 1].text,
-                            date:
-                                '${messages[index - 1].timestamp.hour}:${messages[index - 1].timestamp.minute}',
-                          );
-                        },
-                      )
-                    : ListView(
-                        controller: _scrollController,
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: messages.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           verticalSpace(20.25),
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                              'Yesterday',
+                              'Today',
                               style: AppTextStyles.poppinsGrey(
                                   10, FontWeight.w400),
                             ),
                           ),
                           verticalSpace(13),
-                          ChatBubbleForFriend(
-                            type: widget.model is DoctorssModel
-                                ? 'patient'
-                                : 'doctor',
-                            message: 'hi',
-                            date: '18:57',
-                          ),
-                          ChatBubble(
-                            image: image,
-                            message: 'hi',
-                            date: '18:57',
-                          ),
-                          ChatBubbleForFriend(
-                            type: widget.model is DoctorssModel
-                                ? 'patient'
-                                : 'doctor',
-                            message:
-                                'Hi doctor, I am cardio patient. I need your help imidiately.',
-                            date: '18:57',
-                          ),
-                          ChatBubble(
-                            image: image,
-                            message:
-                                'Hi, don’t worry! I am here. Let me know your situation now.',
-                            date: '18:58',
-                          ),
-                          ChatBubbleForFriend(
-                            type: widget.model is DoctorssModel
-                                ? 'patient'
-                                : 'doctor',
-                            message:
-                                'Hi doctor, I am cardio patient. I need your help imidiately.',
-                            date: '18:59',
-                          ),
-                          ChatBubble(
-                            image: image,
-                            message:
-                                'Hi, don’t worry! I am here. Let me know your situation now.',
-                            date: '19:00',
-                          ),
-                          ChatBubbleForFriend(
-                            type: widget.model is DoctorssModel
-                                ? 'patient'
-                                : 'doctor',
-                            message:
-                                'Hi doctor, I am cardio patient. I need your help imidiately.',
-                            date: '19:00',
-                          ),
-                          ChatBubble(
-                            image: image,
-                            message:
-                                'Hi, don’t worry! I am here. Let me know your situation now.',
-                            date: '19:00',
-                          ),
-                          ChatBubbleForFriend(
-                            message:
-                                'Hi doctor, I am cardio patient. I need your help imidiately.',
-                            type: widget.model is DoctorssModel
-                                ? 'patient'
-                                : 'doctor',
-                            date: '19:01',
-                          ),
-                          ChatBubble(
-                            image: image,
-                            message:
-                                'Hi, don’t worry! I am here. Let me know your situation now.',
-                            date: '19:01',
-                          ),
                         ],
-                      ),
+                      );
+                    }
+                    return ChatBubble(
+                      image: image,
+                      message: messages[index - 1].text,
+                      date:
+                          '${messages[index - 1].timestamp.hour}:${messages[index - 1].timestamp.minute}',
+                    );
+                  },
+                ),
               ),
               verticalSpace(16),
               Row(

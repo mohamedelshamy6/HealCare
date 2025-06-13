@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/cache_helper.dart';
-import 'package:heal_care/core/dependency_injection/dependency_injection.dart';
-import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
-import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
-import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
-import 'package:heal_care/features/chat/data/repos/get_conversation_repo.dart';
-import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/chat/views/screens/patient_chat.dart';
 import 'package:heal_care/features/notification/views/screens/notifications_patients_screen.dart';
 import '../../../doctor_profile/views/screens/doctor_profile.dart';
@@ -22,13 +15,32 @@ import '../../../patient_profile/views/screens/patient_profile.dart';
 import '../../logic/bottom_navigation_bar_cubit.dart';
 import '../widgets/bottom_navigation_bar_home_item.dart';
 import '../widgets/bottom_navigation_bar_item.dart';
+import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
+import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
+import 'package:heal_care/features/patient_booking/logic/cubit/appointementcubit_cubit.dart';
 
-class CustomBottomNavigationBar extends StatelessWidget {
+class CustomBottomNavigationBar extends StatefulWidget {
   final String type;
-  const CustomBottomNavigationBar({
-    super.key,
-    required this.type,
-  });
+  const CustomBottomNavigationBar({super.key, required this.type});
+
+  @override
+  State<CustomBottomNavigationBar> createState() =>
+      _CustomBottomNavigationBarState();
+}
+
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  void _loadData() {
+    context.read<DoctorsCubit>().getAllDoctors();
+    context.read<AppointementcubitCubit>().fetchAppointments();
+    context.read<PatientsCubit>().getAllPatients();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +66,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
       builder: (context, state) {
         return Scaffold(
-          body: type == 'patient'
+          body: widget.type == 'patient'
               ? patientPages[cubit.selectedIndex]
               : doctorPages[cubit.selectedIndex],
           bottomNavigationBar: Stack(
@@ -71,7 +83,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     (index) => index == 2
                         ? SizedBox(width: 32.w)
                         : CustomBottomNavigationBarItem(
-                            type: type,
+                            type: widget.type,
                             index: index,
                           ),
                   ),

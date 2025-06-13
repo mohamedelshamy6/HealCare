@@ -21,10 +21,32 @@ class _DoctorChatState extends State<DoctorChat> {
   @override
   void initState() {
     super.initState();
-    context.read<ChatCubit>().getConversations(
-          userId: CacheHelper().getData(key: 'doctor_Id') ?? '',
-          userType: 'doctor',
-        );
+    _loadConversations();
+  }
+
+  void _loadConversations() {
+    final String doctorId =
+        CacheHelper().getData(key: 'doctor_Id')?.toString() ?? '';
+    final String? userId = CacheHelper().getData(key: 'userId');
+
+    String? doctorIdCheck() {
+      if (doctorId.isNotEmpty && doctorId != "null") {
+        return doctorId;
+      } else if (userId != null && userId.isNotEmpty && userId != "null") {
+        return userId;
+      }
+      return null;
+    }
+
+    final String? finalDoctorId = doctorIdCheck();
+
+    if (finalDoctorId != null) {
+      context.read<ChatCubit>().getConversations(
+            userId: finalDoctorId,
+            userType: 'doctor',
+          );
+    }
+
     log('doctor_Id: ${CacheHelper().getData(key: 'doctor_Id')}');
     log('userType: doctor');
   }

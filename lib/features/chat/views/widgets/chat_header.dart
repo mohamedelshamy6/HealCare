@@ -6,87 +6,75 @@ import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../data/models/get_conversations_model.dart';
 import '../../../doctor_home/data/models/patient_model.dart';
 
 class ChatHeader extends StatelessWidget {
-  final Object model;
   const ChatHeader({
     super.key,
     required this.model,
   });
 
+  final Object model;
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    String name = '';
+    String image = '';
+    String specialization = '';
+
+    if (model is GetConversationsModel) {
+      final conversation = model as GetConversationsModel;
+      name = conversation.counterpartName ?? '';
+      image = conversation.counterpartImage ?? '';
+    } else if (model is DoctorssModel) {
+      final doctor = model as DoctorssModel;
+      name = doctor.name;
+      image = doctor.image;
+      specialization = doctor.job;
+    } else if (model is PatientModel) {
+      final patient = model as PatientModel;
+      name = patient.name;
+      image = patient.image;
+    }
+
+    return Row(
       children: [
-        Row(
+        IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 20.r,
+            color: AppColors.mainColor,
+          ),
+        ),
+        horizontalSpace(8),
+        CircleAvatar(
+          radius: 20.r,
+          backgroundImage: NetworkImage(image),
+        ),
+        horizontalSpace(8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InkWell(
-              onTap: () => Navigator.pop(context),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: 24.r,
-                child: Icon(
-                  Icons.arrow_back,
-                  size: 24.r,
-                  color: AppColors.mainBlack,
-                ),
-              ),
+            Text(
+              name,
+              style: AppTextStyles.poppinsBlack(16, FontWeight.w500),
             ),
-            MediaQuery.sizeOf(context).width > 400
-                ? horizontalSpace(12)
-                : horizontalSpace(6),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 25.r,
-                          backgroundImage: AssetImage(model is DoctorssModel
-                              ? (model as DoctorssModel).image
-                              : (model as PatientModel).image),
-                        ),
-                        horizontalSpace(13.25),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                model is DoctorssModel
-                                    ? (model as DoctorssModel).name
-                                    : (model as PatientModel).name,
-                                style: AppTextStyles.poppinsBlack(
-                                    18, FontWeight.w400),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                              Text(
-                                'Online',
-                                style: AppTextStyles.poppinsMainColor(
-                                    15, FontWeight.w400),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      SvgPicture.asset(Assets.iconsCallIconBlue),
-                      horizontalSpace(17.24),
-                      SvgPicture.asset(Assets.iconsVideoIconBlue),
-                    ],
-                  ),
-                ],
+            if (specialization.isNotEmpty)
+              Text(
+                specialization,
+                style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
               ),
-            ),
           ],
         ),
-        verticalSpace(11),
+        const Spacer(),
+        IconButton(
+          onPressed: () {},
+          icon: SvgPicture.asset(Assets.iconsCallIconBlue),
+        ),
       ],
     );
   }

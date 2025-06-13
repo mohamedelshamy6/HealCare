@@ -35,7 +35,7 @@ class ChatItem extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          conversation.counterpartName ?? 'There is no name',
+                          conversation.counterpartName ?? '',
                           style:
                               AppTextStyles.poppinsBlack(16, FontWeight.w700),
                           overflow: TextOverflow.ellipsis,
@@ -44,26 +44,17 @@ class ChatItem extends StatelessWidget {
                       ),
                       horizontalSpace(4),
                       Text(
-                        conversation.lastMessageSentAt ??
-                            'there is no last seen message',
+                        conversation.lastMessageSentAt ?? '',
                         style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                       ),
                     ],
                   ),
                   verticalSpace(5.5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          conversation.lastMessageContent ?? '',
-                          style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ),
-                      Container(),
-                    ],
+                  Text(
+                    conversation.lastMessageContent ?? '',
+                    style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ],
               ),
@@ -111,19 +102,11 @@ class ChatItem extends StatelessWidget {
                   ],
                 ),
                 verticalSpace(5.5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Of course, we just added that to your order. Thanks for letting us know!',
-                        style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                    Container(),
-                  ],
+                Text(
+                  'Last message',
+                  style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ],
             ),
