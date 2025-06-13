@@ -81,9 +81,9 @@ class PaymentHeader extends StatelessWidget {
                   style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
                 ),
                 Text(
-                  doctorsModel.education!.contains(' - ')
-                      ? doctorsModel.education!.split('-').first.trim()
-                      : doctorsModel.education!.split('|').first.trim(),
+                  doctorsModel.education?.contains(' - ') ?? false
+                      ? doctorsModel.education?.split('-').first.trim() ?? ''
+                      : doctorsModel.education?.split('|').first.trim() ?? '',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: AppTextStyles.poppinsGrey(12, FontWeight.w500),

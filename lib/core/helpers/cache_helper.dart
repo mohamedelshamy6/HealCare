@@ -61,4 +61,11 @@ class CacheHelper {
   Future<bool> containsKey({required String key}) async {
     return sharedPreferences.containsKey(key);
   }
+
+  // Debug method to get all cached keys
+  Future<List<String>> getAllKeys() async {
+    final keys = sharedPreferences.getKeys().toList();
+    final secureKeys = await flutterSecureStorage.readAll();
+    return [...keys, ...secureKeys.keys];
+  }
 }

@@ -22,6 +22,8 @@ import '../../logic/cubit/auth_cubit.dart';
 import '../widgets/tff_with_label.dart';
 import '../../../../core/helpers/app_constants.dart';
 import '../widgets/upload_photo_widget.dart';
+import 'package:heal_care/core/helpers/user_cache_helper.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 
 class DoctorContinueSignupScreen extends StatefulWidget {
   final String email, password, name;
@@ -78,8 +80,22 @@ class _DoctorContinueSignupScreenState
           CacheHelper().saveSecuredData(
               key: 'refreshToken', value: state.signUpModel!.refreshToken!);
           CacheHelper()
-              .saveData(key: 'doctor_Id', value: state.signUpModel!.user?.id);
-        
+              .saveData(key: 'doctor_Id', value: state.signUpModel!.user!.id);
+
+          // Cache doctor data
+          final doctor = DoctorsModel(
+            id: state.signUpModel!.user!.id,
+            name: widget.name,
+            email: state.signUpModel!.user!.email,
+            image: imageUrl,
+            specialization: specializationSelectedValue,
+            bio: biographyController.text,
+            address: addressController.text,
+            experience: experienceController.text,
+            education: educationController.text,
+            gender: genderSelectedValue,
+          );
+          await UserCacheHelper.cacheDoctorData(doctor);
 
           image == null
               ? null
@@ -115,7 +131,8 @@ class _DoctorContinueSignupScreenState
             },
           ).then((value) {
             CacheHelper().saveData(
-                key: 'doctor_Id', value: state.signUpModel?.user?.id ?? 'No Id for Doctor');
+                key: 'doctor_Id',
+                value: state.signUpModel?.user?.id ?? 'No Id for Doctor');
             Navigator.pushNamedAndRemoveUntil(
                 context, Routes.bottomNavBar, (route) => false,
                 arguments: 'doctor');

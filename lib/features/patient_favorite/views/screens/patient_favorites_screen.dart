@@ -25,10 +25,10 @@ class _PatientFavoritesScreenState extends State<PatientFavoritesScreen> {
   Future<void> _handleBackNavigation() async {
     await context.read<DoctorsCubit>().getAllDoctors();
     if (mounted) {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        Routes.patientHome,
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        Routes.bottomNavBar,
         (route) => false,
+        arguments: 'patient',
       );
     }
   }

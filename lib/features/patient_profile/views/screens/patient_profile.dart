@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/helpers/user_cache_helper.dart';
 import '../../../../core/helpers/cache_helper.dart';
 import '../../../../core/helpers/helper_methods.dart';
 import '../../../../core/routing/routes.dart';
@@ -140,7 +141,8 @@ class PatientProfile extends StatelessWidget {
                   onTap: () {
                     HelperMethods.showLogoutAlertDialog(
                       context,
-                      () {
+                      () async {
+                        await UserCacheHelper.clearUserCache();
                         CacheHelper().removeData(key: 'role');
                         CacheHelper().removeData(key: 'patient_Id');
                         CacheHelper().deleteSecuredData(key: 'accessToken');

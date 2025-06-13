@@ -9,6 +9,7 @@ import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_app_header.dart';
 import '../../data/models/information_model.dart';
+import 'package:heal_care/core/helpers/user_cache_helper.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
 import '../widgets/information_row.dart';
@@ -121,7 +122,8 @@ class DoctorProfile extends StatelessWidget {
                   onTap: () {
                     HelperMethods.showLogoutAlertDialog(
                       context,
-                      () {
+                      () async {
+                        await UserCacheHelper.clearUserCache();
                         CacheHelper().removeData(key: 'role');
                         CacheHelper().deleteSecuredData(key: 'accessToken');
                         CacheHelper().removeData(key: 'doctorId');

@@ -16,6 +16,9 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_app_header.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../widgets/continue_with_google.dart';
+import 'package:heal_care/core/helpers/user_cache_helper.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
+import 'package:heal_care/features/auth/data/models/patients_model.dart';
 
 class LoginScreen extends StatelessWidget {
   final String type;
@@ -47,6 +50,33 @@ class LoginScreen extends StatelessWidget {
                   CacheHelper().saveSecuredData(
                       key: 'refreshToken',
                       value: state.loginModel!.refreshToken!);
+
+                  // Cache user data based on type
+                  if (state.loginModel!.user!.userMetadata!.type == 'doctor') {
+                    final doctor = DoctorsModel(
+                      id: state.loginModel!.user!.id,
+                      name: state.loginModel!.user!.userMetadata!.name ?? '',
+                      email: state.loginModel!.user!.email,
+                      image: state.loginModel!.user!.userMetadata!.image ?? '',
+                      specialization: state
+                              .loginModel!.user!.userMetadata!.specialization ??
+                          '',
+                    );
+                    UserCacheHelper.cacheDoctorData(doctor);
+                    CacheHelper()
+                        .saveData(key: 'doctorName', value: doctor.name);
+                  } else {
+                    final patient = PatientsModel(
+                      id: state.loginModel!.user!.id,
+                      name: state.loginModel!.user!.userMetadata!.name ?? '',
+                      email: state.loginModel!.user!.email,
+                      image: state.loginModel!.user!.userMetadata!.image ?? '',
+                    );
+                    UserCacheHelper.cachePatientData(patient);
+                    CacheHelper()
+                        .saveData(key: 'patientName', value: patient.name);
+                  }
+
                   state.loginModel!.user!.userMetadata!.type == 'doctor'
                       ? Navigator.pushNamedAndRemoveUntil(
                           context, Routes.bottomNavBar, (route) => false,
@@ -138,10 +168,10 @@ class LoginScreen extends StatelessWidget {
                     ),
                     verticalSpace(16),
                     AuthContinueQuestion(
-                      label: 'Don’t have an account?',
+                      label: 'Don\'t have an account?',
                       action: 'Sign Up',
                       route: Routes.signUpScreen,
-                      type: '',
+                      type: type,
                     ),
                     verticalSpace(32),
                     ContinueWithGoogle(),
