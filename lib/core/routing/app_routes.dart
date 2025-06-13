@@ -6,7 +6,11 @@ import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
+import 'package:heal_care/features/chat/data/repos/get_conversation_repo.dart';
 import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
+import 'package:heal_care/features/chat/views/screens/doctor_chat.dart';
+import 'package:heal_care/features/chat/views/screens/patient_chat.dart';
 import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
 import 'package:heal_care/features/doctor_booking/data/repos/cancel_appointment_model.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
@@ -19,6 +23,7 @@ import 'package:heal_care/features/patient_home/data/repos/add_payment_repo.dart
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:heal_care/features/patient_home/logic/cubit/appointenent_schedual_cubit.dart';
+import 'package:heal_care/core/helpers/cache_helper.dart';
 import '../../features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../features/chat/views/screens/chat_bot.dart';
 import '../../features/doctor_home/data/models/patient_model.dart';
@@ -105,6 +110,7 @@ class AppRoutes {
             doctorsModel: args as List<DoctorsModel>,
           ),
         );
+
       case Routes.bottomNavBar:
         return MaterialPageRoute(
           builder: (context) => MultiBlocProvider(
@@ -145,7 +151,8 @@ class AppRoutes {
               ),
               BlocProvider(
                 create: (context) => ChatCubit(
-                  DependencyInjection.getIt(),
+                  DependencyInjection.getIt<CreateConversitionRepository>(),
+                  DependencyInjection.getIt<GetConversationRepo>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
                 ),
@@ -156,29 +163,31 @@ class AppRoutes {
         );
       case Routes.bookDoctorAppointment:
         return MaterialPageRoute(
-          builder: (context) => MultiBlocProvider(
-            providers: [
-              BlocProvider<ChatCubit>(
-                create: (context) => ChatCubit(
-                  DependencyInjection.getIt(),
-                  DependencyInjection.getIt<DoctorsCubit>(),
-                  DependencyInjection.getIt<PatientsCubit>(),
-                ),
-              ),
-            ],
-            child: BookDoctorAppointment(
-              doctorsModel: args as DoctorsModel? ?? DoctorsModel(),
-            ),
+          builder: (context) => BookDoctorAppointment(
+            doctorsModel: args as DoctorsModel? ?? DoctorsModel(),
           ),
         );
 
       case Routes.bookingPayment:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => AppointenentSchedualCubit(
-                DependencyInjection.getIt<AppointenentSchedualRepositorie>(),
-                DependencyInjection.getIt<BookAppointmentRepository>(),
-                DependencyInjection.getIt<AddPaymentRepo>()),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => AppointenentSchedualCubit(
+                    DependencyInjection.getIt<
+                        AppointenentSchedualRepositorie>(),
+                    DependencyInjection.getIt<BookAppointmentRepository>(),
+                    DependencyInjection.getIt<AddPaymentRepo>()),
+              ),
+              BlocProvider(
+                create: (context) => ChatCubit(
+                  DependencyInjection.getIt<CreateConversitionRepository>(),
+                  DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<DoctorsCubit>(),
+                  DependencyInjection.getIt<PatientsCubit>(),
+                ),
+              ),
+            ],
             child: BookingPayment(
               data: args as Map<String, dynamic>,
             ),
@@ -289,6 +298,41 @@ class AppRoutes {
           builder: (context) => ChatBotScreen(
             chatIndex: (args as List)[0] as int,
             model: args[2] as DoctorssModel,
+          ),
+        );
+      case Routes.patientChat:
+        return MaterialPageRoute(
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => ChatCubit(
+                  DependencyInjection.getIt<CreateConversitionRepository>(),
+                  DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<DoctorsCubit>(),
+                  DependencyInjection.getIt<PatientsCubit>(),
+                )..getConversations(
+                    userId: CacheHelper().getData(key: 'patient_Id') ?? '',
+                    userType: 'patient',
+                  ),
+              ),
+            ],
+            child: PatientChat(type: args as String),
+          ),
+        );
+      case Routes.doctorChat:
+        return MaterialPageRoute(
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => ChatCubit(
+                  DependencyInjection.getIt<CreateConversitionRepository>(),
+                  DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<DoctorsCubit>(),
+                  DependencyInjection.getIt<PatientsCubit>(),
+                )
+              ),
+            ],
+            child: DoctorChat(type: args as String),
           ),
         );
     }

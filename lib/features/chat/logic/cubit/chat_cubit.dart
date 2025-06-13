@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/core/helpers/app_constants.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/chat/data/models/get_conversations_model.dart';
 import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
 import 'package:heal_care/features/chat/data/repos/get_conversation_repo.dart';
 
@@ -13,7 +14,7 @@ class ChatCubit extends Cubit<ChatState> {
       : super(ChatInitial());
 
   final CreateConversitionRepository conversitionRepository;
-
+  final GetConversationRepo getConversationRepo;
   final DoctorsCubit doctorsCubit;
   final PatientsCubit patientsCubit;
 
@@ -41,8 +42,6 @@ class ChatCubit extends Cubit<ChatState> {
     );
   }
 
-  final GetConversationRepo getConversationRepo;
-
   Future<void> getConversations({
     required String userId,
     required String userType,
@@ -50,7 +49,7 @@ class ChatCubit extends Cubit<ChatState> {
     emit(GetChatConversitionLoading());
 
     final result = await getConversationRepo.getConversations(
-      '${AppConstants.baseRestUrl}conversations',
+      '${AppConstants.baseRestUrl}rpc/get_user_conversations',
       {
         'user_id': userId,
         'user_type': userType,
@@ -59,7 +58,7 @@ class ChatCubit extends Cubit<ChatState> {
 
     result.fold(
       (error) => emit(GetChatConversitionFailure(error)),
-      (_) => emit(GetChatConversitionSuccess()),
+      (conversations) => emit(GetChatConversitionSuccess(conversations)),
     );
   }
 }

@@ -22,6 +22,8 @@ import '../../../../core/widgets/custom_app_header.dart';
 import '../../../../core/widgets/custom_drop_down.dart';
 import '../widgets/tff_with_label.dart';
 import '../widgets/upload_photo_widget.dart';
+import 'package:heal_care/core/helpers/user_cache_helper.dart';
+import 'package:heal_care/features/auth/data/models/patients_model.dart';
 
 class PatientContinueSignupScreen extends StatefulWidget {
   final String email, password, name;
@@ -81,6 +83,16 @@ class _PatientContinueSignupScreenState
                   key: 'refreshToken', value: state.signUpModel!.refreshToken!);
               CacheHelper().saveData(
                   key: 'patient_Id', value: state.signUpModel!.user!.id);
+
+              // Cache patient data
+              final patient = PatientsModel(
+                id: state.signUpModel!.user!.id,
+                name: widget.name,
+                email: state.signUpModel!.user!.email,
+                image: imageUrl,
+              );
+              await UserCacheHelper.cachePatientData(patient);
+
               image == null
                   ? null
                   : await DependencyInjection.getIt<supabase.SupabaseClient>()

@@ -16,7 +16,11 @@ final class CreateChatConversitionFailure extends ChatState {
 
 final class GetChatConversitionLoading extends ChatState {}
 
-final class GetChatConversitionSuccess extends ChatState {}
+final class GetChatConversitionSuccess extends ChatState {
+  final List<GetConversationsModel> conversations;
+
+  GetChatConversitionSuccess(this.conversations);
+}
 
 final class GetChatConversitionFailure extends ChatState {
   final String error;

@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/helpers/cache_helper.dart';
+import 'package:heal_care/core/dependency_injection/dependency_injection.dart';
+import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
+import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
+import 'package:heal_care/features/chat/data/repos/get_conversation_repo.dart';
+import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
+import 'package:heal_care/features/chat/views/screens/patient_chat.dart';
 import 'package:heal_care/features/notification/views/screens/notifications_patients_screen.dart';
 import '../../../doctor_profile/views/screens/doctor_profile.dart';
 
@@ -26,9 +34,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> patientPages = [
       PatientBookingScreen(),
-      DoctorChat(type: 'patient'),
+      PatientChat(type: 'patient'),
       PatientHomeScreen(),
-      NotificationsPatientsScreen(type: 'patient',),
+      NotificationsPatientsScreen(
+        type: 'patient',
+      ),
       PatientProfile(),
     ];
 

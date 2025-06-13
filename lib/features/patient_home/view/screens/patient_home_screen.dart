@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
+import 'package:heal_care/core/helpers/user_cache_helper.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
+import 'package:heal_care/features/auth/data/models/patients_model.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/patient_home/view/screens/all_doctors.dart';
 import 'package:heal_care/features/patient_home/view/widgets/find_doctor_container.dart';
@@ -23,13 +25,14 @@ class PatientHomeScreen extends StatefulWidget {
 class _PatientHomeScreenState extends State<PatientHomeScreen>
     with WidgetsBindingObserver {
   bool _hasInitializedData = false;
+  PatientsModel? cachedPatient;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // Load doctors when screen initializes, but only once
-    _loadInitialData();
+    _loadCachedData();
+    context.read<DoctorsCubit>().getAllDoctors();
   }
 
   @override
@@ -50,6 +53,15 @@ class _PatientHomeScreenState extends State<PatientHomeScreen>
   // This method will be called when navigating back to this screen
   void refreshData() {
     context.read<DoctorsCubit>().getAllDoctors();
+  }
+
+  Future<void> _loadCachedData() async {
+    final patient = await UserCacheHelper.getCachedPatientData();
+    if (patient != null) {
+      setState(() {
+        cachedPatient = patient;
+      });
+    }
   }
 
   void _loadInitialData() {
@@ -126,7 +138,7 @@ class _PatientHomeScreenState extends State<PatientHomeScreen>
                       verticalSpace(24),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        child: const PatientHomeHeader(),
+                        child: PatientHomeHeader(cachedPatient: cachedPatient),
                       ),
                       verticalSpace(32),
                       Padding(
