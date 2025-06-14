@@ -11,7 +11,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_text_form_field.dart';
 
 class ChatBotScreen extends StatelessWidget {
-  final int chatIndex;
+  final String chatIndex;
   final DoctorssModel model;
   const ChatBotScreen(
       {super.key, required this.chatIndex, required this.model});
@@ -114,7 +114,7 @@ class ChatBotScreen extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.all(8.r),
                             child: Text(
-                              'Hi there,\nBefore chatting with the doctor\nCan you tell me what’s your problem?',
+                              'Hi there,\nBefore chatting with the doctor\nCan you tell me what\'s your problem?',
                               style: AppTextStyles.poppinsBlack(
                                   14, FontWeight.w400),
                             ),

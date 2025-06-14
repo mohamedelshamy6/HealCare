@@ -6,10 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/helpers/cache_helper.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/widgets/custom_app_header.dart';
-import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
-import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
-import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
-import 'package:heal_care/features/chat/data/repos/get_conversation_repo.dart';
 import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/chat/views/widgets/chat_list_view.dart';
 
@@ -25,8 +21,12 @@ class _PatientChatState extends State<PatientChat> {
   @override
   void initState() {
     super.initState();
+    _loadConversations();
+  }
+
+  void _loadConversations() {
     final String patientId =
-        (CacheHelper().getData(key: 'patient_Id').toString());
+        CacheHelper().getData(key: 'patient_Id')?.toString() ?? '';
     final String? userId = CacheHelper().getData(key: 'userId');
 
     String? patientIdCheck() {
@@ -37,15 +37,19 @@ class _PatientChatState extends State<PatientChat> {
       }
       return null;
     }
+
     final String? finalPatientId = patientIdCheck();
-    context.read<ChatCubit>().getConversations(
-          userId: finalPatientId ?? '',
-          userType: 'patient',
-        );
+
+    if (finalPatientId != null) {
+      context.read<ChatCubit>().getConversations(
+            userId: finalPatientId,
+            userType: 'patient',
+          );
+    }
+
     log('patient_Id: ${CacheHelper().getData(key: 'patient_Id')}');
     log('userType: patient');
   }
-  
 
   @override
   Widget build(BuildContext context) {

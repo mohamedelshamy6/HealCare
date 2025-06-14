@@ -11,10 +11,22 @@ import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
 import 'package:heal_care/features/notification/views/widgets/notification_shimmer.dart';
 import 'package:heal_care/features/notification/views/widgets/notifications_list.dart';
 
-class NotificationsPatientsScreen extends StatelessWidget {
+class NotificationsPatientsScreen extends StatefulWidget {
+  final String type;
   const NotificationsPatientsScreen({super.key, required this.type});
 
-  final String type;
+  @override
+  State<NotificationsPatientsScreen> createState() =>
+      _NotificationsPatientsScreenState();
+}
+
+class _NotificationsPatientsScreenState
+    extends State<NotificationsPatientsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PatientsCubit>().getAllPatients();
+  }
 
   @override
   Widget build(BuildContext context) {

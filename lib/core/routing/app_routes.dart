@@ -6,8 +6,11 @@ import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
+import 'package:heal_care/features/chat/data/models/get_conversations_model.dart';
 import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
+import 'package:heal_care/features/chat/data/repos/get_all_messages_for_aspecific_conversation_repo.dart';
 import 'package:heal_care/features/chat/data/repos/get_conversation_repo.dart';
+import 'package:heal_care/features/chat/data/repos/send_message_in_conversation.dart';
 import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/chat/views/screens/doctor_chat.dart';
 import 'package:heal_care/features/chat/views/screens/patient_chat.dart';
@@ -122,41 +125,47 @@ class AppRoutes {
                 create: (context) => TabbarCubit(),
               ),
               BlocProvider(
-                  create: (context) => DoctorsCubit(
-                        toogleFavouritesRepo: DependencyInjection.getIt(),
-                        doctorsRepo: DependencyInjection.getIt(),
-                        patientFavouritesRepo: DependencyInjection.getIt(),
-                      )..getAllDoctors()),
+                create: (context) => DoctorsCubit(
+                  toogleFavouritesRepo: DependencyInjection.getIt(),
+                  doctorsRepo: DependencyInjection.getIt(),
+                  patientFavouritesRepo: DependencyInjection.getIt(),
+                ),
+              ),
               BlocProvider(
-                  create: (context) => AppointementcubitCubit(
-                        DependencyInjection.getIt(),
-                        context.read<DoctorsCubit>(),
-                        context.read<PatientsCubit>(),
-                      )..fetchAppointments()),
+                create: (context) => AppointementcubitCubit(
+                  DependencyInjection.getIt(),
+                  context.read<DoctorsCubit>(),
+                  context.read<PatientsCubit>(),
+                ),
+              ),
               BlocProvider(
                 create: (context) => PatientsCubit(
                   patientsRepo: DependencyInjection.getIt(),
-                )..getAllPatients(),
+                ),
               ),
               BlocProvider(
-                  create: (context) => NotificationCubit(
-                        DependencyInjection.getIt<NotificationRepository>(),
-                      )),
+                create: (context) => NotificationCubit(
+                  DependencyInjection.getIt<NotificationRepository>(),
+                ),
+              ),
               BlocProvider(
                 create: (context) => DoctorbookingCubit(
-                    DependencyInjection.getIt(),
-                    context.read<PatientsCubit>(),
-                    DependencyInjection.getIt<PatientsRepo>(),
-                    DependencyInjection.getIt<CancelAppointmentRepo>()),
+                  DependencyInjection.getIt(),
+                  context.read<PatientsCubit>(),
+                  DependencyInjection.getIt<PatientsRepo>(),
+                  DependencyInjection.getIt<CancelAppointmentRepo>(),
+                ),
               ),
               BlocProvider(
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
+                  DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
                 ),
-              )
+              ),
             ],
             child: CustomBottomNavigationBar(type: args as String),
           ),
@@ -183,6 +192,8 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
+                  DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
                 ),
@@ -201,27 +212,30 @@ class AppRoutes {
         );
       case Routes.notificationsDoctorScreen:
         return MaterialPageRoute(
-          builder: (context) => MultiBlocProvider(providers: [
-            BlocProvider<DoctorsCubit>(
-              create: (context) => DoctorsCubit(
-                toogleFavouritesRepo: DependencyInjection.getIt(),
-                doctorsRepo: DependencyInjection.getIt(),
-                patientFavouritesRepo: DependencyInjection.getIt(),
-              )..getAllDoctors(),
-            ),
-            BlocProvider<NotificationCubit>(
-              create: (context) => NotificationCubit(
-                DependencyInjection.getIt(),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider<DoctorsCubit>(
+                create: (context) => DoctorsCubit(
+                  toogleFavouritesRepo: DependencyInjection.getIt(),
+                  doctorsRepo: DependencyInjection.getIt(),
+                  patientFavouritesRepo: DependencyInjection.getIt(),
+                ),
               ),
-            ),
-          ], child: NotificationsDoctorScreen()),
+              BlocProvider<NotificationCubit>(
+                create: (context) => NotificationCubit(
+                  DependencyInjection.getIt(),
+                ),
+              ),
+            ],
+            child: NotificationsDoctorScreen(),
+          ),
         );
       case Routes.notificationsPatientScreen:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<PatientsCubit>(
             create: (context) => PatientsCubit(
               patientsRepo: DependencyInjection.getIt(),
-            )..getAllPatients(),
+            ),
             child: NotificationsPatientsScreen(
               type: args as String,
             ),
@@ -263,11 +277,14 @@ class AppRoutes {
         );
       case Routes.insideChat:
         return MaterialPageRoute(
-          builder: (context) => InsideChatScreen(
-            chatIndex: (args as List)[0] as int,
-            model: args[1] == 'patient'
-                ? args[2] as DoctorssModel
-                : args[2] as PatientModel,
+          builder: (context) => BlocProvider.value(
+            value: context.read<ChatCubit>(),
+            child: InsideChatScreen(
+              chatIndex: (args as List)[0] as String,
+              model: args[1] == 'patient'
+                  ? args[2] as DoctorsModel
+                  : args[2] as GetConversationsModel,
+            ),
           ),
         );
       case Routes.detailsScreen:
@@ -296,7 +313,7 @@ class AppRoutes {
       case Routes.chatBot:
         return MaterialPageRoute(
           builder: (context) => ChatBotScreen(
-            chatIndex: (args as List)[0] as int,
+            chatIndex: (args as List)[0] as String,
             model: args[2] as DoctorssModel,
           ),
         );
@@ -308,12 +325,11 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
+                  DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
-                )..getConversations(
-                    userId: CacheHelper().getData(key: 'patient_Id') ?? '',
-                    userType: 'patient',
-                  ),
+                ),
               ),
             ],
             child: PatientChat(type: args as String),
@@ -327,9 +343,11 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
+                  DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
-                )
+                ),
               ),
             ],
             child: DoctorChat(type: args as String),
