@@ -1,0 +1,25 @@
+import 'package:dartz/dartz.dart';
+import 'package:heal_care/core/errors/api/exceptions/api_exception.dart';
+import 'package:heal_care/core/networking/api_services.dart';
+import 'package:heal_care/features/chat/data/models/get_all_messages_for_aspecific_conversation_model.dart';
+
+class GetAllMessagesForAspecificConversationRepo {
+  final ApiServices apiServices;
+
+  GetAllMessagesForAspecificConversationRepo(this.apiServices);
+  Future<Either<String, List<GetAllMessagesForAspecificConversationModel>>>
+      getAllMessagesForAspecificConversationRepo(String path, String conversationId, String order) async {
+    try {
+      final response = await apiServices.get(
+        path,
+        queryParameters: {
+          'conversation_id': conversationId,
+          'order_by': order,
+        },
+      );
+      return Right(response.data.map((e) => GetAllMessagesForAspecificConversationModel.fromJson(e)).toList());
+    } on ApiException catch (e) {
+      return Left(e.errorModel.message ?? 'Something went wrong');
+    }
+  }
+}
