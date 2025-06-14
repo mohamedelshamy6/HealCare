@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:heal_care/core/helpers/cache_helper.dart';
 import 'package:heal_care/features/patient_home/data/models/doctors_models.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
@@ -13,6 +17,7 @@ import '../../data/models/message.dart';
 import '../../data/models/get_conversations_model.dart';
 import '../../../doctor_home/data/models/patient_model.dart';
 import '../widgets/chat_bubble_for_friend.dart';
+import '../../logic/cubit/chat_cubit.dart';
 
 class InsideChatScreen extends StatefulWidget {
   const InsideChatScreen({
@@ -53,6 +58,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
           text: conversation.lastMessageContent!,
           timestamp: DateTime.parse(conversation.lastMessageSentAt ??
               DateTime.now().toIso8601String()),
+          isSent: false,
         ));
       }
     }
@@ -63,6 +69,37 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
     _focusNode.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _sendMessage() {
+    if (messageController.text.isNotEmpty) {
+      final message = messageController.text;
+      messageController.clear();
+
+      // Add message to local state
+      setState(() {
+        messages.add(Message(
+          text: message,
+          timestamp: DateTime.now(),
+          isSent: true,
+        ));
+      });
+
+      // Get sender ID and type from cache
+      final String? userId = CacheHelper().getData(key: 'userId');
+      final String? userType = CacheHelper().getData(key: 'role');
+      log(userType.toString());
+
+      if (userId != null && userType != null) {
+        // Send message through ChatCubit
+        context.read<ChatCubit>().sendMessageinConversation(
+              conversationId: widget.chatIndex,
+              senderId: userId,
+              content: message,
+              senderType: userType,
+            );
+      }
+    }
   }
 
   @override
@@ -109,12 +146,20 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                         ],
                       );
                     }
-                    return ChatBubble(
-                      image: image,
-                      message: messages[index - 1].text,
-                      date:
-                          '${messages[index - 1].timestamp.hour}:${messages[index - 1].timestamp.minute}',
-                    );
+                    final message = messages[index - 1];
+                    return message.isSent
+                        ? ChatBubbleForFriend(
+                            message: message.text,
+                            date:
+                                '${message.timestamp.hour}:${message.timestamp.minute}',
+                            type: 'patient',
+                          )
+                        : ChatBubble(
+                            image: image,
+                            message: message.text,
+                            date:
+                                '${message.timestamp.hour}:${message.timestamp.minute}',
+                          );
                   },
                 ),
               ),
@@ -155,22 +200,13 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                   ),
                   horizontalSpace(6),
                   IconButton(
-                      onPressed: () {
-                        if (messageController.text.isNotEmpty) {
-                          setState(() {
-                            messages.add(Message(
-                              text: messageController.text,
-                              timestamp: DateTime.now(),
-                            ));
-                            messageController.clear();
-                          });
-                        }
-                      },
-                      icon: Icon(
-                        Icons.send,
-                        size: 26.r,
-                        color: AppColors.mainColor,
-                      ))
+                    onPressed: _sendMessage,
+                    icon: Icon(
+                      Icons.send,
+                      size: 26.r,
+                      color: AppColors.mainColor,
+                    ),
+                  )
                 ],
               ),
               verticalSpace(8)

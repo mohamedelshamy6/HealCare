@@ -73,7 +73,7 @@ class ChatCubit extends Cubit<ChatState> {
     emit(SendMessageInConversationLoading());
 
     final result = await sendMessageInConversation.sendMessageInConversation(
-      path: '${AppConstants.baseRestUrl}rpc/send_message_in_conversation',
+      path: '${AppConstants.baseRestUrl}messages',
       body: {
         'conversation_id': conversationId,
         'sender_id': senderId,

@@ -161,7 +161,7 @@ class AppRoutes {
                   DependencyInjection.getIt<GetConversationRepo>(),
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
-                  DependencyInjection.getIt<PatientsCubit>(), 
+                  DependencyInjection.getIt<PatientsCubit>(),
                 ),
               ),
             ],
@@ -274,11 +274,14 @@ class AppRoutes {
         );
       case Routes.insideChat:
         return MaterialPageRoute(
-          builder: (context) => InsideChatScreen(
-            chatIndex: (args as List)[0] as String,
-            model: args[1] == 'patient'
-                ? args[2] as DoctorssModel
-                : args[2] as GetConversationsModel,
+          builder: (context) => BlocProvider.value(
+            value: context.read<ChatCubit>(),
+            child: InsideChatScreen(
+              chatIndex: (args as List)[0] as String,
+              model: args[1] == 'patient'
+                  ? args[2] as DoctorssModel
+                  : args[2] as GetConversationsModel,
+            ),
           ),
         );
       case Routes.detailsScreen:
