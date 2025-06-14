@@ -37,3 +37,31 @@ final class SendMessageInConversationFailure extends ChatState {
 
   SendMessageInConversationFailure(this.error);
 }
+
+final class GetAllMessagesForAspecificConversationLoading extends ChatState {}
+
+final class GetAllMessagesForAspecificConversationSuccess extends ChatState {
+  final List<GetAllMessagesForAspecificConversationModel> messages;
+
+  GetAllMessagesForAspecificConversationSuccess({required this.messages});
+}
+
+final class GetAllMessagesForAspecificConversationFailure extends ChatState {
+  final String error;
+
+  GetAllMessagesForAspecificConversationFailure({required this.error});
+}
+
+final class GetMessagesForConversationLoading extends ChatState {}
+
+final class GetMessagesForConversationSuccess extends ChatState {
+  final List<GetAllMessagesForAspecificConversationModel> messages;
+
+  GetMessagesForConversationSuccess(this.messages);
+}
+
+final class GetMessagesForConversationFailure extends ChatState {
+  final String error;
+
+  GetMessagesForConversationFailure(this.error);
+}

@@ -8,16 +8,22 @@ class GetAllMessagesForAspecificConversationRepo {
 
   GetAllMessagesForAspecificConversationRepo(this.apiServices);
   Future<Either<String, List<GetAllMessagesForAspecificConversationModel>>>
-      getAllMessagesForAspecificConversationRepo(String path, String conversationId, String order) async {
+      getAllMessagesForAspecificConversation(
+          String path, String conversationId, String order) async {
     try {
       final response = await apiServices.get(
         path,
         queryParameters: {
-          'conversation_id': conversationId,
-          'order_by': order,
+          'conversation_id': 'eq.$conversationId',
+          'order': 'sent_at.asc',
         },
       );
-      return Right(response.data.map((e) => GetAllMessagesForAspecificConversationModel.fromJson(e)).toList());
+      final List<GetAllMessagesForAspecificConversationModel> messages =
+          (response as List)
+              .map((e) =>
+                  GetAllMessagesForAspecificConversationModel.fromJson(e))
+              .toList();
+      return Right(messages);
     } on ApiException catch (e) {
       return Left(e.errorModel.message ?? 'Something went wrong');
     }

@@ -8,6 +8,7 @@ import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 import 'package:heal_care/features/chat/data/models/get_conversations_model.dart';
 import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
+import 'package:heal_care/features/chat/data/repos/get_all_messages_for_aspecific_conversation_repo.dart';
 import 'package:heal_care/features/chat/data/repos/get_conversation_repo.dart';
 import 'package:heal_care/features/chat/data/repos/send_message_in_conversation.dart';
 import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
@@ -159,6 +160,7 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
@@ -190,6 +192,7 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
@@ -279,7 +282,7 @@ class AppRoutes {
             child: InsideChatScreen(
               chatIndex: (args as List)[0] as String,
               model: args[1] == 'patient'
-                  ? args[2] as DoctorssModel
+                  ? args[2] as DoctorsModel
                   : args[2] as GetConversationsModel,
             ),
           ),
@@ -322,6 +325,7 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
@@ -339,6 +343,7 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
+                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),

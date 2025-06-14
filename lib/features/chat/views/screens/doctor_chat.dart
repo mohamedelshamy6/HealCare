@@ -24,6 +24,12 @@ class _DoctorChatState extends State<DoctorChat> {
     _loadConversations();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadConversations();
+  }
+
   void _loadConversations() {
     final String doctorId =
         CacheHelper().getData(key: 'doctor_Id')?.toString() ?? '';

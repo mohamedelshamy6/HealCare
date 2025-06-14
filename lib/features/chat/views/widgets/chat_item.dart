@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/spacing.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../data/models/get_conversations_model.dart';
 import '../../../doctor_home/data/models/patient_model.dart';
@@ -10,6 +11,16 @@ class ChatItem extends StatelessWidget {
   final Object model;
   final String type;
   const ChatItem({super.key, required this.model, required this.type});
+
+  String _formatTime(String? timeString) {
+    if (timeString == null) return '';
+    try {
+      final time = DateTime.parse(timeString);
+      return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+    } catch (e) {
+      return '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +33,26 @@ class ChatItem extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 25.r,
-              backgroundImage:
-                  NetworkImage(conversation.counterpartImage ?? ''),
+              backgroundColor: AppColors.mainColor.withOpacity(0.1),
+              child: conversation.counterpartImage?.isNotEmpty == true
+                  ? ClipOval(
+                      child: Image.network(
+                        conversation.counterpartImage!,
+                        width: 50.r,
+                        height: 50.r,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Icon(
+                          Icons.person,
+                          size: 30.r,
+                          color: AppColors.mainColor,
+                        ),
+                      ),
+                    )
+                  : Icon(
+                      Icons.person,
+                      size: 30.r,
+                      color: AppColors.mainColor,
+                    ),
             ),
             horizontalSpace(16),
             Expanded(
@@ -44,7 +73,7 @@ class ChatItem extends StatelessWidget {
                       ),
                       horizontalSpace(4),
                       Text(
-                        conversation.lastMessageSentAt ?? '',
+                        _formatTime(conversation.lastMessageSentAt),
                         style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
                       ),
                     ],
@@ -72,9 +101,46 @@ class ChatItem extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 25.r,
-            backgroundImage: AssetImage(type == 'patient'
-                ? (model as DoctorssModel).image
-                : (model as PatientModel).image),
+            backgroundColor: AppColors.mainColor.withOpacity(0.1),
+            child: type == 'patient'
+                ? (model as DoctorssModel).image.isNotEmpty
+                    ? ClipOval(
+                        child: Image.asset(
+                          (model as DoctorssModel).image,
+                          width: 50.r,
+                          height: 50.r,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Icon(
+                            Icons.person,
+                            size: 30.r,
+                            color: AppColors.mainColor,
+                          ),
+                        ),
+                      )
+                    : Icon(
+                        Icons.person,
+                        size: 30.r,
+                        color: AppColors.mainColor,
+                      )
+                : (model as PatientModel).image.isNotEmpty
+                    ? ClipOval(
+                        child: Image.asset(
+                          (model as PatientModel).image,
+                          width: 50.r,
+                          height: 50.r,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Icon(
+                            Icons.person,
+                            size: 30.r,
+                            color: AppColors.mainColor,
+                          ),
+                        ),
+                      )
+                    : Icon(
+                        Icons.person,
+                        size: 30.r,
+                        color: AppColors.mainColor,
+                      ),
           ),
           horizontalSpace(16),
           Expanded(
