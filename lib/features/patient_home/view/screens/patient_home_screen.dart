@@ -138,7 +138,7 @@ class _PatientHomeScreenState extends State<PatientHomeScreen>
                       verticalSpace(24),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        child: PatientHomeHeader(cachedPatient: cachedPatient),
+                        child: PatientHomeHeader(),
                       ),
                       verticalSpace(32),
                       Padding(

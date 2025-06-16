@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,6 +58,7 @@ class DoctorBooking extends StatelessWidget {
                         CustomAppBar(
                           backgroundColor: Colors.transparent,
                           title: 'All Booking',
+                          actionsWidgets: [],
                         ),
                         verticalSpace(16),
                         CustomTabBar(

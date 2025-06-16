@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
-import 'package:heal_care/features/auth/data/models/patient_favourotes_model.dart';
 import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
@@ -18,6 +17,7 @@ import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_mod
 import 'package:heal_care/features/doctor_booking/data/repos/cancel_appointment_model.dart';
 import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
 import 'package:heal_care/features/doctor_booking/views/screens/doctor_booking.dart';
+import 'package:heal_care/features/doctor_profile/views/screens/doctor_profile.dart';
 import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
 import 'package:heal_care/features/notification/data/repos/notification_repository.dart';
 import 'package:heal_care/features/notification/views/screens/notifications_patients_screen.dart';
@@ -26,10 +26,10 @@ import 'package:heal_care/features/patient_home/data/repos/add_payment_repo.dart
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:heal_care/features/patient_home/logic/cubit/appointenent_schedual_cubit.dart';
-import 'package:heal_care/core/helpers/cache_helper.dart';
+import 'package:heal_care/features/patient_profile/views/screens/patient_profile.dart';
+import 'package:heal_care/features/patient_profile/logic/profile_cubit.dart';
 import '../../features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../features/chat/views/screens/chat_bot.dart';
-import '../../features/doctor_home/data/models/patient_model.dart';
 import '../../features/patient_profile/views/screens/patient_edit_profile.dart';
 import '../../features/chat/views/screens/inside_chat_screen.dart';
 import '../../features/doctor_details/views/screens/details_screen.dart';
@@ -129,14 +129,14 @@ class AppRoutes {
                   toogleFavouritesRepo: DependencyInjection.getIt(),
                   doctorsRepo: DependencyInjection.getIt(),
                   patientFavouritesRepo: DependencyInjection.getIt(),
-                ),
+                )..getAllDoctors(),
               ),
               BlocProvider(
                 create: (context) => AppointementcubitCubit(
                   DependencyInjection.getIt(),
                   context.read<DoctorsCubit>(),
                   context.read<PatientsCubit>(),
-                ),
+                )..fetchAppointments(),
               ),
               BlocProvider(
                 create: (context) => PatientsCubit(
@@ -160,7 +160,8 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
-                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
+                  DependencyInjection.getIt<
+                      GetAllMessagesForAspecificConversationRepo>(),
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
@@ -192,7 +193,8 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
-                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
+                  DependencyInjection.getIt<
+                      GetAllMessagesForAspecificConversationRepo>(),
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
@@ -287,6 +289,26 @@ class AppRoutes {
             ),
           ),
         );
+      case Routes.patientProfile:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => ProfileCubit(
+              DependencyInjection.getIt(),
+              DependencyInjection.getIt(),
+            ),
+            child: PatientProfile(),
+          ),
+        );
+      case Routes.doctorProfile:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => ProfileCubit(
+              DependencyInjection.getIt(),
+              DependencyInjection.getIt(),
+            ),
+            child: DoctorProfile(),
+          ),
+        );
       case Routes.detailsScreen:
         return MaterialPageRoute(
           builder: (context) {
@@ -325,7 +347,8 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
-                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
+                  DependencyInjection.getIt<
+                      GetAllMessagesForAspecificConversationRepo>(),
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
@@ -343,7 +366,8 @@ class AppRoutes {
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
                   DependencyInjection.getIt<GetConversationRepo>(),
-                  DependencyInjection.getIt<GetAllMessagesForAspecificConversationRepo>(),
+                  DependencyInjection.getIt<
+                      GetAllMessagesForAspecificConversationRepo>(),
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),

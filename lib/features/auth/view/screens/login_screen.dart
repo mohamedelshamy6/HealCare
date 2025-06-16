@@ -59,8 +59,13 @@ class LoginScreen extends StatelessWidget {
                       email: state.loginModel!.user!.email,
                       image: state.loginModel!.user!.userMetadata!.image ?? '',
                       specialization: state
-                              .loginModel!.user!.userMetadata!.specialization ??
-                          '',
+                              .loginModel!.user!.userMetadata!.specialization ??'',
+                      bio: state.loginModel!.user!.userMetadata!.bio ?? '',
+                      address: state.loginModel!.user!.userMetadata!.address ??'',
+                      education: state.loginModel!.user!.userMetadata!.education ??'',
+                      experience: state.loginModel!.user!.userMetadata!.experience ??'',
+                      gender: state.loginModel!.user!.userMetadata!.gender ??'',
+
                     );
                     UserCacheHelper.cacheDoctorData(doctor);
                     CacheHelper()
@@ -71,6 +76,12 @@ class LoginScreen extends StatelessWidget {
                       name: state.loginModel!.user!.userMetadata!.name ?? '',
                       email: state.loginModel!.user!.email,
                       image: state.loginModel!.user!.userMetadata!.image ?? '',
+                      age: int.tryParse(state.loginModel!.user!.userMetadata!.age ?? '0') ?? 0,
+                      gender: state.loginModel!.user!.userMetadata!.gender ?? '',
+                      bloodType: state.loginModel!.user!.userMetadata!.bloodType ?? '',
+                      weight: int.tryParse(state.loginModel!.user!.userMetadata!.weight ?? '0') ?? 0,
+height: int.tryParse(state.loginModel!.user!.userMetadata!.height ?? '0') ?? 0,
+                      address: state.loginModel!.user!.userMetadata!.address ?? '',
                     );
                     UserCacheHelper.cachePatientData(patient);
                     CacheHelper()

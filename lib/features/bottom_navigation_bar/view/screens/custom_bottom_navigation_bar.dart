@@ -17,7 +17,6 @@ import '../widgets/bottom_navigation_bar_home_item.dart';
 import '../widgets/bottom_navigation_bar_item.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
-import 'package:heal_care/features/doctor_booking/logic/cubit/doctorbooking_cubit.dart';
 import 'package:heal_care/features/patient_booking/logic/cubit/appointementcubit_cubit.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {

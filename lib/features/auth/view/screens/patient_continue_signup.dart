@@ -90,6 +90,14 @@ class _PatientContinueSignupScreenState
                 name: widget.name,
                 email: state.signUpModel!.user!.email,
                 image: imageUrl,
+                age: int.tryParse(ageConotroller.text) ?? 0,
+                weight: int.tryParse(weightController.text) ?? 0,
+                height: int.tryParse(heightCoontroller.text) ?? 0,
+                address: addressController.text,
+                disease: diseaseSelectedValue,
+                gender: genderSelectedValue,
+                bloodType: bloodSelectedValue,
+                medicalHistory: medicalController.text,
               );
               await UserCacheHelper.cachePatientData(patient);
 

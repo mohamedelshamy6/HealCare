@@ -6,11 +6,9 @@ import 'package:heal_care/core/helpers/app_images.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/helpers/user_cache_helper.dart';
 import 'package:heal_care/core/routing/routes.dart';
-import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
-import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 
 class DoctorHomeHeader extends StatefulWidget {
   final DoctorsModel? cachedDoctor;
