@@ -1,74 +1,156 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/helpers/app_images.dart';
-import '../../../../core/helpers/spacing.dart';
-import '../../../patient_home/data/models/doctors_models.dart';
+import 'package:heal_care/core/helpers/app_images.dart';
+import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/theme/app_colors.dart';
+import 'package:heal_care/core/theme/app_text_styles.dart';
 
-import '../../../../core/routing/routes.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/custom_text_form_field.dart';
+class ChatBotScreen extends StatefulWidget {
+  const ChatBotScreen({super.key});
 
-class ChatBotScreen extends StatelessWidget {
-  final String chatIndex;
-  final DoctorssModel model;
-  const ChatBotScreen(
-      {super.key, required this.chatIndex, required this.model});
+  @override
+  State<ChatBotScreen> createState() => _ChatBotScreenState();
+}
+
+class _ChatBotScreenState extends State<ChatBotScreen> {
+  int _currentQuestionIndex = 0;
+  bool _showAnswers = true;
+  bool isTyping = false;
+
+  final List<Map<String, dynamic>> _questions = [
+    {
+      'question': 'What is your goal?',
+      'answers': ['Lose weight', 'Gain muscle', 'Stay fit', 'Other'],
+    },
+    {
+      'question': 'How active are you?',
+      'answers': [
+        'Very active',
+        'Moderately active',
+        'Slightly active',
+        'Not active'
+      ],
+    },
+    {
+      'question': 'Do you have any medical conditions?',
+      'answers': ['Diabetes', 'Heart issues', 'None', 'Prefer not to say'],
+    },
+    {
+      'question': 'What is your preferred meal type?',
+      'answers': ['Vegetarian', 'Non-vegetarian', 'Vegan', 'No preference'],
+    },
+  ];
+
+  final List<Widget> _chatWidgets = [];
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _addBotMessage(_questions[_currentQuestionIndex]['question']);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  void _addBotMessage(String message) {
+    setState(() {
+      _chatWidgets.add(_buildBotMessage(message));
+    });
+    _scrollToBottom();
+  }
+
+  void _addUserAnswer(String answer) {
+    setState(() {
+      _chatWidgets.add(_buildUserMessage(answer));
+      isTyping = true;
+    });
+    _scrollToBottom();
+
+    Future.delayed(const Duration(milliseconds: 600), () {
+      if (_currentQuestionIndex + 1 < _questions.length) {
+        _currentQuestionIndex++;
+        setState(() {
+          isTyping = false;
+          _chatWidgets.add(
+              _buildBotMessage(_questions[_currentQuestionIndex]['question']));
+        });
+        _scrollToBottom();
+      } else {
+        // انتهت الأسئلة
+        Future.delayed(const Duration(milliseconds: 600), () {
+          setState(() {
+            isTyping = false;
+            _showAnswers = false; // ✅ أخفي الإجابات
+            _chatWidgets.add(_buildBotMessage(
+                "شكرًا، يبدو أنك لا تحتاج إلى التواصل مع دكتور حاليًا."));
+          });
+          _scrollToBottom();
+        });
+      }
+    });
+  }
+
+  Widget _buildBotMessage(String text) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 8.h),
+        padding: EdgeInsets.all(12.r),
+        decoration: BoxDecoration(
+          color: AppColors.mainWhite,
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        child:
+            Text(text, style: AppTextStyles.poppinsBlack(14, FontWeight.w400)),
+      ),
+    );
+  }
+
+  Widget _buildUserMessage(String text) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 8.h),
+        padding: EdgeInsets.all(12.r),
+        decoration: BoxDecoration(
+          color: AppColors.mainColor,
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        child:
+            Text(text, style: AppTextStyles.poppinsWhite(14, FontWeight.w400)),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final currentAnswers = _currentQuestionIndex < _questions.length
+        ? _questions[_currentQuestionIndex]['answers'] as List<String>
+        : [];
+
     return Scaffold(
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.all(16.r),
-        child: Row(
-          children: [
-            Expanded(
-              child: CustomTFF(
-                maxLines: null,
-                maxInputLength: 1024,
-                verticalPadding: 15.h,
-                horizontalPadding: 23.w,
-                hintText: 'Type a message',
-                hintTextStyle: AppTextStyles.poppinsWhite(16, FontWeight.w400),
-                kbType: TextInputType.multiline,
-                color: AppColors.mainColor,
-                borderRadius: 20.r,
-                cursorColor: AppColors.mainColor,
-                enableFocusedBorder: false,
-                suffixIcon: Padding(
-                  padding: EdgeInsets.only(right: 23.11.w),
-                  child: SizedBox(
-                    width: 80.w,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SvgPicture.asset(Assets.iconsSendFilesIconWhite),
-                        horizontalSpace(20),
-                        SvgPicture.asset(Assets.iconsMicrophoneIconWhite),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            horizontalSpace(6),
-            CircleAvatar(
-              radius: 24.r,
-              backgroundColor: AppColors.mainColor,
-              child: Center(
-                child: SvgPicture.asset(Assets.iconsChatBotSend,
-                    width: 24.w, height: 24.h),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.r),
           child: Column(
             children: [
+              // Header
               Row(
                 children: [
                   InkWell(
@@ -76,11 +158,8 @@ class ChatBotScreen extends StatelessWidget {
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
                       radius: 24.r,
-                      child: Icon(
-                        Icons.arrow_back,
-                        size: 24.r,
-                        color: AppColors.mainBlack,
-                      ),
+                      child: Icon(Icons.arrow_back,
+                          size: 24.r, color: AppColors.mainBlack),
                     ),
                   ),
                   horizontalSpace(24),
@@ -89,198 +168,64 @@ class ChatBotScreen extends StatelessWidget {
                     backgroundImage: AssetImage(Assets.imagesChatBot),
                   ),
                   horizontalSpace(12),
-                  Text(
-                    'ARIA',
-                    style: AppTextStyles.poppinsBlack(16, FontWeight.w600),
-                  ),
+                  Text('ARIA',
+                      style: AppTextStyles.poppinsBlack(16, FontWeight.w600)),
                 ],
               ),
               verticalSpace(32),
+
+              // Chat content
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.sizeOf(context).width < 400
-                                ? 222.w
-                                : 270.w,
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.r),
-                              color: AppColors.mainWhite),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.r),
-                            child: Text(
-                              'Hi there,\nBefore chatting with the doctor\nCan you tell me what\'s your problem?',
-                              style: AppTextStyles.poppinsBlack(
-                                  14, FontWeight.w400),
-                            ),
-                          ),
-                        ),
-                      ),
-                      verticalSpace(16),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.sizeOf(context).width < 400
-                                ? 222.w
-                                : 270.w,
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.r),
-                              color: AppColors.mainColor),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.r),
-                            child: Text(
-                              'Help me customize a one-week fitness and diet weight loss plan.',
-                              style: AppTextStyles.poppinsWhite(
-                                  14, FontWeight.w400),
-                            ),
-                          ),
-                        ),
-                      ),
-                      verticalSpace(16),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.sizeOf(context).width < 400
-                                ? 222.w
-                                : 270.w,
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.r),
-                              color: AppColors.mainWhite),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.r),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Some of the popular tourist destinations in the United States are as follow\nNew York City is a must-visit, with its renowned Times Square, the Statue of Liberty standing tall in the harbor, and the vast and beautiful Central Park.\nLos Angeles attracts countless tourists with the allure of Hollywood, where you can catch a glimpse of the glitz and glamour of the film industry, as well as the exciting Universal Studios.\nSan Francisco is known for the magnificent Golden Gate Bridge that spans the bay, the notorious Alcatraz Island, and its unique and charming neighborhoods.',
-                                  style: AppTextStyles.poppinsBlack(
-                                      14, FontWeight.w400),
-                                ),
-                                Divider(),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(4.r),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.mainGrey
-                                            .withOpacity(0.35),
-                                        borderRadius:
-                                            BorderRadius.circular(4.r),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        Assets.iconsCopy,
-                                        width: 14.w,
-                                        height: 14.w,
-                                      ),
-                                    ),
-                                    horizontalSpace(8),
-                                    Container(
-                                      padding: EdgeInsets.all(4.r),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.mainGrey
-                                            .withOpacity(0.35),
-                                        borderRadius:
-                                            BorderRadius.circular(4.r),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        Assets.iconsLike,
-                                        width: 14.w,
-                                        height: 14.w,
-                                      ),
-                                    ),
-                                    horizontalSpace(8),
-                                    Container(
-                                      padding: EdgeInsets.all(4.r),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.mainGrey
-                                            .withOpacity(0.35),
-                                        borderRadius:
-                                            BorderRadius.circular(4.r),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        Assets.iconsSound,
-                                        width: 14.w,
-                                        height: 14.w,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Container(
-                                      padding: EdgeInsets.all(4.r),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.mainGrey
-                                            .withOpacity(0.35),
-                                        borderRadius:
-                                            BorderRadius.circular(4.r),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        Assets.iconsAgain,
-                                        width: 14.w,
-                                        height: 14.w,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      verticalSpace(16),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
-                              color: AppColors.mainWhite),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.r),
-                            child: Text(
-                              'Tell me more.',
-                              style: AppTextStyles.poppinsBlack(
-                                  14, FontWeight.w400),
-                            ),
-                          ),
-                        ),
-                      ),
-                      verticalSpace(16),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(Routes.insideChat, arguments: [
-                            chatIndex,
-                            'patient',
-                            model,
-                          ]);
-                        },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.r),
-                                color: AppColors.mainWhite),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.r),
-                              child: Text(
-                                'Go to the chat with the doctor.',
-                                style: AppTextStyles.poppinsBlack(
-                                    14, FontWeight.w400),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                child: ListView(
+                  controller: _scrollController,
+                  children: _chatWidgets,
                 ),
               ),
+
+              if (isTyping)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 6.h),
+                    padding: EdgeInsets.all(10.r),
+                    decoration: BoxDecoration(
+                      color: AppColors.mainWhite,
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Text("Bot is typing...",
+                        style:
+                            AppTextStyles.poppinsBlack(13, FontWeight.w400)),
+                  ),
+                ),
+
+              // إجابات المستخدم
+              if (_showAnswers &&
+                  currentAnswers.isNotEmpty &&
+                  !isTyping) ...[
+                verticalSpace(12),
+                Column(
+                  children: currentAnswers.map((answer) {
+                    return GestureDetector(
+                      onTap: () => _addUserAnswer(answer),
+                      child: Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(bottom: 8.h),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 12.h, horizontal: 16.w),
+                        decoration: BoxDecoration(
+                          color: AppColors.mainColor.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Text(
+                          answer,
+                          style:
+                              AppTextStyles.poppinsWhite(14, FontWeight.w500),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
             ],
           ),
         ),
