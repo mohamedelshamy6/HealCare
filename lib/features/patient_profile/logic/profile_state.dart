@@ -40,4 +40,21 @@ class ProfileError extends ProfileState {
   ProfileError({ required this.error});
 }
 
+class UpdateProfileLoadingForPatients extends ProfileState {}
+
+class UpdateProfileSuccessForPatients extends ProfileState {
+  final PatientsModel? patient;
+
+  UpdateProfileSuccessForPatients({this.patient});
+}
+
+class UpdateProfileErrorForPatients extends ProfileState {
+  final String error;
+
+  UpdateProfileErrorForPatients({ required this.error});
+}
+
+
+
+
 

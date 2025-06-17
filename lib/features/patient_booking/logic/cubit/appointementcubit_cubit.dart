@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/core/helpers/app_constants.dart';
 import 'package:heal_care/core/helpers/cache_helper.dart';
+import 'package:heal_care/core/helpers/user_cache_helper.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
@@ -21,8 +22,10 @@ class AppointementcubitCubit extends Cubit<AppointementcubitState> {
   Future<void> fetchAppointments() async {
     emit(AppointementcubitLoading());
 
-    final pId = CacheHelper().getData(key: 'patient_Id')??
-        CacheHelper().getData(key: 'userId');
+    final patientData = await UserCacheHelper.getCachedPatientData();
+    final pId = CacheHelper().getData(key: 'patient_Id') ??
+        CacheHelper().getData(key: 'userId') ??
+        patientData?.id;
 
     if (pId == null || pId.toString().isEmpty) {
       emit(AppointementcubitFailure(error: "Missing patient ID"));

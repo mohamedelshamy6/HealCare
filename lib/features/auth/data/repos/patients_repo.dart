@@ -86,16 +86,16 @@ class PatientsRepo {
   }
 
   // Method to update patient data
-  Future<Either<String, String>> updatePatient(
+  Future<Either<String, PatientsModel>> updatePatient(
     String path,
     dynamic data,
   ) async {
     try {
-      await apiServices.update(
+    final response = await apiServices.update(
         path,
         data: data,
       );
-      var result = 'Successfully updated patient';
+      var result = PatientsModel.fromJson(response);
       return Right(result);
     } on ApiException catch (e) {
       return Left(e.errorModel.message ?? 'Failed to update patient');

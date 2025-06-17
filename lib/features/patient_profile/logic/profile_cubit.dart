@@ -103,5 +103,19 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  
+  Future<void> updateProfileForPatients(String path, dynamic data) async {
+    emit(UpdateProfileLoadingForPatients());
+    final patient = await patientsRepo.updatePatient(
+      path,
+      data,
+    );
+    patient.fold(
+      ((error) {
+        emit(UpdateProfileErrorForPatients(error: error));
+      }),
+      ((patient) {
+        emit(UpdateProfileSuccessForPatients(patient: patient));
+      }),
+    );
+  }
 }

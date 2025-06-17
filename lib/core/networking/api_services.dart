@@ -26,4 +26,12 @@ abstract class ApiServices {
     bool isFormData = false,
     dynamic options,
   });
+
+  Future<dynamic> put(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    bool isFormData = false,
+    dynamic options,
+  });
 }
