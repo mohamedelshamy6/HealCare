@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,14 +59,14 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
   }
 
   void _addMessageOptimistically(
-      String content, String senderId, String senderType) {
+      String id, String content, String senderId, String senderType) {
     final newMessage = GetAllMessagesForAspecificConversationModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(), // Temporary ID
-      content: content,
-      senderId: senderId,
-      senderType: senderType,
-      sentAt: DateTime.now().toIso8601String(),
+      id: id,
       conversationId: widget.chatIndex,
+      senderType: senderType,
+      senderId: senderId,
+      content: content,
+      sentAt: DateTime.now().toIso8601String(),
     );
 
     setState(() {
@@ -191,7 +192,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String? image = widget.model.counterpartImage;
+    final String? image = widget.model.senderUserImage;
     final String? doctorImage = CacheHelper().getData(key: 'doctor_image');
 
     return Scaffold(
@@ -199,7 +200,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
         child: Column(
           children: [
             CustomAppHeader(
-              title: widget.model.counterpartName ?? '',
+              title: widget.model.senderUsername ?? '',
               canBack: true,
               actionsWidgets: [
                 IconButton(
@@ -263,10 +264,17 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                       itemCount: displayMessages.length,
                       itemBuilder: (context, index) {
                         final message = displayMessages[index];
-                        final String? userType =
-                            CacheHelper().getData(key: 'role');
-                        final bool isSentByMe = message.senderType == userType;
+                        final String? currentUserId =
+                            CacheHelper().getData(key: 'userId');
+                        final bool isSentByMe =
+                            message.senderId == currentUserId;
 
+                        print('Message sender type: ${message.senderType}');
+                        print('User role: $currentUserId');
+
+                        print('Message content: ${message.content}');
+
+                        log(message.content ?? '');
                         return AnimatedSwitcher(
                           duration: const Duration(milliseconds: 300),
                           child: isSentByMe
@@ -275,15 +283,15 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                                       '${message.content}-${message.sentAt}'),
                                   message: message.content ?? '',
                                   date: _formatTime(message.sentAt),
-                                  type: message.senderType ?? '',
-                                  image: doctorImage ?? '',
+                                  type: currentUserId ?? '',
+                                  image: image ?? '',
                                 )
                               : ChatBubble(
                                   key: ValueKey(
                                       '${message.content}-${message.sentAt}'),
                                   message: message.content ?? '',
                                   date: _formatTime(message.sentAt),
-                                  image: image ?? '',
+                                  image: doctorImage ?? '',
                                   senderType: message.senderType ?? '',
                                 ),
                         );
@@ -335,6 +343,21 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                   IconButton(
                     onPressed: () async {
                       final message = messageController.text.trim();
+                      final String? senderId =
+                          CacheHelper().getData(key: 'userId');
+
+                      final String? senderType =
+                          CacheHelper().getData(key: 'role');
+
+                      if (senderId == null || senderType == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Failed to get user information'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        return;
+                      }
 
                       if (!_isValidMessage(message)) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -345,11 +368,6 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                         );
                         return;
                       }
-
-                      final String? senderId =
-                          CacheHelper().getData(key: 'userId');
-                      final String? senderType =
-                          CacheHelper().getData(key: 'role');
 
                       if (senderId == null || senderType == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -364,7 +382,12 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                       messageController.clear();
 
                       // Add message optimistically
-                      _addMessageOptimistically(message, senderId, senderType);
+                      _addMessageOptimistically(
+                        'temp_${DateTime.now().millisecondsSinceEpoch}', // Generate a temporary ID
+                        message,
+                        senderId,
+                        senderType,
+                      );
 
                       try {
                         await context

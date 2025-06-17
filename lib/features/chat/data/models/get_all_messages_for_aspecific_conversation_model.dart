@@ -1,5 +1,5 @@
 class GetAllMessagesForAspecificConversationModel {
-  String? id;
+ String? id;
   String? conversationId;
   String? senderType;
   String? senderId;
@@ -14,8 +14,7 @@ class GetAllMessagesForAspecificConversationModel {
       this.content,
       this.sentAt});
 
-  GetAllMessagesForAspecificConversationModel.fromJson(
-      Map<String, dynamic> json) {
+  GetAllMessagesForAspecificConversationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     conversationId = json['conversation_id'];
     senderType = json['sender_type'];
@@ -25,7 +24,7 @@ class GetAllMessagesForAspecificConversationModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['conversation_id'] = conversationId;
     data['sender_type'] = senderType;

@@ -89,6 +89,13 @@ class ChatCubit extends Cubit<ChatState> {
       },
     );
 
+    print('Sending message with:');
+print('conversationId: $conversationId');
+print('senderId: $senderId');
+print('content: $content');
+print('senderType: $senderType');
+
+
     result.fold(
       (error) => emit(SendMessageInConversationFailure(error)),
       (_) {
