@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -34,10 +35,10 @@ class ChatItem extends StatelessWidget {
             CircleAvatar(
               radius: 25.r,
               backgroundColor: AppColors.mainColor.withOpacity(0.1),
-              child: conversation.counterpartImage?.isNotEmpty == true
+              child: conversation.senderUserImage?.isNotEmpty == true
                   ? ClipOval(
                       child: Image.network(
-                        conversation.counterpartImage!,
+                        conversation.senderUserImage!,
                         width: 50.r,
                         height: 50.r,
                         fit: BoxFit.cover,
@@ -64,7 +65,7 @@ class ChatItem extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          conversation.counterpartName ?? '',
+                          conversation.senderUsername ?? '',
                           style:
                               AppTextStyles.poppinsBlack(16, FontWeight.w700),
                           overflow: TextOverflow.ellipsis,
@@ -79,12 +80,13 @@ class ChatItem extends StatelessWidget {
                     ],
                   ),
                   verticalSpace(5.5),
-                  Text(
-                    conversation.lastMessageContent ?? '',
-                    style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
+                  if (conversation.lastMessageContent?.isNotEmpty == true)
+                    Text(
+                      conversation.lastMessageContent!,
+                      style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                 ],
               ),
             ),
@@ -151,15 +153,14 @@ class ChatItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text(
-                        type == 'patient'
-                            ? (model as DoctorssModel).name
-                            : (model as PatientModel).name,
-                        style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
+                        child: Text(
+                      type == 'patient'
+                          ? (model as DoctorsModel).name ?? 'Unknown Doctor'
+                          : (model as PatientModel).name ?? 'Unknown Patient',
+                      style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    )),
                     horizontalSpace(4),
                     Text(
                       '5:02 PM',

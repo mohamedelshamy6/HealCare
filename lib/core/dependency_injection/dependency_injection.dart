@@ -21,6 +21,7 @@ import 'package:heal_care/features/patient_home/data/repos/add_payment_repo.dart
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
 import 'package:heal_care/features/patient_home/data/repos/payment_history_repo.dart';
+import 'package:heal_care/features/patient_profile/logic/profile_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/auth/data/repos/doctors_repo.dart';
 import '../../features/auth/data/repos/login_repo.dart';
@@ -81,6 +82,7 @@ class DependencyInjection {
         () => CreateConversitionRepository(getIt<ApiServices>()));
     getIt.registerLazySingleton<GetConversationRepo>(
         () => GetConversationRepo(getIt<ApiServices>()));
+
     // Cubits
     getIt.registerLazySingleton<DoctorsCubit>(() => DoctorsCubit(
         toogleFavouritesRepo: getIt<ToogleFavouritesRepo>(),
@@ -104,6 +106,11 @@ class DependencyInjection {
           getIt<SendMessageInConversation>(),
           getIt<DoctorsCubit>(),
           getIt<PatientsCubit>(),
+          getIt<SupabaseWebSocketService>(),
+        ));
+    getIt.registerFactory<ProfileCubit>(() => ProfileCubit(
+           getIt<DoctorsRepo>(),
+          getIt<PatientsRepo>(),
         ));
   }
 }

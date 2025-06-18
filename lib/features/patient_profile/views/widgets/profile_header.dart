@@ -1,14 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 
-import '../../../../core/helpers/app_images.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class ProfileHeader extends StatelessWidget {
+  final String name;
+  final String image;
+
   const ProfileHeader({
     super.key,
+    required this.name,
+    required this.image,
   });
 
   @override
@@ -25,10 +30,13 @@ class ProfileHeader extends StatelessWidget {
               height: 80.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(32.r),
-                image: const DecorationImage(
-                  image: AssetImage(Assets.imagesPatientsPatientF),
-                  fit: BoxFit.cover,
+              ),
+              child: CachedNetworkImage(
+                imageUrl: image,
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
                 ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
             CircleAvatar(
@@ -46,7 +54,7 @@ class ProfileHeader extends StatelessWidget {
         ),
         verticalSpace(16),
         Text(
-          'Eman Abo Samra',
+          name,
           style: AppTextStyles.poppinsBlack(16, FontWeight.w800),
         ),
       ],

@@ -22,6 +22,18 @@ class DoctorsRepo {
     }
   }
 
+  Future<Either<String, List<DoctorsModel>>> getDoctorById(String path) async {
+    try {
+      var response = await apiServices.get(path);
+      var result = (response as List)
+          .map((doctor) => DoctorsModel.fromJson(doctor))
+          .toList();
+      return Right(result);
+    } on ApiException catch (e) {
+      return Left(e.errorModel.message!);
+    }
+  }
+
   Future<Either<String, String>> addDoctor(
     String path,
     dynamic data,

@@ -31,4 +31,6 @@ class Routes {
   static const String selectDoctorScreen = 'selectDoctorScreen';
   static const String patientChat = 'patientChat';
   static const String doctorChat = 'doctorChat';
+  static const String patientProfile = 'patientProfile';
+  static const String doctorProfile = 'doctorProfile';
 }

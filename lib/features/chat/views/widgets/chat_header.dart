@@ -25,8 +25,8 @@ class ChatHeader extends StatelessWidget {
 
     if (model is GetConversationsModel) {
       final conversation = model as GetConversationsModel;
-      name = conversation.counterpartName ?? '';
-      image = conversation.counterpartImage ?? '';
+      name = conversation.senderUsername ?? 'there is no user name';
+      image = conversation.senderUserImage ?? '';
     } else if (model is DoctorssModel) {
       final doctor = model as DoctorssModel;
       name = doctor.name;

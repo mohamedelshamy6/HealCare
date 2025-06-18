@@ -8,6 +8,7 @@ import 'package:heal_care/core/helpers/app_constants.dart';
 import 'package:heal_care/core/helpers/cache_helper.dart';
 import 'package:heal_care/core/helpers/helper_methods.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/networking/supabase_web_socket_services.dart';
 import 'package:heal_care/core/routing/routes.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
@@ -262,6 +263,7 @@ class _BookingPaymentState extends State<BookingPayment> {
         DependencyInjection.getIt<SendMessageInConversation>(),
         context.read<DoctorsCubit>(),
         context.read<PatientsCubit>(),
+        DependencyInjection.getIt<SupabaseWebSocketService>(),
       ),
       child: Scaffold(
         body: SafeArea(
