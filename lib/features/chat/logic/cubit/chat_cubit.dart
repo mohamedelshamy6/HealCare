@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/core/helpers/app_constants.dart';
+import 'package:heal_care/core/networking/supabase_web_socket_services.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 import 'package:heal_care/features/chat/data/models/get_all_messages_for_aspecific_conversation_model.dart';
@@ -18,7 +19,7 @@ class ChatCubit extends Cubit<ChatState> {
       this.getAllMessagesForAspecificConversationRepo,
       this.sendMessageInConversation,
       this.doctorsCubit,
-      this.patientsCubit)
+      this.patientsCubit, this.webSocketService)
       : super(ChatInitial());
 
   final CreateConversitionRepository conversitionRepository;
@@ -26,6 +27,10 @@ class ChatCubit extends Cubit<ChatState> {
   final SendMessageInConversation sendMessageInConversation;
   final DoctorsCubit doctorsCubit;
   final PatientsCubit patientsCubit;
+  final SupabaseWebSocketService webSocketService;
+  final Map<String, List<GetAllMessagesForAspecificConversationModel>> conversationMessages = {};
+
+
 
   Future<void> createConversation({
     required String doctorId,
@@ -89,40 +94,35 @@ class ChatCubit extends Cubit<ChatState> {
       },
     );
 
-    print('Sending message with:');
-print('conversationId: $conversationId');
-print('senderId: $senderId');
-print('content: $content');
-print('senderType: $senderType');
-
-
     result.fold(
       (error) => emit(SendMessageInConversationFailure(error)),
       (_) {
-        emit(SendMessageInConversationSuccess());
-        // Refresh messages after sending
-        getMessagesForConversation(conversationId: conversationId);
+        
       },
     );
   }
 
-  Future<void> getMessagesForConversation({
-    required String conversationId,
-  }) async {
-    emit(GetMessagesForConversationLoading());
+ Future<void> getMessagesForConversation({
+  required String conversationId,
+}) async {
+  emit(GetMessagesForConversationLoading());
 
-    final result = await getAllMessagesForAspecificConversationRepo
-        .getAllMessagesForAspecificConversation(
-      '${AppConstants.baseRestUrl}messages',
-      conversationId,
-      'sent_at.asc',
-    );
+  final result = await getAllMessagesForAspecificConversationRepo
+      .getAllMessagesForAspecificConversation(
+    '${AppConstants.baseRestUrl}messages',
+    conversationId,
+    'sent_at.asc',
+  );
 
-    result.fold(
-      (error) => emit(GetMessagesForConversationFailure(error)),
-      (messages) => emit(GetMessagesForConversationSuccess(messages)),
-    );
-  }
+  result.fold(
+    (error) => emit(GetMessagesForConversationFailure(error)),
+    (messages) {
+      conversationMessages[conversationId] = messages;
+      emit(GetMessagesForConversationSuccess(messages));
+    },
+  );
+}
+
 
   final GetAllMessagesForAspecificConversationRepo
       getAllMessagesForAspecificConversationRepo;
@@ -146,4 +146,24 @@ print('senderType: $senderType');
           GetAllMessagesForAspecificConversationSuccess(messages: messages)),
     );
   }
+
+void listenToNewMessages(String conversationId) {
+  webSocketService.listenToInsert(
+    tableName: 'messages',
+    onInsert: (newMessage) {
+      if (newMessage['conversation_id'] == conversationId) {
+        final message = GetAllMessagesForAspecificConversationModel.fromJson(newMessage);
+
+        final currentMessages = conversationMessages[conversationId] ?? [];
+        currentMessages.add(message);
+        conversationMessages[conversationId] = currentMessages;
+
+        emit(GetMessagesForConversationSuccess(currentMessages));
+      }
+    },
+  );
+}
+
+
+
 }

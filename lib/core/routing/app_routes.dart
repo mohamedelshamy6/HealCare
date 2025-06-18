@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:heal_care/core/networking/supabase_web_socket_services.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
 import 'package:heal_care/features/auth/logic/cubit/auth_cubit.dart';
@@ -164,6 +165,7 @@ class AppRoutes {
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
+                  DependencyInjection.getIt<SupabaseWebSocketService>(),
                 ),
               ),
             ],
@@ -197,6 +199,7 @@ class AppRoutes {
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
+                  DependencyInjection.getIt<SupabaseWebSocketService>(),
                 ),
               ),
             ],
@@ -350,6 +353,7 @@ class AppRoutes {
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
+                  DependencyInjection.getIt<SupabaseWebSocketService>(),
                 ),
               ),
             ],
@@ -369,6 +373,7 @@ class AppRoutes {
                   DependencyInjection.getIt<SendMessageInConversation>(),
                   DependencyInjection.getIt<DoctorsCubit>(),
                   DependencyInjection.getIt<PatientsCubit>(),
+                  DependencyInjection.getIt<SupabaseWebSocketService>(),
                 ),
               ),
             ],

@@ -106,6 +106,7 @@ class DependencyInjection {
           getIt<SendMessageInConversation>(),
           getIt<DoctorsCubit>(),
           getIt<PatientsCubit>(),
+          getIt<SupabaseWebSocketService>(),
         ));
     getIt.registerFactory<ProfileCubit>(() => ProfileCubit(
            getIt<DoctorsRepo>(),
