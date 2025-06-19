@@ -23,6 +23,7 @@ import 'package:heal_care/features/notification/cubit/notification_cubit.dart';
 import 'package:heal_care/features/notification/data/repos/notification_repository.dart';
 import 'package:heal_care/features/notification/views/screens/notifications_patients_screen.dart';
 import 'package:heal_care/features/patient_booking/logic/cubit/appointementcubit_cubit.dart';
+import 'package:heal_care/features/patient_booking/views/screens/patient_booking_screen.dart';
 import 'package:heal_care/features/patient_home/data/repos/add_payment_repo.dart';
 import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:heal_care/features/patient_home/data/repos/book_appointment_repository.dart';
@@ -379,6 +380,26 @@ class AppRoutes {
               ),
             ],
             child: DoctorChat(type: args as String),
+          ),
+        );
+      case Routes.patientBookingScreen:
+        return MaterialPageRoute(
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider<DoctorsCubit>(
+                create: (context) => DoctorsCubit(
+                  toogleFavouritesRepo: DependencyInjection.getIt(),
+                  doctorsRepo: DependencyInjection.getIt(),
+                  patientFavouritesRepo: DependencyInjection.getIt(),
+                )..getAllDoctors(),
+              ),
+              BlocProvider<PatientsCubit>(
+                create: (context) => PatientsCubit(
+                  patientsRepo: DependencyInjection.getIt(),
+                ),
+              ),
+            ],
+            child: const PatientBookingScreen(),
           ),
         );
     }

@@ -38,7 +38,7 @@ class LoginScreen extends StatelessWidget {
           padding: EdgeInsets.only(top: 24.h, left: 24.w, right: 24.w),
           child: SingleChildScrollView(
             child: BlocListener<AuthCubit, AuthState>(
-              listener: (context, state) {
+              listener: (context, state) async {
                 if (state is LoginLoading) {
                   HelperMethods.showLoadingAlertDialog(context);
                 }
@@ -56,18 +56,25 @@ class LoginScreen extends StatelessWidget {
                     final doctor = DoctorsModel(
                       id: state.loginModel!.user!.id,
                       name: state.loginModel!.user!.userMetadata!.name ?? '',
-                      email: state.loginModel!.user!.email,
-                      image: state.loginModel!.user!.userMetadata!.image ?? '',
+                      email: state.loginModel!.user!.email ?? '',
                       specialization: state
-                              .loginModel!.user!.userMetadata!.specialization ??'',
+                              .loginModel!.user!.userMetadata!.specialization ??
+                          '',
                       bio: state.loginModel!.user!.userMetadata!.bio ?? '',
-                      address: state.loginModel!.user!.userMetadata!.address ??'',
-                      education: state.loginModel!.user!.userMetadata!.education ??'',
-                      experience: state.loginModel!.user!.userMetadata!.experience ??'',
-                      gender: state.loginModel!.user!.userMetadata!.gender ??'',
-
+                      address:
+                          state.loginModel!.user!.userMetadata!.address ?? '',
+                      experience:
+                          state.loginModel!.user!.userMetadata!.experience ??
+                              '',
+                      education:
+                          state.loginModel!.user!.userMetadata!.education ?? '',
+                      gender:
+                          state.loginModel!.user!.userMetadata!.gender ?? '',
+                      instapayLink:
+                          state.loginModel!.user!.userMetadata!.instaPayLink ??
+                              '',
                     );
-                    UserCacheHelper.cacheDoctorData(doctor);
+                    await UserCacheHelper.cacheDoctorData(doctor);
                     CacheHelper()
                         .saveData(key: 'doctorName', value: doctor.name);
                   } else {
@@ -76,12 +83,24 @@ class LoginScreen extends StatelessWidget {
                       name: state.loginModel!.user!.userMetadata!.name ?? '',
                       email: state.loginModel!.user!.email,
                       image: state.loginModel!.user!.userMetadata!.image ?? '',
-                      age: int.tryParse(state.loginModel!.user!.userMetadata!.age ?? '0') ?? 0,
-                      gender: state.loginModel!.user!.userMetadata!.gender ?? '',
-                      bloodType: state.loginModel!.user!.userMetadata!.bloodType ?? '',
-                      weight: int.tryParse(state.loginModel!.user!.userMetadata!.weight ?? '0') ?? 0,
-height: int.tryParse(state.loginModel!.user!.userMetadata!.height ?? '0') ?? 0,
-                      address: state.loginModel!.user!.userMetadata!.address ?? '',
+                      age: int.tryParse(
+                              state.loginModel!.user!.userMetadata!.age ??
+                                  '0') ??
+                          0,
+                      gender:
+                          state.loginModel!.user!.userMetadata!.gender ?? '',
+                      bloodType:
+                          state.loginModel!.user!.userMetadata!.bloodType ?? '',
+                      weight: int.tryParse(
+                              state.loginModel!.user!.userMetadata!.weight ??
+                                  '0') ??
+                          0,
+                      height: int.tryParse(
+                              state.loginModel!.user!.userMetadata!.height ??
+                                  '0') ??
+                          0,
+                      address:
+                          state.loginModel!.user!.userMetadata!.address ?? '',
                     );
                     UserCacheHelper.cachePatientData(patient);
                     CacheHelper()

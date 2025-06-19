@@ -33,4 +33,5 @@ class Routes {
   static const String doctorChat = 'doctorChat';
   static const String patientProfile = 'patientProfile';
   static const String doctorProfile = 'doctorProfile';
+  static const String patientBookingScreen = 'patientBookingScreen';
 }

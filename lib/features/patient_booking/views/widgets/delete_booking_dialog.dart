@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/helpers/spacing.dart';
+import 'package:heal_care/core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -62,28 +62,26 @@ class DeleteBookingDialog extends StatelessWidget {
                   ),
                   horizontalSpace(20),
                   Expanded(
-                    child: Material(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        highlightColor: Colors.transparent,
-                        splashFactory: NoSplash.splashFactory,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            border: Border.all(
-                              color: AppColors.tFFErrorColor,
-                            ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      highlightColor: Colors.transparent,
+                      splashFactory: NoSplash.splashFactory,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(
+                            color: AppColors.tFFErrorColor,
                           ),
-                          height: 44.h,
-                          child: Center(
-                            child: Text(
-                              'No',
-                              style: AppTextStyles.poppinsBlack(
-                                      16, FontWeight.w500)
-                                  .copyWith(color: AppColors.tFFErrorColor),
-                            ),
+                        ),
+                        height: 44.h,
+                        child: Center(
+                          child: Text(
+                            'No',
+                            style:
+                                AppTextStyles.poppinsBlack(16, FontWeight.w500)
+                                    .copyWith(color: AppColors.tFFErrorColor),
                           ),
                         ),
                       ),

@@ -134,11 +134,26 @@ class _PatientContinueSignupScreenState
                   'blood_type': bloodSelectedValue,
                   'medical_history': medicalController.text,
                 },
-              ).then((value) {
+              ).then((value) async{
                 Navigator.pushNamedAndRemoveUntil(
                     context, Routes.bottomNavBar, (route) => false,
                     arguments: 'patient');
                 CacheHelper().saveData(key: 'role', value: 'patient');
+               final patient = PatientsModel(
+            id: state.signUpModel!.user!.id,
+            name: widget.name,
+            email: state.signUpModel!.user!.email,
+            image: imageUrl,
+            age: int.tryParse(ageConotroller.text) ?? 0,
+            weight: int.tryParse(weightController.text) ?? 0,
+            height: int.tryParse(heightCoontroller.text) ?? 0,
+            address: addressController.text,
+            disease: diseaseSelectedValue,
+            gender: genderSelectedValue,
+            bloodType: bloodSelectedValue,
+            medicalHistory: medicalController.text,
+          );
+          await UserCacheHelper.cachePatientData(patient);
               }).onError((_, error) {
                 HelperMethods.showCustomSnackBarError(
                     context, ErrorMessages.errorMessage(error.toString()));

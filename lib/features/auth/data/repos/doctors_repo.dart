@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 
@@ -11,14 +13,36 @@ class DoctorsRepo {
   late ApiServices apiServices;
   DoctorsRepo(this.apiServices);
   Future<Either<String, List<DoctorsModel>>> getAllDoctors(String path) async {
+    log('Fetching doctors from: $path');
     try {
       var response = await apiServices.get(path);
-      var result = (response as List)
-          .map((doctor) => DoctorsModel.fromJson(doctor))
-          .toList();
+      log('Received response: $response');
+
+      if (response is! List) {
+        log('Error: Expected List but got ${response.runtimeType}');
+        return Left('Invalid response format: Expected List');
+      }
+
+      var result = response.map((doctor) {
+        try {
+          return DoctorsModel.fromJson(doctor);
+        } catch (e) {
+          log('Error parsing doctor: $e');
+          log('Problematic doctor data: $doctor');
+          rethrow;
+        }
+      }).toList();
+
+      log('Successfully parsed ${result.length} doctors');
       return Right(result);
     } on ApiException catch (e) {
-      return Left(e.errorModel.message!);
+      log('API Error: ${e.errorModel.message}');
+      log('API Error details: ${e.toString()}');
+      return Left(e.errorModel.message ?? 'Failed to fetch doctors');
+    } catch (e, stackTrace) {
+      log('Unexpected error in getAllDoctors: $e');
+      log('Stack trace: $stackTrace');
+      return Left('Failed to fetch doctors: $e');
     }
   }
 
