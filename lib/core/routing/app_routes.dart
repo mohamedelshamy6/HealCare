@@ -337,7 +337,8 @@ class AppRoutes {
       case Routes.chatBot:
         return MaterialPageRoute(
           builder: (context) => ChatBotScreen(
-            
+            chatIndex: args as String,
+            model: args as dynamic,
           ),
         );
       case Routes.patientChat:
