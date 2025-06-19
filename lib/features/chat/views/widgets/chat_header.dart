@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:heal_care/features/patient_home/data/models/doctors_models.dart';
+import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import '../../../../core/helpers/app_images.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -27,11 +27,11 @@ class ChatHeader extends StatelessWidget {
       final conversation = model as GetConversationsModel;
       name = conversation.senderUsername ?? 'there is no user name';
       image = conversation.senderUserImage ?? '';
-    } else if (model is DoctorssModel) {
-      final doctor = model as DoctorssModel;
-      name = doctor.name;
-      image = doctor.image;
-      specialization = doctor.job;
+    } else if (model is DoctorsModel) {
+      final doctor = model as DoctorsModel;
+      name = doctor.name??'';
+      image = doctor.image??'';
+      specialization = doctor.specialization??'';
     } else if (model is PatientModel) {
       final patient = model as PatientModel;
       name = patient.name;

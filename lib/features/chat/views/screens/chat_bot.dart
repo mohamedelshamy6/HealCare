@@ -113,12 +113,42 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
 
     // Check if this answer requires immediate action
     final currentQuestion = _questions[_currentQuestionIndex];
-    final isEmergencyQuestion = currentQuestion.containsKey('emergency') &&
-        currentQuestion['emergency'] == true;
+    final isEmergencyQuestion = currentQuestion.containsKey('emergency');
     final isDoctorQuestion =
         currentQuestion['question'].contains('chronic digestive conditions');
     final isDurationQuestion = currentQuestion['question']
-        .contains('How long have you had these symptoms');
+        .toLowerCase()
+        .contains('how long have you had these symptoms');
+
+    // Check if the answer indicates symptoms lasting more than 3 days
+    if (isDurationQuestion &&
+        answer.toLowerCase().contains('more than 3 days')) {
+      // Navigate to chat immediately if symptoms last more than 3 days
+      Future.delayed(const Duration(seconds: 1), () {
+        if (mounted) {
+          _chatWidgets.add(_buildBotMessage(
+              "I see you've been experiencing these symptoms for more than 3 days. Let me connect you with a doctor for further assistance."));
+          _scrollToBottom();
+          Future.delayed(const Duration(seconds: 2), () {
+            if (mounted) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                    value: chatCubit,
+                    child: InsideChatScreen(
+                      chatIndex: widget.chatIndex,
+                      model: widget.model,
+                    ),
+                  ),
+                ),
+              );
+            }
+          });
+        }
+      });
+      return;
+    }
 
     // Helper function to navigate to chat screen
     void navigateToChat() {
@@ -141,10 +171,25 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     // Helper function to navigate to advices screen
     void navigateToAdvices() {
       if (mounted) {
+        // Get the user's answer to the first question
+        String? firstAnswer;
+        // The first answer should be at index 1 in _chatWidgets (index 0 is the first question)
+        if (_chatWidgets.length > 1 && _chatWidgets[1] is Align) {
+          final answerWidget = _chatWidgets[1] as Align;
+          if (answerWidget.child is Container) {
+            final container = answerWidget.child as Container;
+            if (container.child is Text) {
+              firstAnswer = (container.child as Text).data;
+            }
+          }
+        }
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const AdvicesScreen(),
+            builder: (context) => AdvicesScreen(
+              symptom: firstAnswer ?? 'General Advice',
+            ),
           ),
         );
       }
@@ -188,7 +233,8 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
           final isDoctorQ =
               question['question'].contains('chronic digestive conditions');
           final isDurationQ = question['question']
-              .contains('How long have you had these symptoms');
+              .toLowerCase()
+              .contains('how long have you had these symptoms');
 
           // Find the user's answer for this question
           final answerIndex =

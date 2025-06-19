@@ -92,8 +92,8 @@ class ChatListView extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   final chatCubit = context.read<ChatCubit>();
-                  // Show ChatBotScreen first for doctor chats
-                  if (conversation.doctorId != null) {
+                  // Show ChatBotScreen first for patient chats
+                  if (conversation.doctorId != null && type == 'patient') {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => BlocProvider.value(
@@ -105,8 +105,10 @@ class ChatListView extends StatelessWidget {
                         ),
                       ),
                     );
-                  } else {
-                    // For non-doctor chats, go directly to chat screen
+                  }
+
+                  // For patient chats, go directly to chat screen
+                  if (type == 'doctor') {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => BlocProvider.value(

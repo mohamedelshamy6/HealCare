@@ -6,7 +6,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../data/models/get_conversations_model.dart';
 import '../../../doctor_home/data/models/patient_model.dart';
-import '../../../patient_home/data/models/doctors_models.dart';
 
 class ChatItem extends StatelessWidget {
   final Object model;
@@ -105,10 +104,10 @@ class ChatItem extends StatelessWidget {
             radius: 25.r,
             backgroundColor: AppColors.mainColor.withOpacity(0.1),
             child: type == 'patient'
-                ? (model as DoctorssModel).image.isNotEmpty
+                ? (model as DoctorsModel).image!.isNotEmpty
                     ? ClipOval(
                         child: Image.asset(
-                          (model as DoctorssModel).image,
+                          (model as DoctorsModel).image!,
                           width: 50.r,
                           height: 50.r,
                           fit: BoxFit.cover,
