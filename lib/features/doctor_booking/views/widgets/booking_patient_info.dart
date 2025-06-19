@@ -22,11 +22,11 @@ class BookingPatientInfo extends StatelessWidget {
           width: 50.w,
           height: 50.h,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AppColors.mainColor),
+            shape: BoxShape.rectangle,
+            color: AppColors.mainGrey,
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(25.r),
+            borderRadius: BorderRadius.circular(6.r),
             child: CachedNetworkImage(
               imageUrl: patientsModel.image ?? '',
               fit: BoxFit.cover,
@@ -43,12 +43,17 @@ class BookingPatientInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                patientsModel.name ?? '',
+                'Patient  ${patientsModel.name}',
                 style: AppTextStyles.poppinsBlack(14, FontWeight.w500),
               ),
               verticalSpace(4),
               Text(
-                patientsModel.disease ?? '',
+                'Disease: ${patientsModel.disease}',
+                style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
+              ),
+              verticalSpace(4),
+              Text(
+                'Medical History: ${patientsModel.medicalHistory}',
                 style: AppTextStyles.poppinsGrey(12, FontWeight.w400),
               ),
             ],

@@ -7,6 +7,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../logic/cubit/chat_cubit.dart';
 import 'chat_item.dart';
 import '../screens/inside_chat_screen.dart';
+import '../screens/chat_bot.dart';
 
 class ChatListView extends StatelessWidget {
   final String type;
@@ -91,17 +92,35 @@ class ChatListView extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   final chatCubit = context.read<ChatCubit>();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => BlocProvider.value(
-                        value: chatCubit,
-                        child: InsideChatScreen(
-                          chatIndex: conversation.conversationId ?? '',
-                          model: conversation,
+                  // Show ChatBotScreen first for patient chats
+                  if (conversation.doctorId != null && type == 'patient') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider.value(
+                          value: chatCubit,
+                          child: ChatBotScreen(
+                            chatIndex: conversation.conversationId ?? '',
+                            model: conversation,
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  }
+
+                  // For patient chats, go directly to chat screen
+                  if (type == 'doctor') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider.value(
+                          value: chatCubit,
+                          child: InsideChatScreen(
+                            chatIndex: conversation.conversationId ?? '',
+                            model: conversation,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                 },
                 child: ChatItem(
                   model: conversation,

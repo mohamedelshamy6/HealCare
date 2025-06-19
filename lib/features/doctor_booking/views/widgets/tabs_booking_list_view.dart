@@ -16,6 +16,31 @@ class TabsBookingListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (allBookingModel.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.calendar_today_outlined,
+              size: 48,
+              color: Colors.grey[400],
+            ),
+            SizedBox(height: 16),
+            Text(
+              selectedIndex == 2
+                  ? 'No completed appointments yet'
+                  : 'No appointments found',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return ListView.builder(
         itemCount: allBookingModel.length,
         itemBuilder: (context, index) {

@@ -33,4 +33,26 @@ class AppointmentModel {
       createdAt: json['created_at'],
     );
   }
+
+  AppointmentModel copyWith({
+  String? id,
+  String? doctorId,
+  String? patientId,
+  String? appointmentDate,
+  String? appointmentTime,
+  String? status,
+  String? createdAt,
+  DoctorsModel? doctor,
+}) {
+  return AppointmentModel(
+    id: id ?? this.id,
+    doctorId: doctorId ?? this.doctorId,
+    patientId: patientId ?? this.patientId,
+    appointmentDate: appointmentDate ?? this.appointmentDate,
+    appointmentTime: appointmentTime ?? this.appointmentTime,
+    status: status ?? this.status,
+    createdAt: createdAt ?? this.createdAt,
+    doctor: doctor ?? this.doctor,
+  );
+}
 }

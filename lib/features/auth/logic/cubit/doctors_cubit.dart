@@ -29,6 +29,7 @@ class DoctorsCubit extends Cubit<DoctorsState> {
   bool _isLoadingDoctors = false;
 
   Future<void> getAllDoctors() async {
+    log('getAllDoctors called');
     if (_isLoadingDoctors) {
       log('Doctors already loading, skipping duplicate request');
       return;
@@ -38,40 +39,49 @@ class DoctorsCubit extends Cubit<DoctorsState> {
     emit(DoctorsLoading());
 
     try {
+      log('Fetching patient favorites...');
+      final patientId = CacheHelper().getData(key: 'patient_Id') ??
+          CacheHelper().getData(key: 'userId') ??
+          '';
+      log('Using patient ID: $patientId');
+
       // First get the favorites to ensure we have the latest favorite status
       final favResult = await patientFavouritesRepo.getPatientFavourites(
         '${AppConstants.baseRestUrl}rpc/get_patient_favorites',
         {
-          'patient_id': CacheHelper().getData(key: 'patient_Id') ??
-              CacheHelper().getData(key: 'userId') ??
-              '',
+          'patient_id': patientId,
         },
       );
 
+      log('Fetching doctors list...');
       // Then get the doctors list
       final doctorsResult =
           await doctorsRepo.getAllDoctors('${AppConstants.baseRestUrl}doctors');
 
       doctorsResult.fold(
         (error) {
+          log('Error fetching doctors: $error');
           _isLoadingDoctors = false;
           emit(DoctorsFailure(error: error));
         },
         (doctorsList) {
+          log('Successfully fetched ${doctorsList.length} doctors');
+
           favResult.fold(
             (error) {
+              log('Error fetching favorites: $error');
               _isLoadingDoctors = false;
               emit(DoctorsFailure(error: error));
             },
             (favsList) {
+              log('Successfully fetched ${favsList.length} favorites');
+
               // Update doctors with favorite status
               for (var doctor in doctorsList) {
-                // Check if doctor exists in favorites list
                 final isFavorite =
                     favsList.any((fav) => fav.doctorId == doctor.id);
-                // Update the doctor's favorite status
                 doctor.isFavourite = isFavorite;
-                log('Doctor ${doctor.name} favorite status: $isFavorite');
+                log('Doctor ${doctor.id} (${doctor.name}) favorite status: $isFavorite');
               }
 
               // Update both lists
@@ -79,8 +89,7 @@ class DoctorsCubit extends Cubit<DoctorsState> {
               patientFavoritesModel = favsList;
               _isLoadingDoctors = false;
 
-              log('Successfully loaded ${doctorsList.length} doctors with ${favsList.length} favorites');
-              // Emit success state immediately
+              log('Emitting DoctorsSuccess with ${doctorsList.length} doctors');
               emit(DoctorsSuccess(doctorsModel: doctorsList));
               // Force a rebuild of the UI
               Future.microtask(
@@ -91,7 +100,8 @@ class DoctorsCubit extends Cubit<DoctorsState> {
       );
     } catch (e) {
       _isLoadingDoctors = false;
-      log('Error in getAllDoctors: $e');
+      log('Error in getAllDoctors: $e',
+          error: e, stackTrace: StackTrace.current);
       emit(DoctorsFailure(error: e.toString()));
     }
   }

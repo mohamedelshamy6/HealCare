@@ -52,8 +52,8 @@ class _DoctorHomeHeaderState extends State<DoctorHomeHeader> {
               radius: 24.r,
               backgroundImage: cachedDoctor?.image != null
                   ? NetworkImage(cachedDoctor!.image!)
-                  : const AssetImage(Assets.imagesDoctorsDoctorM2)
-                      as ImageProvider,
+                  : null,
+              child: cachedDoctor?.image == null ? Icon(Icons.person) : null,
             ),
             horizontalSpace(8),
             Column(

@@ -1,11 +1,12 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/helpers/cache_helper.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/helpers/user_cache_helper.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
 import 'package:heal_care/core/widgets/custom_app_header.dart';
+import 'package:heal_care/features/chat/data/models/get_all_messages_for_aspecific_conversation_model.dart';
 import 'package:heal_care/features/chat/logic/cubit/chat_cubit.dart';
 import 'package:heal_care/features/chat/views/widgets/chat_bubble.dart';
 import 'package:heal_care/features/chat/views/widgets/chat_bubble_for_friend.dart';
@@ -44,7 +45,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
       context
           .read<ChatCubit>()
           .getMessagesForConversation(conversationId: widget.chatIndex);
-          context.read<ChatCubit>().listenToNewMessages(widget.chatIndex);
+      context.read<ChatCubit>().listenToNewMessages(widget.chatIndex);
     });
   }
 
@@ -115,8 +116,8 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String? image = widget.model.senderUserImage;
-    final String? doctorImage = CacheHelper().getData(key: 'doctor_image');
+    // final String? image = widget.model.senderUserImage;
+    // final String? doctorImage = CacheHelper().getData(key: 'doctor_image');
 
     return Scaffold(
       body: SafeArea(
@@ -152,30 +153,15 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                     controller: _scrollController,
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
-                      final message = messages[index];
-                      final String? currentUserId =
-                          CacheHelper().getData(key: 'userId');
-                      final bool isSentByMe = message.senderId == currentUserId;
-
-                      return AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 300),
-                        child: isSentByMe
-                            ? ChatBubbleForFriend(
-                                key: ValueKey(
-                                    '${message.content}-${message.sentAt}'),
-                                message: message.content ?? '',
-                                date: _formatTime(message.sentAt),
-                                type: currentUserId ?? '',
-                                image: image ?? '',
-                              )
-                            : ChatBubble(
-                                key: ValueKey(
-                                    '${message.content}-${message.sentAt}'),
-                                message: message.content ?? '',
-                                date: _formatTime(message.sentAt),
-                                image: doctorImage ?? '',
-                                senderType: message.senderType ?? '',
-                              ),
+                      return FutureBuilder(
+                        future: _getMessageWidget(messages[index]),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return snapshot.data!;
+                          } else {
+                            return Container();
+                          }
+                        },
                       );
                     },
                   );
@@ -221,27 +207,38 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                       ? SizedBox(
                           width: 24.w,
                           height: 24.w,
-                          child:
-                              CircularProgressIndicator(strokeWidth: 2.r),
+                          child: CircularProgressIndicator(strokeWidth: 2.r),
                         )
                       : IconButton(
                           icon: Icon(Icons.send,
                               color: AppColors.mainColor, size: 24.w),
                           onPressed: () async {
                             final message = messageController.text.trim();
-                            final String? senderId =
-                                CacheHelper().getData(key: 'userId');
                             final String? senderType =
                                 CacheHelper().getData(key: 'role');
 
-                            if (senderId == null || senderType == null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content:
-                                      Text('Failed to get user information'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
+                            String? currentUserId;
+
+                            if (senderType == 'patient') {
+                              final patient =
+                                  await UserCacheHelper.getCachedPatientData();
+                              currentUserId = patient?.id;
+                            } else if (senderType == 'doctor') {
+                              final doctor =
+                                  await UserCacheHelper.getCachedDoctorData();
+                              currentUserId = doctor?.id;
+                            }
+
+                            if (currentUserId == null || senderType == null) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'Failed to get user information. Please try logging out and back in.'),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
                               return;
                             }
 
@@ -262,7 +259,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                                 .read<ChatCubit>()
                                 .sendMessageinConversation(
                                   conversationId: widget.chatIndex,
-                                  senderId: senderId,
+                                  senderId: currentUserId,
                                   content: message,
                                   senderType: senderType,
                                 );
@@ -276,6 +273,46 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<Widget> _getMessageWidget(
+      GetAllMessagesForAspecificConversationModel message) async {
+    final String? senderType = CacheHelper().getData(key: 'role');
+    String? currentUserId;
+
+    if (senderType == 'patient') {
+      final patient = await UserCacheHelper.getCachedPatientData();
+      currentUserId = patient?.id;
+    } else if (senderType == 'doctor') {
+      final doctor = await UserCacheHelper.getCachedDoctorData();
+      currentUserId = doctor?.id;
+    }
+
+    final bool isSentByMe = message.senderId == currentUserId;
+
+    final String? senderImage = isSentByMe
+        ? (CacheHelper().getData(key: 'patient_image') ??
+            CacheHelper().getData(key: 'doctor_image'))
+        : widget.model.senderUserImage;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+      child: isSentByMe
+          ? ChatBubbleForFriend(
+              key: ValueKey('${message.id}'),
+              message: message.content ?? '',
+              date: _formatTime(message.sentAt),
+              type: 'sender',
+              image: senderImage ?? '',
+            )
+          : ChatBubble(
+              key: ValueKey('${message.id}'),
+              message: message.content ?? '',
+              date: _formatTime(message.sentAt),
+              image: widget.model.senderUserImage ?? '',
+              senderType: 'receiver',
+            ),
     );
   }
 }
