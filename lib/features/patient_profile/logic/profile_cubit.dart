@@ -8,6 +8,7 @@ import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/data/models/patients_model.dart';
 import 'package:heal_care/features/auth/data/repos/doctors_repo.dart';
 import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'profile_state.dart';
 
@@ -103,19 +104,30 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> updateProfileForPatients(String path, dynamic data) async {
-    emit(UpdateProfileLoadingForPatients());
-    final patient = await patientsRepo.updatePatient(
-      path,
-      data,
-    );
-    patient.fold(
-      ((error) {
-        emit(UpdateProfileErrorForPatients(error: error));
-      }),
-      ((patient) {
-        emit(UpdateProfileSuccessForPatients(patient: patient));
-      }),
-    );
+  Future<void> updateProfileForPatients(String table, Map<String, dynamic> data) async {
+  emit(UpdateProfileLoadingForPatients());
+
+  try {
+    final supabase = Supabase.instance.client;
+
+    final userId = supabase.auth.currentUser?.id;
+    if (userId == null) {
+      emit(UpdateProfileErrorForPatients(error: 'User not authenticated'));
+      return;
+    }
+
+    final response = await supabase
+        .from(table)
+        .update(data)
+        .eq('id', userId)
+        .select()
+        .single();
+
+    final updatedPatient = PatientsModel.fromJson(response);
+    emit(UpdateProfileSuccessForPatients(patient: updatedPatient));
+    } catch (e) {
+    emit(UpdateProfileErrorForPatients(error: e.toString()));
   }
+}
+
 }

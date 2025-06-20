@@ -129,7 +129,13 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           verticalSpace(16),
-                          const CustomAppHeader(canBack: true),
+                          CustomAppHeader(
+                            canBack: true,
+                            title: 'Edit Profile',
+                            horizSpace: MediaQuery.sizeOf(context).width < 400
+                                ? 56
+                                : 70,
+                          ),
                           verticalSpace(12),
                           Center(
                             child: UploadPhotoWidget(
@@ -140,8 +146,6 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                                 setState(() {
                                   if (pickedImage != null) {
                                     image = File(pickedImage.path);
-                                    // Here you would typically upload the image to your storage
-                                    // and get the URL to save with the profile
                                   }
                                 });
                               },
@@ -195,49 +199,23 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                             children: [
                               Expanded(
                                 child: TFFWithLabel(
-                                  controller: _ageController,
                                   label: 'Age',
-                                  hintText: '22',
+                                  hintText: '22 Years',
                                   kbType: TextInputType.number,
-                                  validate: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your age';
-                                    }
-                                    return null;
-                                  },
                                 ),
                               ),
                               horizontalSpace(8),
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Gender',
-                                      style: AppTextStyles.poppinsGrey(
-                                        12,
-                                        FontWeight.w400,
-                                      ),
-                                    ),
-                                    verticalSpace(4),
-                                    CustomDropdown(
-                                      isValueNull: isGenderSelected,
-                                      selectedValue: genderSelectedValue,
-                                      onItemChanged: (value) {
-                                        setState(() {
-                                          isGenderSelected = true;
-                                          genderSelectedValue = value;
-                                        });
-                                      },
-                                      itemList: const <String>[
-                                        'Male',
-                                        'Female',
-                                        'Other',
-                                      ],
-                                      hint: 'Select Gender',
-                                      label: '',
-                                    ),
+                                child: CustomDropdown(
+                                  itemList: <String>[
+                                    'Male',
+                                    'Female',
+                                    'Rather Not Say',
                                   ],
+                                  hint: 'Male',
+                                  label: 'Gender',
+                                  onItemChanged: (String value) {},
+                                  isValueNull: null,
                                 ),
                               ),
                             ],
@@ -247,56 +225,56 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                             children: [
                               Expanded(
                                 child: TFFWithLabel(
-                            label: 'Weight',
-                            maxInputLength: 3,
-                            hintText: '50 Kg',
-                            kbType: TextInputType.number,
-                            controller: _weightController,
-                            validate: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your weight';
-                              }
-                              if (!RegExp(r'[0-9]').hasMatch(value)) {
-                                return 'Please enter a valid height';
-                              }
-                              return null;
-                            },
-                          ),
+                                  label: 'Weight',
+                                  maxInputLength: 3,
+                                  hintText: '50 Kg',
+                                  kbType: TextInputType.number,
+                                  controller: _weightController,
+                                  validate: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your weight';
+                                    }
+                                    if (!RegExp(r'[0-9]').hasMatch(value)) {
+                                      return 'Please enter a valid height';
+                                    }
+                                    return null;
+                                  },
+                                ),
                               ),
                               horizontalSpace(8),
                               Expanded(
                                 child: TFFWithLabel(
-                            label: 'Height',
-                            hintText: '185 cm',
-                            controller: _heightController,
-                            validate: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your height';
-                              }
-                              if (!RegExp(r'[0-9]').hasMatch(value)) {
-                                return 'Please enter a valid height';
-                              }
-                              return null;
-                            },
-                            maxInputLength: 3,
-                            kbType: TextInputType.number,
-                          ),
+                                  label: 'Height',
+                                  hintText: '185 cm',
+                                  controller: _heightController,
+                                  validate: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your height';
+                                    }
+                                    if (!RegExp(r'[0-9]').hasMatch(value)) {
+                                      return 'Please enter a valid height';
+                                    }
+                                    return null;
+                                  },
+                                  maxInputLength: 3,
+                                  kbType: TextInputType.number,
+                                ),
                               ),
                             ],
                           ),
                           verticalSpace(12),
                           TFFWithLabel(
-                      label: 'Address',
-                      kbType: TextInputType.multiline,
-                      maxLines: 3,
-                      controller: _addressController,
-                      validate: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your address';
-                        }
-                        return null;
-                      },
-                    ),
+                            label: 'Address',
+                            kbType: TextInputType.multiline,
+                            maxLines: 3,
+                            controller: _addressController,
+                            validate: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your address';
+                              }
+                              return null;
+                            },
+                          ),
                           verticalSpace(12),
                           TFFWithLabel(
                             controller: _medicalHistoryController,
