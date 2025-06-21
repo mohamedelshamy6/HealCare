@@ -8,6 +8,7 @@ import 'package:heal_care/core/helpers/cache_helper.dart';
 import 'package:heal_care/core/helpers/helper_methods.dart';
 import 'package:heal_care/core/helpers/user_cache_helper.dart';
 import 'package:heal_care/core/theme/app_colors.dart';
+import 'package:heal_care/features/doctor_profile/views/screens/doctor_edit_profile.dart';
 import '../../../../core/routing/routes.dart';
 import '../widgets/doctor_profile_header.dart';
 import '../../../../core/helpers/app_images.dart';
@@ -96,8 +97,14 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                 style: AppTextStyles.poppinsMainColor(
                                     12, FontWeight.w400),
                               ),
-                              onTap: () => Navigator.of(context)
-                                  .pushNamed(Routes.doctorEditProfile),
+                            onTap: () =>  Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => BlocProvider.value(
+                                      value: _profileCubit,
+                                      child: DoctorEditProfile(),
+                                    ),
+                                  ),
+                                ),
                             ),
                           ],
                         ),

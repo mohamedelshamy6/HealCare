@@ -110,24 +110,6 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
             data,
           );
     }
-
-    UserCacheHelper.cachePatientData(PatientsModel(
-      age: int.tryParse(_ageController.text),
-      weight: int.tryParse(_weightController.text),
-      height: int.tryParse(_heightController.text),
-      bloodType: bloodSelectedValue,
-      gender: genderSelectedValue,
-      disease: diseaseSelectedValue,
-      address: _addressController.text,
-      medicalHistory: _medicalHistoryController.text,
-      image: imageUrl ??
-          (image != null
-              ? Supabase.instance.client.storage
-                  .from('patients-media')
-                  .getPublicUrl(
-                      'patient/profile_${DateTime.now().millisecondsSinceEpoch}.${image!.path.split('.').last}')
-              : null),
-    ));
   }
 
   @override
@@ -141,6 +123,23 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                 context,
                 'Profile updated successfully',
               );
+              UserCacheHelper.cachePatientData(PatientsModel(
+                age: int.tryParse(_ageController.text),
+                weight: int.tryParse(_weightController.text),
+                height: int.tryParse(_heightController.text),
+                bloodType: bloodSelectedValue,
+                gender: genderSelectedValue,
+                disease: diseaseSelectedValue,
+                address: _addressController.text,
+                medicalHistory: _medicalHistoryController.text,
+                image: imageUrl ??
+                    (image != null
+                        ? Supabase.instance.client.storage
+                            .from('patients-media')
+                            .getPublicUrl(
+                                'patient/profile_${DateTime.now().millisecondsSinceEpoch}.${image!.path.split('.').last}')
+                        : null),
+              ));
 
               Navigator.of(context).pushNamedAndRemoveUntil(
                 Routes.bottomNavBar,
@@ -257,20 +256,36 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                                   label: 'Age',
                                   hintText: '22 Years',
                                   kbType: TextInputType.number,
+                                  controller: _ageController,
+                                  validate: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your age';
+                                    }
+                                    if (!RegExp(r'^\d+$').hasMatch(value)) {
+                                      return 'Please enter a valid age';
+                                    }
+                                    return null;
+                                  },
                                 ),
                               ),
                               horizontalSpace(8),
                               Expanded(
                                 child: CustomDropdown(
-                                  itemList: <String>[
+                                  itemList: const <String>[
                                     'Male',
                                     'Female',
                                     'Rather Not Say',
                                   ],
-                                  hint: 'Male',
+                                  hint: 'Select Gender',
                                   label: 'Gender',
-                                  onItemChanged: (String value) {},
-                                  isValueNull: null,
+                                  selectedValue: genderSelectedValue,
+                                  isValueNull: isGenderSelected,
+                                  onItemChanged: (String value) {
+                                    setState(() {
+                                      genderSelectedValue = value;
+                                      isGenderSelected = true;
+                                    });
+                                  },
                                 ),
                               ),
                             ],
