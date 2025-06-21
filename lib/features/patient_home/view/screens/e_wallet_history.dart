@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heal_care/core/dependency_injection/dependency_injection.dart';
 import 'package:heal_care/core/helpers/app_constants.dart';
 import 'package:heal_care/core/helpers/cache_helper.dart';
+import 'package:heal_care/core/helpers/helper_methods.dart';
 import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
 import 'package:heal_care/features/patient_home/data/repos/payment_history_repo.dart';
 import 'package:heal_care/features/patient_home/logic/cubit/paymenthistory_cubit.dart';
@@ -53,7 +54,6 @@ class EWalletHistory extends StatelessWidget {
                         if (state.paymentHistory.isEmpty) {
                           return Center(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
                                   Assets.iconsPayMoneyIconBlue,
@@ -111,7 +111,7 @@ class EWalletHistory extends StatelessWidget {
                                         ),
                                         verticalSpace(4),
                                         Text(
-                                          payment.createdAt ?? 'Unknown date',
+                                          HelperMethods.formatDate(payment.createdAt),
                                           style: AppTextStyles.poppinsGrey(
                                               12, FontWeight.w400),
                                         ),

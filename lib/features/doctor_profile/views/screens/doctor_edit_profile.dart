@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heal_care/core/dependency_injection/dependency_injection.dart';
 import 'package:heal_care/core/helpers/helper_methods.dart';
+import 'package:heal_care/core/helpers/image_picker_helper.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/helpers/user_cache_helper.dart';
 import 'package:heal_care/core/routing/routes.dart';
@@ -11,7 +14,9 @@ import 'package:heal_care/core/widgets/custom_app_header.dart';
 import 'package:heal_care/core/widgets/custom_button.dart';
 import 'package:heal_care/core/widgets/custom_drop_down.dart';
 import 'package:heal_care/features/auth/view/widgets/tff_with_label.dart';
+import 'package:heal_care/features/auth/view/widgets/upload_photo_widget.dart';
 import 'package:heal_care/features/patient_profile/logic/profile_cubit.dart';
+import 'package:image_picker/image_picker.dart';
 import '../widgets/doctor_profile_header.dart';
 
 class DoctorEditProfile extends StatelessWidget {
@@ -34,6 +39,7 @@ class _DoctorEditProfileContent extends StatefulWidget {
 }
 
 class _DoctorEditProfileState extends State<_DoctorEditProfileContent> {
+  File? image;
   final _nameController = TextEditingController();
   final _educationController = TextEditingController();
   final _instaPayController = TextEditingController();
@@ -94,7 +100,7 @@ class _DoctorEditProfileState extends State<_DoctorEditProfileContent> {
             arguments: 'doctor',
           );
           UserCacheHelper.cacheDoctorData(state.doctor!);
-          
+
           HelperMethods.showCustomSnackBarSuccess(
               context, 'Profile updated successfully');
         } else if (state is UpdateProfileErrorForDoctors) {
@@ -130,9 +136,17 @@ class _DoctorEditProfileState extends State<_DoctorEditProfileContent> {
                         MediaQuery.sizeOf(context).width < 400 ? 56 : 70,
                   ),
                   verticalSpace(16),
-                  DoctorProfileHeader(
-                    name: _nameController.text,
-                    image: doctor?.image ?? '',
+                  UploadPhotoWidget(
+                    onTap: () async {
+                      final pickedImage = await ImagePickerHelper.getImage(
+                          imageSource: ImageSource.gallery);
+                      setState(() {
+                        if (pickedImage != null) {
+                          image = File(pickedImage.path);
+                        }
+                      });
+                    },
+                    imagePath: image,
                   ),
                   verticalSpace(24),
                   TFFWithLabel(

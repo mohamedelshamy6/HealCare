@@ -5,6 +5,17 @@ class AdvicesScreen extends StatelessWidget {
 
   const AdvicesScreen({super.key, required this.symptom});
 
+  // Symptom to condition mapping
+  final Map<String, String> _symptomToConditionMap = const {
+    'Abdominal pain': 'Mild abdominal pain',
+    'Bloating or gas': 'Gas/bloating',
+    'Nausea or vomiting': 'Nausea',
+    'Diarrhea': 'Mild diarrhea',
+    'Constipation': 'Constipation',
+    'Acid reflux or heartburn': 'Mild acid reflux',
+  };
+
+  // Main advice data
   final List<Map<String, String>> _adviceData = const [
     {
       'condition': 'Mild acid reflux',
@@ -40,9 +51,12 @@ class AdvicesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // حاول نلاقي النصيحة اللي بتطابق الـ symptom
+    // Use the map to get the proper condition name
+    final mappedCondition = _symptomToConditionMap[symptom] ?? 'Unknown condition';
+
+    // Match the condition with advice data
     final matchedAdvice = _adviceData.firstWhere(
-      (item) => item['condition']!.toLowerCase().contains(symptom.toLowerCase()),
+      (item) => item['condition']!.toLowerCase() == mappedCondition.toLowerCase(),
       orElse: () => {
         'condition': 'Unknown condition',
         'advice': 'No specific advice available.',

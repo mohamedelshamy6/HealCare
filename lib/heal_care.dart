@@ -26,7 +26,7 @@ class HealCare extends StatelessWidget {
               doctorsRepo: DependencyInjection.getIt(),
               patientFavouritesRepo: DependencyInjection.getIt(),
             ),
-          ),
+          ), 
           BlocProvider(
             create: (context) =>
                 PatientsCubit(patientsRepo: DependencyInjection.getIt()),
