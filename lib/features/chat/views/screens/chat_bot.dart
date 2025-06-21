@@ -33,7 +33,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
         'Diarrhea',
         'Constipation',
         'Acid reflux or heartburn',
-        'Loss of appetite'
+      
       ],
     },
     {

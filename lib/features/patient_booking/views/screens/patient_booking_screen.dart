@@ -63,7 +63,6 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                             return ShimmerLoadingBookingCard();
                           }
 
-                          // Get appointments if available
                           final appointments =
                               appointmentState is AppointementcubitSuccess
                                   ? appointmentState.appointments
@@ -75,11 +74,9 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                             );
                           }
 
-                          // Get unique doctor IDs from appointments
                           final doctorIdsWithAppointments =
                               appointments.map((appt) => appt.doctorId).toSet();
 
-                          // Filter doctors to only those with appointments
                           final doctorsWithAppointments = doctors
                               .where(
                                 (doctor) => doctorIdsWithAppointments
