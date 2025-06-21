@@ -6,7 +6,7 @@ import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/helpers/user_cache_helper.dart';
 import 'package:heal_care/core/routing/routes.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
-import 'package:heal_care/features/auth/data/models/doctors_model.dart';
+import 'package:heal_care/features/auth/data/models/patients_model.dart';
 
 class PatientHomeHeader extends StatefulWidget {
   const PatientHomeHeader({super.key});
@@ -16,7 +16,7 @@ class PatientHomeHeader extends StatefulWidget {
 }
 
 class _PatientHomeHeaderState extends State<PatientHomeHeader> {
-  DoctorsModel? cachedDoctor;
+  PatientsModel? cachedPatient;
 
   @override
   void initState() {
@@ -25,10 +25,10 @@ class _PatientHomeHeaderState extends State<PatientHomeHeader> {
   }
 
   Future<void> _loadCachedData() async {
-    final patient = await UserCacheHelper.getCachedDoctorData();
+    final patient = await UserCacheHelper.getCachedPatientData();
     if (patient != null) {
       setState(() {
-        cachedDoctor = patient;
+        cachedPatient = patient;
       });
     }
   }
@@ -39,10 +39,10 @@ class _PatientHomeHeaderState extends State<PatientHomeHeader> {
       children: [
         CircleAvatar(
           radius: 24.r,
-          backgroundImage: cachedDoctor?.image != null
-              ? NetworkImage(cachedDoctor!.image!)
+          backgroundImage: cachedPatient?.image != null
+              ? NetworkImage(cachedPatient!.image!)
               : null,
-          child: cachedDoctor?.image == null ? Icon(Icons.person) : null,
+          child: cachedPatient?.image == null ? Icon(Icons.person) : null,
         ),
         SizedBox(width: 16.w),
         Column(
@@ -53,7 +53,7 @@ class _PatientHomeHeaderState extends State<PatientHomeHeader> {
               style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
             ),
             Text(
-              cachedDoctor?.name ?? 'Dr. Mena Wasef',
+              cachedPatient?.name ?? '',
               style: AppTextStyles.poppinsBlack(16, FontWeight.w500),
             ),
           ],

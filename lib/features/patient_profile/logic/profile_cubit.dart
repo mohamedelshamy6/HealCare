@@ -110,7 +110,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   try {
     final supabase = Supabase.instance.client;
 
-    final userId = supabase.auth.currentUser?.id;
+    final cachedPatient = await UserCacheHelper.getCachedPatientData();
+    final userId = cachedPatient?.id ?? CacheHelper().getData(key: 'userId');
     if (userId == null) {
       emit(UpdateProfileErrorForPatients(error: 'User not authenticated'));
       return;

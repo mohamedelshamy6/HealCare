@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/features/auth/view/widgets/upload_photo_widget.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 
@@ -50,23 +49,7 @@ class ProfileHeader extends StatelessWidget {
                     color: Colors.white,
                     size: 12.r,
                   ),
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(16.r)),
-                      ),
-                      builder: (_) => Padding(
-                        padding: EdgeInsets.all(16.r),
-                        child: UploadPhotoWidget(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    );
-                  },
+                  onTap: () {},
                 ),
               ),
             ),
