@@ -1,3 +1,4 @@
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -47,7 +48,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
       HelperMethods.showCustomSnackBarError(
           context, 'Please log in to view your profile');
     } else {
-      _profileCubit.getProfileDataForDoctors();
+      // Force refresh when loading the profile to ensure we have the latest data
+      _profileCubit.getProfileDataForDoctors(forceRefresh: true);
     }
   }
 
@@ -97,14 +99,14 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                 style: AppTextStyles.poppinsMainColor(
                                     12, FontWeight.w400),
                               ),
-                            onTap: () =>  Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => BlocProvider.value(
-                                      value: _profileCubit,
-                                      child: DoctorEditProfile(),
-                                    ),
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => BlocProvider.value(
+                                    value: _profileCubit,
+                                    child: DoctorEditProfile(),
                                   ),
                                 ),
+                              ),
                             ),
                           ],
                         ),
@@ -209,8 +211,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
   }
 
   InformationModel _getDoctorInfo(DoctorsModel doctor, int index) {
-    log('Getting doctor info at index $index'); // Debug print
-    log('Doctor data: ${doctor.toJson()}'); // Debug print
+    log('Getting doctor info at index $index'); 
+    log('Doctor data: ${doctor.toJson()}'); 
 
     switch (index) {
       case 0:
@@ -219,7 +221,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
           label: 'Specialization',
           value: doctor.specialization ?? 'Not available',
         );
-        log('Specialization info: $info'); // Debug print
+        log('Specialization info: $info'); 
         return info;
       case 1:
         final info = InformationModel(
@@ -227,7 +229,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
           label: 'Email',
           value: doctor.email ?? 'Not available',
         );
-        log('Email info: $info'); // Debug print
+        log('Email info: $info'); 
         return info;
       case 2:
         final info = InformationModel(
@@ -235,7 +237,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
           label: 'Gender',
           value: doctor.gender ?? 'Not available',
         );
-        log('Gender info: $info'); // Debug print
+        log('Gender info: $info'); 
         return info;
       case 3:
         final info = InformationModel(
@@ -243,7 +245,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
           label: 'Address',
           value: doctor.address ?? 'Not available',
         );
-        log('Address info: $info'); // Debug print
+        log('Address info: $info'); 
         return info;
       default:
         return InformationModel(

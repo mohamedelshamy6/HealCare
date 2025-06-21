@@ -47,7 +47,8 @@ class _PatientProfileState extends State<PatientProfile> {
       HelperMethods.showCustomSnackBarError(
           context, 'Please log in to view your profile');
     } else {
-      _profileCubit.getProfileDataForPatients();
+      // Force refresh when loading the profile to ensure we have the latest data
+      _profileCubit.getProfileDataForPatients(forceRefresh: true);
     }
   }
 

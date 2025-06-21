@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heal_care/core/helpers/app_constants.dart';
 import 'package:heal_care/core/helpers/cache_helper.dart';
@@ -21,15 +19,20 @@ class ProfileCubit extends Cubit<ProfileState> {
     this.patientsRepo,
   ) : super(ProfileInitial());
 
-  Future<void> getProfileDataForPatients() async {
+  Future<void> getProfileDataForPatients({bool forceRefresh = false}) async {
     try {
       emit(ProfileLoadingForPatients());
 
-      // First try to get patient data from cache
-      final cachedPatient = await UserCacheHelper.getCachedPatientData();
-      if (cachedPatient != null && cachedPatient.id != null) {
-        emit(ProfileSuccessForPatients(patient: cachedPatient));
-        return;
+      if (!forceRefresh) {
+        final cachedPatient = await UserCacheHelper.getCachedPatientData();
+        if (cachedPatient != null && cachedPatient.id != null) {
+          final cacheTime = CacheHelper().getData(key: 'patient_cache_time');
+          final now = DateTime.now().millisecondsSinceEpoch;
+          if (cacheTime != null && (now - (cacheTime as int)) < 3600000) {
+            emit(ProfileSuccessForPatients(patient: cachedPatient));
+            return;
+          }
+        }
       }
 
       final String? userId = CacheHelper().getData(key: 'userId');
@@ -40,16 +43,20 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       final response = await patientsRepo
           .getAllPatients("${AppConstants.baseRestUrl}patients");
-
       response.fold(
-        (error) => emit(ProfileErrorForPatients(error: error.toString())),
+        (error) => emit(ProfileErrorForPatients(error: error)),
         (patients) {
           if (patients.isNotEmpty) {
-            final patient =
-                patients.firstWhere((patient) => patient.id == userId);
-
-            // Cache the patient data for future use
+            final patient = patients.firstWhere(
+              (patient) => patient.id == userId,
+              orElse: () => throw Exception('Patient not found'),
+            );
+            // Cache the patient data and update cache time
             UserCacheHelper.cachePatientData(patient);
+            CacheHelper().saveData(
+              key: 'patient_cache_time',
+              value: DateTime.now().millisecondsSinceEpoch,
+            );
             emit(ProfileSuccessForPatients(patient: patient));
           } else {
             emit(ProfileErrorForPatients(error: 'No patient data found'));
@@ -62,15 +69,21 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> getProfileDataForDoctors() async {
+  Future<void> getProfileDataForDoctors({bool forceRefresh = false}) async {
     try {
       emit(ProfileLoadingForDoctors());
 
-      // First try to get doctor data from cache
-      final cachedDoctors = await UserCacheHelper.getCachedDoctorData();
-      if (cachedDoctors != null && cachedDoctors.id != null) {
-        emit(ProfileSuccessForDoctors(doctor: cachedDoctors));
-        return;
+      // Only check cache if we're not forcing a refresh
+      if (!forceRefresh) {
+        final cachedDoctor = await UserCacheHelper.getCachedDoctorData();
+        if (cachedDoctor != null && cachedDoctor.id != null) {
+          final cacheTime = CacheHelper().getData(key: 'doctor_cache_time');
+          final now = DateTime.now().millisecondsSinceEpoch;
+          if (cacheTime != null && (now - (cacheTime as int)) < 3600000) {
+            emit(ProfileSuccessForDoctors(doctor: cachedDoctor));
+            return;
+          }
+        }
       }
 
       final String? userId = CacheHelper().getData(key: 'doctor_Id') ??
@@ -82,16 +95,20 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       final response =
           await doctorsRepo.getAllDoctors("${AppConstants.baseRestUrl}doctors");
-
       response.fold(
         (error) => emit(ProfileErrorForDoctors(error: error.toString())),
         (doctors) {
           if (doctors.isNotEmpty) {
-            final doctor = doctors.firstWhere((doctor) => doctor.id == userId);
-
-            // Cache the doctor data for future use
+            final doctor = doctors.firstWhere(
+              (doctor) => doctor.id == userId,
+              orElse: () => throw Exception('Doctor not found'),
+            );
+            // Always update cache with fresh data
             UserCacheHelper.cacheDoctorData(doctor);
-            log(UserCacheHelper.getCachedDoctorData().toString());
+            CacheHelper().saveData(
+              key: 'doctor_cache_time',
+              value: DateTime.now().millisecondsSinceEpoch,
+            );
             emit(ProfileSuccessForDoctors(doctor: doctor));
           } else {
             emit(ProfileErrorForDoctors(error: 'No doctor data found'));
@@ -104,58 +121,67 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> updateProfileForPatients(String table, Map<String, dynamic> data) async {
-  emit(UpdateProfileLoadingForPatients());
+  Future<void> updateProfileForPatients(
+      String table, Map<String, dynamic> data) async {
+    emit(UpdateProfileLoadingForPatients());
 
-  try {
-    final supabase = Supabase.instance.client;
+    try {
+      final supabase = Supabase.instance.client;
 
-    final cachedPatient = await UserCacheHelper.getCachedPatientData();
-    final userId = cachedPatient?.id ?? CacheHelper().getData(key: 'userId');
-    if (userId == null) {
-      emit(UpdateProfileErrorForPatients(error: 'User not authenticated'));
-      return;
-    }
+      final cachedPatient = await UserCacheHelper.getCachedPatientData();
+      final userId = cachedPatient?.id ?? CacheHelper().getData(key: 'userId');
+      if (userId == null) {
+        emit(UpdateProfileErrorForPatients(error: 'User not authenticated'));
+        return;
+      }
 
-    final response = await supabase
-        .from(table)
-        .update(data)
-        .eq('id', userId)
-        .select()
-        .single();
+      final response = await supabase
+          .from(table)
+          .update(data)
+          .eq('id', userId)
+          .select()
+          .single();
 
-    final updatedPatient = PatientsModel.fromJson(response);
-    emit(UpdateProfileSuccessForPatients(patient: updatedPatient));
+      final updatedPatient = PatientsModel.fromJson(response);
+
+      // Update cache with the complete patient data from server
+      await UserCacheHelper.cachePatientData(updatedPatient);
+      await CacheHelper().saveData(
+        key: 'patient_cache_time',
+        value: DateTime.now().millisecondsSinceEpoch,
+      );
+
+      emit(UpdateProfileSuccessForPatients(patient: updatedPatient));
     } catch (e) {
-    emit(UpdateProfileErrorForPatients(error: e.toString()));
-  }
-}
-
-Future<void> updateProfileForDoctors(String table, Map<String, dynamic> data) async {
-  emit(UpdateProfileLoadingForDoctors());
-
-  try {
-    final supabase = Supabase.instance.client;
-
-    final cachedDoctor = await UserCacheHelper.getCachedDoctorData();
-    final userId = cachedDoctor?.id ?? CacheHelper().getData(key: 'userId');
-    if (userId == null) {
-      emit(UpdateProfileErrorForDoctors(error: 'User not authenticated'));
-      return;
+      emit(UpdateProfileErrorForPatients(error: e.toString()));
     }
-
-    final response = await supabase
-        .from(table)
-        .update(data)
-        .eq('id', userId)
-        .select()
-        .single();
-
-    final updatedDoctor = DoctorsModel.fromJson(response);
-    emit(UpdateProfileSuccessForDoctors(doctor: updatedDoctor));
-    } catch (e) {
-    emit(UpdateProfileErrorForDoctors(error: e.toString()));
   }
-}
 
+  Future<void> updateProfileForDoctors(
+      String table, Map<String, dynamic> data) async {
+    emit(UpdateProfileLoadingForDoctors());
+
+    try {
+      final supabase = Supabase.instance.client;
+
+      final cachedDoctor = await UserCacheHelper.getCachedDoctorData();
+      final userId = cachedDoctor?.id ?? CacheHelper().getData(key: 'userId');
+      if (userId == null) {
+        emit(UpdateProfileErrorForDoctors(error: 'User not authenticated'));
+        return;
+      }
+
+      final response = await supabase
+          .from(table)
+          .update(data)
+          .eq('id', userId)
+          .select()
+          .single();
+
+      final updatedDoctor = DoctorsModel.fromJson(response);
+      emit(UpdateProfileSuccessForDoctors(doctor: updatedDoctor));
+    } catch (e) {
+      emit(UpdateProfileErrorForDoctors(error: e.toString()));
+    }
+  }
 }
