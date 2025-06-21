@@ -33,7 +33,6 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
         'Diarrhea',
         'Constipation',
         'Acid reflux or heartburn',
-      
       ],
     },
     {
@@ -325,7 +324,6 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
           padding: EdgeInsets.all(16.r),
           child: Column(
             children: [
-              // Header
               Row(
                 children: [
                   InkWell(
