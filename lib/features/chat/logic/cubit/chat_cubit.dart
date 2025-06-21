@@ -19,7 +19,8 @@ class ChatCubit extends Cubit<ChatState> {
       this.getAllMessagesForAspecificConversationRepo,
       this.sendMessageInConversation,
       this.doctorsCubit,
-      this.patientsCubit, this.webSocketService)
+      this.patientsCubit,
+      this.webSocketService)
       : super(ChatInitial());
 
   final CreateConversitionRepository conversitionRepository;
@@ -28,9 +29,8 @@ class ChatCubit extends Cubit<ChatState> {
   final DoctorsCubit doctorsCubit;
   final PatientsCubit patientsCubit;
   final SupabaseWebSocketService webSocketService;
-  final Map<String, List<GetAllMessagesForAspecificConversationModel>> conversationMessages = {};
-
-
+  final Map<String, List<GetAllMessagesForAspecificConversationModel>>
+      conversationMessages = {};
 
   Future<void> createConversation({
     required String doctorId,
@@ -96,33 +96,30 @@ class ChatCubit extends Cubit<ChatState> {
 
     result.fold(
       (error) => emit(SendMessageInConversationFailure(error)),
-      (_) {
-        
-      },
+      (_) {},
     );
   }
 
- Future<void> getMessagesForConversation({
-  required String conversationId,
-}) async {
-  emit(GetMessagesForConversationLoading());
+  Future<void> getMessagesForConversation({
+    required String conversationId,
+  }) async {
+    emit(GetMessagesForConversationLoading());
 
-  final result = await getAllMessagesForAspecificConversationRepo
-      .getAllMessagesForAspecificConversation(
-    '${AppConstants.baseRestUrl}messages',
-    conversationId,
-    'sent_at.asc',
-  );
+    final result = await getAllMessagesForAspecificConversationRepo
+        .getAllMessagesForAspecificConversation(
+      '${AppConstants.baseRestUrl}messages',
+      conversationId,
+      'sent_at.asc',
+    );
 
-  result.fold(
-    (error) => emit(GetMessagesForConversationFailure(error)),
-    (messages) {
-      conversationMessages[conversationId] = messages;
-      emit(GetMessagesForConversationSuccess(messages));
-    },
-  );
-}
-
+    result.fold(
+      (error) => emit(GetMessagesForConversationFailure(error)),
+      (messages) {
+        conversationMessages[conversationId] = messages;
+        emit(GetMessagesForConversationSuccess(messages));
+      },
+    );
+  }
 
   final GetAllMessagesForAspecificConversationRepo
       getAllMessagesForAspecificConversationRepo;
@@ -147,23 +144,21 @@ class ChatCubit extends Cubit<ChatState> {
     );
   }
 
-void listenToNewMessages(String conversationId) {
-  webSocketService.listenToInsert(
-    tableName: 'messages',
-    onInsert: (newMessage) {
-      if (newMessage['conversation_id'] == conversationId) {
-        final message = GetAllMessagesForAspecificConversationModel.fromJson(newMessage);
+  void listenToNewMessages(String conversationId) {
+    webSocketService.listenToInsert(
+      tableName: 'messages',
+      onInsert: (newMessage) {
+        if (newMessage['conversation_id'] == conversationId) {
+          final message =
+              GetAllMessagesForAspecificConversationModel.fromJson(newMessage);
 
-        final currentMessages = conversationMessages[conversationId] ?? [];
-        currentMessages.add(message);
-        conversationMessages[conversationId] = currentMessages;
+          final currentMessages = conversationMessages[conversationId] ?? [];
+          currentMessages.add(message);
+          conversationMessages[conversationId] = currentMessages;
 
-        emit(GetMessagesForConversationSuccess(currentMessages));
-      }
-    },
-  );
-}
-
-
-
+          emit(GetMessagesForConversationSuccess(currentMessages));
+        }
+      },
+    );
+  }
 }

@@ -36,17 +36,20 @@ class ProfileHeader extends StatelessWidget {
                 placeholder: (context, url) => const Center(
                   child: CircularProgressIndicator(),
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.person),
               ),
             ),
             CircleAvatar(
               backgroundColor: AppColors.mainColor,
               radius: 12.r,
               child: Center(
-                child: Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                  size: 12.r,
+                child: InkWell(
+                  child: Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                    size: 12.r,
+                  ),
+                  onTap: () {},
                 ),
               ),
             ),

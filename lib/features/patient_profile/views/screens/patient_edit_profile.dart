@@ -1,20 +1,24 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:heal_care/core/helpers/app_constants.dart';
 import 'package:heal_care/core/helpers/helper_methods.dart';
 import 'package:heal_care/core/helpers/image_picker_helper.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/helpers/user_cache_helper.dart';
+import 'package:heal_care/core/routing/routes.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 import 'package:heal_care/core/widgets/custom_app_header.dart';
 import 'package:heal_care/core/widgets/custom_button.dart';
 import 'package:heal_care/core/widgets/custom_drop_down.dart';
+import 'package:heal_care/features/auth/data/models/patients_model.dart';
 import 'package:heal_care/features/auth/view/widgets/tff_with_label.dart';
 import 'package:heal_care/features/auth/view/widgets/upload_photo_widget.dart';
 import 'package:heal_care/features/patient_profile/logic/profile_cubit.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PatientEditProfile extends StatefulWidget {
   const PatientEditProfile({super.key});
@@ -62,6 +66,33 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
 
   Future<void> _updateProfile() async {
     if (_formKey.currentState?.validate() ?? false) {
+      String? uploadedImageUrl;
+
+      if (image != null) {
+        try {
+          final bytes = await image!.readAsBytes();
+          final fileExt = image!.path.split('.').last;
+          final filePath =
+              'patient/profile_${DateTime.now().millisecondsSinceEpoch}.$fileExt';
+
+          await Supabase.instance.client.storage
+              .from('patients-media')
+              .uploadBinary(
+                filePath,
+                bytes,
+                fileOptions: const FileOptions(upsert: true),
+              );
+
+          uploadedImageUrl = Supabase.instance.client.storage
+              .from('patients-media')
+              .getPublicUrl(filePath);
+        } catch (e) {
+          log('Image upload failed: $e');
+          HelperMethods.showCustomSnackBarError(context, 'Image upload failed');
+          return;
+        }
+      }
+
       final data = {
         'age': int.tryParse(_ageController.text),
         'weight': int.tryParse(_weightController.text),
@@ -71,15 +102,32 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
         'disease': diseaseSelectedValue,
         'address': _addressController.text,
         'medical_history': _medicalHistoryController.text,
-        if (image != null) 'image': imageUrl,
+        if (uploadedImageUrl != null) 'image': uploadedImageUrl,
       }..removeWhere((key, value) => value == null);
 
-      // Call the cubit to update profile
       context.read<ProfileCubit>().updateProfileForPatients(
-            '${AppConstants.baseRestUrl}patients',
+            'patients',
             data,
           );
     }
+
+    UserCacheHelper.cachePatientData(PatientsModel(
+      age: int.tryParse(_ageController.text),
+      weight: int.tryParse(_weightController.text),
+      height: int.tryParse(_heightController.text),
+      bloodType: bloodSelectedValue,
+      gender: genderSelectedValue,
+      disease: diseaseSelectedValue,
+      address: _addressController.text,
+      medicalHistory: _medicalHistoryController.text,
+      image: imageUrl ??
+          (image != null
+              ? Supabase.instance.client.storage
+                  .from('patients-media')
+                  .getPublicUrl(
+                      'patient/profile_${DateTime.now().millisecondsSinceEpoch}.${image!.path.split('.').last}')
+              : null),
+    ));
   }
 
   @override
@@ -93,7 +141,14 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                 context,
                 'Profile updated successfully',
               );
-              Navigator.pop(context, true);
+
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                Routes.bottomNavBar,
+                (route) => false,
+                arguments: 'patient',
+              );
+            } else if (state is UpdateProfileLoadingForPatients) {
+              HelperMethods.showLoadingAlertDialog(context);
             } else if (state is UpdateProfileErrorForPatients) {
               HelperMethods.showCustomSnackBarError(
                 context,
@@ -129,7 +184,13 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           verticalSpace(16),
-                          const CustomAppHeader(canBack: true),
+                          CustomAppHeader(
+                            canBack: true,
+                            title: 'Edit Profile',
+                            horizSpace: MediaQuery.sizeOf(context).width < 400
+                                ? 56
+                                : 70,
+                          ),
                           verticalSpace(12),
                           Center(
                             child: UploadPhotoWidget(
@@ -140,8 +201,6 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                                 setState(() {
                                   if (pickedImage != null) {
                                     image = File(pickedImage.path);
-                                    // Here you would typically upload the image to your storage
-                                    // and get the URL to save with the profile
                                   }
                                 });
                               },
@@ -195,49 +254,23 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                             children: [
                               Expanded(
                                 child: TFFWithLabel(
-                                  controller: _ageController,
                                   label: 'Age',
-                                  hintText: '22',
+                                  hintText: '22 Years',
                                   kbType: TextInputType.number,
-                                  validate: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your age';
-                                    }
-                                    return null;
-                                  },
                                 ),
                               ),
                               horizontalSpace(8),
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Gender',
-                                      style: AppTextStyles.poppinsGrey(
-                                        12,
-                                        FontWeight.w400,
-                                      ),
-                                    ),
-                                    verticalSpace(4),
-                                    CustomDropdown(
-                                      isValueNull: isGenderSelected,
-                                      selectedValue: genderSelectedValue,
-                                      onItemChanged: (value) {
-                                        setState(() {
-                                          isGenderSelected = true;
-                                          genderSelectedValue = value;
-                                        });
-                                      },
-                                      itemList: const <String>[
-                                        'Male',
-                                        'Female',
-                                        'Other',
-                                      ],
-                                      hint: 'Select Gender',
-                                      label: '',
-                                    ),
+                                child: CustomDropdown(
+                                  itemList: <String>[
+                                    'Male',
+                                    'Female',
+                                    'Rather Not Say',
                                   ],
+                                  hint: 'Male',
+                                  label: 'Gender',
+                                  onItemChanged: (String value) {},
+                                  isValueNull: null,
                                 ),
                               ),
                             ],
@@ -247,56 +280,56 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                             children: [
                               Expanded(
                                 child: TFFWithLabel(
-                            label: 'Weight',
-                            maxInputLength: 3,
-                            hintText: '50 Kg',
-                            kbType: TextInputType.number,
-                            controller: _weightController,
-                            validate: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your weight';
-                              }
-                              if (!RegExp(r'[0-9]').hasMatch(value)) {
-                                return 'Please enter a valid height';
-                              }
-                              return null;
-                            },
-                          ),
+                                  label: 'Weight',
+                                  maxInputLength: 3,
+                                  hintText: '50 Kg',
+                                  kbType: TextInputType.number,
+                                  controller: _weightController,
+                                  validate: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your weight';
+                                    }
+                                    if (!RegExp(r'[0-9]').hasMatch(value)) {
+                                      return 'Please enter a valid height';
+                                    }
+                                    return null;
+                                  },
+                                ),
                               ),
                               horizontalSpace(8),
                               Expanded(
                                 child: TFFWithLabel(
-                            label: 'Height',
-                            hintText: '185 cm',
-                            controller: _heightController,
-                            validate: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your height';
-                              }
-                              if (!RegExp(r'[0-9]').hasMatch(value)) {
-                                return 'Please enter a valid height';
-                              }
-                              return null;
-                            },
-                            maxInputLength: 3,
-                            kbType: TextInputType.number,
-                          ),
+                                  label: 'Height',
+                                  hintText: '185 cm',
+                                  controller: _heightController,
+                                  validate: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your height';
+                                    }
+                                    if (!RegExp(r'[0-9]').hasMatch(value)) {
+                                      return 'Please enter a valid height';
+                                    }
+                                    return null;
+                                  },
+                                  maxInputLength: 3,
+                                  kbType: TextInputType.number,
+                                ),
                               ),
                             ],
                           ),
                           verticalSpace(12),
                           TFFWithLabel(
-                      label: 'Address',
-                      kbType: TextInputType.multiline,
-                      maxLines: 3,
-                      controller: _addressController,
-                      validate: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your address';
-                        }
-                        return null;
-                      },
-                    ),
+                            label: 'Address',
+                            kbType: TextInputType.multiline,
+                            maxLines: 3,
+                            controller: _addressController,
+                            validate: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your address';
+                              }
+                              return null;
+                            },
+                          ),
                           verticalSpace(12),
                           TFFWithLabel(
                             controller: _medicalHistoryController,
@@ -325,13 +358,6 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                     ),
                   ),
                 ),
-                if (state is UpdateProfileLoadingForPatients)
-                  Container(
-                    color: Colors.black.withOpacity(0.5),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
               ],
             );
           },

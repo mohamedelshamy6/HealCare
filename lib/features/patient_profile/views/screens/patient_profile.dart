@@ -51,7 +51,6 @@ class _PatientProfileState extends State<PatientProfile> {
     }
   }
 
-
   @override
   void dispose() {
     _profileCubit.close();
@@ -78,7 +77,9 @@ class _PatientProfileState extends State<PatientProfile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomAppHeader(canBack: false, title: 'Profile'),
+                        Center(
+                            child: CustomAppHeader(
+                                canBack: false, title: 'Profile')),
                         verticalSpace(16),
                         Center(
                           child: ProfileHeader(
@@ -236,16 +237,16 @@ class _PatientProfileState extends State<PatientProfile> {
           label: 'Age',
           value: '${patient.age ?? 'Not available'}',
         );
-        log('Age info: $info'); 
-        return info;// Debug print
+        log('Age info: $info');
+        return info; // Debug print
       case 3:
         final info = InformationModel(
           icon: Assets.iconsBloodtypeIconBlue,
           label: 'Blood Type',
           value: patient.bloodType ?? 'Not available',
         );
-        log('Blood Type info: $info'); 
-        return info;// Debug print
+        log('Blood Type info: $info');
+        return info; // Debug print
       case 4:
         final info = InformationModel(
           icon: Assets.iconsWeightIconBlue,
@@ -260,8 +261,8 @@ class _PatientProfileState extends State<PatientProfile> {
           label: 'Height',
           value: '${patient.height ?? 'Not available'} cm',
         );
-        log('Height info: $info'); 
-        return info;// Debug print
+        log('Height info: $info');
+        return info; // Debug print
       case 6:
         final info = InformationModel(
           icon: Assets.iconsLocationIconBlue,

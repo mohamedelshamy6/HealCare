@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/helpers/helper_methods.dart';
 import 'package:heal_care/core/helpers/spacing.dart';
 import 'package:heal_care/core/theme/app_text_styles.dart';
 import 'package:heal_care/core/helpers/user_cache_helper.dart';
@@ -85,24 +86,16 @@ class _PatientHomeScreenState extends State<PatientHomeScreen>
         child: BlocConsumer<DoctorsCubit, DoctorsState>(
           listener: (context, state) {
             if (state is DoctorsFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Error loading doctors: ${state.error}'),
-                  backgroundColor: Colors.red,
-                ),
-              );
+              HelperMethods.showCustomSnackBarError(
+                  context, 'Error for loading doctors: ${state.error}');
             } else if (state is PatientToogleFavouritesError) {
               // Only show error if it's not just a response format issue
               if (!state.error
                       .toLowerCase()
                       .contains('unexpected response format') &&
                   !state.error.toLowerCase().contains('format')) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Failed to update favorite: ${state.error}'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
+                HelperMethods.showCustomSnackBarError(
+                    context, 'Error toggling favourite: ${state.error}');
               }
             }
           },
@@ -128,89 +121,85 @@ class _PatientHomeScreenState extends State<PatientHomeScreen>
                       ? state.doctorsModel
                       : <DoctorsModel>[]);
 
-              return RefreshIndicator(
-                onRefresh: () => cubit.getAllDoctors(),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      verticalSpace(24),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        child: PatientHomeHeader(),
+              return SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    verticalSpace(24),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: PatientHomeHeader(),
+                    ),
+                    verticalSpace(32),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: Text(
+                        'Upcoming Appointments',
+                        style: AppTextStyles.poppinsBlack(16, FontWeight.w700),
                       ),
-                      verticalSpace(32),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        child: Text(
-                          'Upcoming Appointments',
-                          style:
-                              AppTextStyles.poppinsBlack(16, FontWeight.w700),
-                        ),
-                      ),
-                      const PatientHomeBanner(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const TitleWithSeeAll(title: 'Categories'),
-                            verticalSpace(8),
-                            const HomeCategories(),
-                            verticalSpace(24),
-                            TitleWithSeeAll(
-                              title: 'Find Doctors',
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AllDoctorsScreen(
-                                      doctorsModel: doctorsToShow,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                            verticalSpace(8),
-                            if (doctorsToShow.isEmpty)
-                              Center(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 32.h),
-                                  child: Column(
-                                    children: [
-                                      Icon(
-                                        Icons.local_hospital_outlined,
-                                        size: 48.r,
-                                        color: Colors.grey,
-                                      ),
-                                      verticalSpace(16),
-                                      Text(
-                                        'No doctors available',
-                                        style: AppTextStyles.poppinsGrey(
-                                            14, FontWeight.w500),
-                                      ),
-                                      verticalSpace(8),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          context
-                                              .read<DoctorsCubit>()
-                                              .getAllDoctors();
-                                        },
-                                        child: Text('Retry'),
-                                      ),
-                                    ],
+                    ),
+                    const PatientHomeBanner(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const TitleWithSeeAll(title: 'Categories'),
+                          verticalSpace(8),
+                          const HomeCategories(),
+                          verticalSpace(24),
+                          TitleWithSeeAll(
+                            title: 'Find Doctors',
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AllDoctorsScreen(
+                                    doctorsModel: doctorsToShow,
                                   ),
                                 ),
-                              )
-                            else
-                              FindDoctorsContainer(),
-                            verticalSpace(16),
-                          ],
-                        ),
+                              );
+                            },
+                          ),
+                          verticalSpace(8),
+                          if (doctorsToShow.isEmpty)
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 32.h),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.local_hospital_outlined,
+                                      size: 48.r,
+                                      color: Colors.grey,
+                                    ),
+                                    verticalSpace(16),
+                                    Text(
+                                      'No doctors available',
+                                      style: AppTextStyles.poppinsGrey(
+                                          14, FontWeight.w500),
+                                    ),
+                                    verticalSpace(8),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context
+                                            .read<DoctorsCubit>()
+                                            .getAllDoctors();
+                                      },
+                                      child: Text('Retry'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          else
+                            FindDoctorsContainer(),
+                          verticalSpace(16),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               );
             } else if (state is DoctorsFailure) {
