@@ -15,18 +15,37 @@ class PatientHomeHeader extends StatefulWidget {
   State<PatientHomeHeader> createState() => _PatientHomeHeaderState();
 }
 
-class _PatientHomeHeaderState extends State<PatientHomeHeader> {
+class _PatientHomeHeaderState extends State<PatientHomeHeader>
+    with WidgetsBindingObserver {
   PatientsModel? cachedPatient;
+  bool _isMounted = false;
 
   @override
   void initState() {
     super.initState();
+    _isMounted = true;
     _loadCachedData();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    _isMounted = false;
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _loadCachedData();
+    }
   }
 
   Future<void> _loadCachedData() async {
     final patient = await UserCacheHelper.getCachedPatientData();
-    if (patient != null) {
+    if (_isMounted && patient != null) {
       setState(() {
         cachedPatient = patient;
       });
