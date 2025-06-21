@@ -131,4 +131,31 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 }
 
+Future<void> updateProfileForDoctors(String table, Map<String, dynamic> data) async {
+  emit(UpdateProfileLoadingForDoctors());
+
+  try {
+    final supabase = Supabase.instance.client;
+
+    final cachedDoctor = await UserCacheHelper.getCachedDoctorData();
+    final userId = cachedDoctor?.id ?? CacheHelper().getData(key: 'userId');
+    if (userId == null) {
+      emit(UpdateProfileErrorForDoctors(error: 'User not authenticated'));
+      return;
+    }
+
+    final response = await supabase
+        .from(table)
+        .update(data)
+        .eq('id', userId)
+        .select()
+        .single();
+
+    final updatedDoctor = DoctorsModel.fromJson(response);
+    emit(UpdateProfileSuccessForDoctors(doctor: updatedDoctor));
+    } catch (e) {
+    emit(UpdateProfileErrorForDoctors(error: e.toString()));
+  }
+}
+
 }
