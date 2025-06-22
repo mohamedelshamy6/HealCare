@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heal_care/core/helpers/user_cache_helper.dart';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -22,6 +23,37 @@ class ChatItem extends StatelessWidget {
     }
   }
 
+  Future<Widget> _loadFallbackImage(GetConversationsModel conversation) async {
+    // First try to get doctor data
+    final doctor = await UserCacheHelper.getCachedDoctorData();
+    if (doctor != null && doctor.id == conversation.lastMessageSenderId) {
+      if (doctor.image != null && doctor.image!.isNotEmpty) {
+        return Image.network(
+          doctor.image!,
+          width: 50.r,
+          height: 50.r,
+          fit: BoxFit.cover,
+        );
+      }
+    }
+
+    // If not a doctor or no image, try patient data
+    final patient = await UserCacheHelper.getCachedPatientData();
+    if (patient != null && patient.id == conversation.lastMessageSenderId) {
+      if (patient.image != null && patient.image!.isNotEmpty) {
+        return Image.network(
+          patient.image!,
+          width: 50.r,
+          height: 50.r,
+          fit: BoxFit.cover,
+        );
+      }
+    }
+
+    // If no image found in cache, return default icon
+    return _buildDefaultIcon();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (model is GetConversationsModel) {
@@ -34,25 +66,28 @@ class ChatItem extends StatelessWidget {
             CircleAvatar(
               radius: 25.r,
               backgroundColor: AppColors.mainColor.withOpacity(0.1),
-              child: conversation.senderUserImage?.isNotEmpty == true
+              child: (conversation.senderUserImage?.isNotEmpty == true)
                   ? ClipOval(
                       child: Image.network(
                         conversation.senderUserImage!,
                         width: 50.r,
                         height: 50.r,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Icon(
-                          Icons.person,
-                          size: 30.r,
-                          color: AppColors.mainColor,
-                        ),
+                        errorBuilder: (context, error, stackTrace) {
+                          return FutureBuilder<Widget>(
+                            future: _loadFallbackImage(conversation),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return _buildDefaultIcon();
+                              }
+                              return snapshot.data ?? _buildDefaultIcon();
+                            },
+                          );
+                        },
                       ),
                     )
-                  : Icon(
-                      Icons.person,
-                      size: 30.r,
-                      color: AppColors.mainColor,
-                    ),
+                  : _buildDefaultIcon(),
             ),
             horizontalSpace(16),
             Expanded(
@@ -179,6 +214,14 @@ class ChatItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDefaultIcon() {
+    return Icon(
+      Icons.person,
+      size: 30.r,
+      color: AppColors.mainColor,
     );
   }
 }

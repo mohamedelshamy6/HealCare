@@ -80,6 +80,16 @@ class ChatBubbleForFriend extends StatelessWidget {
                   ? CircleAvatar(
                       radius: 20.r,
                       backgroundImage: NetworkImage(image),
+                      onBackgroundImageError: (exception, stackTrace) {
+                        // This will be called if the image fails to load
+                      },
+                      child: image.endsWith('null') || image.isEmpty
+                          ? Icon(
+                              Icons.person,
+                              size: 24.r,
+                              color: AppColors.mainColor,
+                            )
+                          : null,
                     )
                   : CircleAvatar(
                       radius: 20.r,
