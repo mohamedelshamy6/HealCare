@@ -168,31 +168,47 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
                     itemBuilder: (context, index) {
                       final message = messages[index];
                       final isSentByMe = message.senderId == currentUserId;
+                      final isDoctor =
+                          CacheHelper().getData(key: 'role') == 'doctor';
 
-                      final senderImage = isSentByMe
-                          ? (CacheHelper().getData(key: 'patient_image') ??
-                              CacheHelper().getData(key: 'doctor_image'))
-                          : widget.model.senderUserImage;
+                      return FutureBuilder<String?>(
+                        future: isSentByMe
+                            ? (isDoctor
+                                ? UserCacheHelper.getCachedDoctorData()
+                                    .then((doctor) => doctor?.image)
+                                : UserCacheHelper.getCachedPatientData()
+                                    .then((patient) => patient?.image))
+                            : Future.value(widget.model.senderUserImage),
+                        builder: (context, snapshot) {
+                          String? senderImage = snapshot.data;
+                          // Ensure the URL is properly formatted
+                          if (isSentByMe &&
+                              senderImage != null &&
+                              senderImage.isNotEmpty &&
+                              !senderImage.startsWith('http')) {
+                            senderImage = ''; // Reset to empty if invalid URL
+                          }
 
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 8.h, horizontal: 16.w),
-                        child: isSentByMe
-                            ? ChatBubbleForFriend(
-                                key: ValueKey('${message.id}'),
-                                message: message.content ?? '',
-                                date: _formatTime(message.sentAt),
-                                type: 'sender',
-                                image: senderImage ?? '',
-                              )
-                            : ChatBubble(
-                                key: ValueKey('${message.id}'),
-                                message: message.content ?? '',
-                                date: _formatTime(message.sentAt),
-                                image:
-                                    widget.model.senderUserImage ?? '',
-                                senderType: 'receiver',
-                              ),
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 8.h, horizontal: 16.w),
+                            child: isSentByMe
+                                ? ChatBubbleForFriend(
+                                    key: ValueKey('${message.id}'),
+                                    message: message.content ?? '',
+                                    date: _formatTime(message.sentAt),
+                                    type: isDoctor ? 'doctor' : 'patient',
+                                    image: senderImage ?? '',
+                                  )
+                                : ChatBubble(
+                                    key: ValueKey('${message.id}'),
+                                    message: message.content ?? '',
+                                    date: _formatTime(message.sentAt),
+                                    image: senderImage ?? '',
+                                    senderType: message.senderType ?? 'patient',
+                                  ),
+                          );
+                        },
                       );
                     },
                   );
@@ -291,4 +307,3 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
     );
   }
 }
-
