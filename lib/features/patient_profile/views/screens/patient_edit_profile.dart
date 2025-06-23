@@ -94,37 +94,23 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
 
       if (image != null) {
         try {
-          final bytes = await image!.readAsBytes();
+          const bucketName = 'patients-media';
           final fileExt = image!.path.split('.').last;
-          final filePath =
+          final newFilePath =
               'patient/profile_${DateTime.now().millisecondsSinceEpoch}.$fileExt';
 
-          await Supabase.instance.client.storage
-              .from('patients-media')
-              .uploadBinary(
-                filePath,
-                bytes,
-                fileOptions: const FileOptions(upsert: true),
+          await Supabase.instance.client.storage.from(bucketName).upload(
+                newFilePath,
+                image!,
+                fileOptions: const FileOptions(
+                  cacheControl: '3600',
+                  upsert: false,
+                ),
               );
 
           uploadedImageUrl = Supabase.instance.client.storage
-              .from('patients-media')
-              .getPublicUrl(filePath);
-
-          if (imageUrl != null) {
-            final uri = Uri.parse(imageUrl!);
-            final segments = uri.pathSegments;
-            final index = segments.indexOf('patients-media');
-            if (index != -1 && segments.length > index + 1) {
-              final oldImagePath = segments.sublist(index + 1).join('/');
-              await Supabase.instance.client.storage
-                  .from('patients-media')
-                  .remove([oldImagePath]);
-
-              log('Old image full URL: $imageUrl');
-              log('Path to delete from Supabase: $oldImagePath');
-            }
-          }
+              .from(bucketName)
+              .getPublicUrl(newFilePath);
         } catch (e) {
           log('Image upload failed: $e');
           HelperMethods.showCustomSnackBarError(context, 'Image upload failed');
@@ -256,11 +242,24 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                                 diseaseSelectedValue = value;
                               });
                             },
-                            itemList: const <String>[
-                              'Blood Pressure',
-                              'Fever',
-                              'Headache',
-                              'Diabetes',
+                            itemList: <String>[
+                              'Hypertension',
+                              'Abdominal pain',
+                              'Diabetes Mellitus',
+                              'Nausea or vomiting',
+                              'Gastritis',
+                              'Constipation',
+                              'Peptic Ulcer Disease',
+                              'Bloating or gas',
+                              'Irritable Bowel Syndrome',
+                              'Loss of appetite',
+                              'Gastroesophageal Reflux Disease',
+                              'Diarrhea',
+                              'Inflammatory Bowel Disease',
+                              'Acid reflux or Heartburn',
+                              'Liver Cirrhosis',
+                              'Chronic Kidney Disease',
+                              'Heart Failure',
                             ],
                             hint: 'Select Disease',
                             label: 'Disease Type',

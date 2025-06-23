@@ -84,40 +84,26 @@ class _PatientContinueSignupScreenState
               CacheHelper().saveData(
                   key: 'patient_Id', value: state.signUpModel!.user!.id);
 
-              // Cache patient data
-              final patient = PatientsModel(
-                id: state.signUpModel!.user!.id,
-                name: widget.name,
-                email: state.signUpModel!.user!.email,
-                image: imageUrl,
-                age: int.tryParse(ageConotroller.text) ?? 0,
-                weight: int.tryParse(weightController.text) ?? 0,
-                height: int.tryParse(heightCoontroller.text) ?? 0,
-                address: addressController.text,
-                disease: diseaseSelectedValue,
-                gender: genderSelectedValue,
-                bloodType: bloodSelectedValue,
-                medicalHistory: medicalController.text,
-              );
-              await UserCacheHelper.cachePatientData(patient);
+              if (image != null) {
+                const bucketName = 'patients-media';
+                final imagePath = 'patient/${widget.name}/profile.png';
+                await DependencyInjection.getIt<supabase.SupabaseClient>()
+                    .storage
+                    .from(bucketName)
+                    .upload(
+                      imagePath,
+                      image!,
+                      fileOptions: const supabase.FileOptions(upsert: true),
+                    )
+                    .then((_) {
+                  imageUrl =
+                      DependencyInjection.getIt<supabase.SupabaseClient>()
+                          .storage
+                          .from(bucketName)
+                          .getPublicUrl(imagePath);
+                });
+              }
 
-              image == null
-                  ? null
-                  : await DependencyInjection.getIt<supabase.SupabaseClient>()
-                      .storage
-                      .from('patients-media')
-                      .upload(
-                        'patient/${widget.name}/profile.png',
-                        image!,
-                        fileOptions: const supabase.FileOptions(upsert: true),
-                      )
-                      .then((value) {
-                      imageUrl =
-                          DependencyInjection.getIt<supabase.SupabaseClient>()
-                              .storage
-                              .from('patients-media')
-                              .getPublicUrl(value);
-                    });
               context.read<PatientsCubit>().addPatient(
                 '${AppConstants.baseRestUrl}patients',
                 {
@@ -135,10 +121,6 @@ class _PatientContinueSignupScreenState
                   'medical_history': medicalController.text,
                 },
               ).then((value) async {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Routes.bottomNavBar, (route) => false,
-                    arguments: 'patient');
-                CacheHelper().saveData(key: 'role', value: 'patient');
                 final patient = PatientsModel(
                   id: state.signUpModel!.user!.id,
                   name: widget.name,
@@ -154,6 +136,12 @@ class _PatientContinueSignupScreenState
                   medicalHistory: medicalController.text,
                 );
                 await UserCacheHelper.cachePatientData(patient);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, Routes.bottomNavBar, (route) => false,
+                    arguments: 'patient');
+                CacheHelper().saveData(key: 'role', value: 'patient');
+                CacheHelper().saveData(
+                    key: 'userId', value: state.signUpModel!.user!.id);
               }).onError((_, error) {
                 HelperMethods.showCustomSnackBarError(
                     context, ErrorMessages.errorMessage(error.toString()));

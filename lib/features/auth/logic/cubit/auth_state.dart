@@ -44,7 +44,7 @@ final class SignUpFailure extends AuthState {
 final class DoctorAvailabilityLoading extends AuthState {}
 
 final class DoctorAvailabilitySuccess extends AuthState {
-  final Map<String, dynamic>? response;
+  final String? response;
   DoctorAvailabilitySuccess({this.response});
 }
 

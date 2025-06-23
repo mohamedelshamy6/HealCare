@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -81,16 +80,14 @@ class _DoctorEditProfileState extends State<_DoctorEditProfileContent> {
 
       if (image != null) {
         try {
-          final bytes = await image!.readAsBytes();
+          const bucketName = 'doctors-media';
           final fileExt = image!.path.split('.').last;
-          final filePath =
+          final newFilePath =
               'doctors/profile_${DateTime.now().millisecondsSinceEpoch}.$fileExt';
 
-          await Supabase.instance.client.storage
-              .from('doctors-media')
-              .uploadBinary(
-                filePath,
-                bytes,
+          await Supabase.instance.client.storage.from(bucketName).upload(
+                newFilePath,
+                image!,
                 fileOptions: const FileOptions(
                   cacheControl: '3600',
                   upsert: false,
@@ -98,23 +95,8 @@ class _DoctorEditProfileState extends State<_DoctorEditProfileContent> {
               );
 
           uploadedImageUrl = Supabase.instance.client.storage
-              .from('doctors-media')
-              .getPublicUrl(filePath);
-
-              if (imageUrl != null) {
-            final uri = Uri.parse(imageUrl!);
-            final segments = uri.pathSegments;
-            final index = segments.indexOf('patients-media');
-            if (index != -1 && segments.length > index + 1) {
-              final oldImagePath = segments.sublist(index + 1).join('/');
-              await Supabase.instance.client.storage
-                  .from('patients-media')
-                  .remove([oldImagePath]);
-
-              log('Old image full URL: $imageUrl');
-              log('Path to delete from Supabase: $oldImagePath');
-            }
-          }
+              .from(bucketName)
+              .getPublicUrl(newFilePath);
         } catch (e) {
           HelperMethods.showCustomSnackBarError(
               context, 'Failed to upload image: ${e.toString()}');
@@ -230,12 +212,16 @@ class _DoctorEditProfileState extends State<_DoctorEditProfileContent> {
                                 specializationSelectedValue = value;
                               });
                             },
-                            itemList: const [
-                              'Eyes',
-                              'Teeth',
-                              'Skin',
-                              'Heart',
-                              'Lungs'
+                            itemList: <String>[
+                              'Gastroenterologist',
+                              'Cardiologist',
+                              'Dentist',
+                              'Dermatologist',
+                              'Endocrinologist',
+                              'Internists',
+                              'Orthopedist',
+                              'Pediatrician',
+                              'Neurologist',
                             ],
                             hint: 'Specialization',
                             label: 'Specialization',

@@ -35,6 +35,7 @@ class _PatientProfileState extends State<PatientProfile> {
   void initState() {
     super.initState();
     _profileCubit = DependencyInjection.getIt<ProfileCubit>();
+    _profileCubit.getProfileDataForPatients();
     _checkUserAndLoadProfile();
   }
 

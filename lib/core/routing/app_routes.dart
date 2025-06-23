@@ -162,6 +162,7 @@ class AppRoutes {
                 create: (context) => ProfileCubit(
                   DependencyInjection.getIt(),
                   DependencyInjection.getIt(),
+                  DependencyInjection.getIt(),
                 ),
               ),
               BlocProvider(
@@ -306,6 +307,7 @@ class AppRoutes {
             create: (context) => ProfileCubit(
               DependencyInjection.getIt(),
               DependencyInjection.getIt(),
+              DependencyInjection.getIt(),
             ),
             child: PatientProfile(),
           ),
@@ -314,6 +316,7 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) => ProfileCubit(
+              DependencyInjection.getIt(),
               DependencyInjection.getIt(),
               DependencyInjection.getIt(),
             ),

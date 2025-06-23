@@ -26,19 +26,29 @@ class ProfileHeader extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Container(
-              width: 80.w,
-              height: 80.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(32.r),
-              ),
-              child: CachedNetworkImage(
-                imageUrl: image,
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(),
+                width: 80.w,
+                height: 80.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(32.r),
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.person),
+                child: CachedNetworkImage(
+                  imageUrl: image,
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(32.r),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.person, size: 40),
+                ),
               ),
-            ),
             CircleAvatar(
               backgroundColor: AppColors.mainColor,
               radius: 12.r,

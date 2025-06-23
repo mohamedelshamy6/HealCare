@@ -114,6 +114,7 @@ class DependencyInjection {
     getIt.registerFactory<ProfileCubit>(() => ProfileCubit(
           getIt<DoctorsRepo>(),
           getIt<PatientsRepo>(),
+          getIt<AppointenentSchedualRepositorie>(),
         ));
   }
 }

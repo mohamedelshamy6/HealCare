@@ -84,38 +84,24 @@ class _DoctorContinueSignupScreenState
           CacheHelper()
               .saveData(key: 'doctor_Id', value: state.signUpModel!.user!.id);
 
-          // Cache doctor data
-          final doctor = DoctorsModel(
-            id: state.signUpModel!.user!.id,
-            name: widget.name,
-            email: state.signUpModel!.user!.email,
-            image: imageUrl,
-            specialization: specializationSelectedValue,
-            bio: biographyController.text,
-            address: addressController.text,
-            experience: experienceController.text,
-            education: educationController.text,
-            gender: genderSelectedValue,
-          );
-          await UserCacheHelper.cacheDoctorData(doctor);
-
-          image == null
-              ? null
-              : await DependencyInjection.getIt<supabase.SupabaseClient>()
+          if (image != null) {
+            final imagePath = 'doctor/${widget.name}/profile.png';
+            await DependencyInjection.getIt<supabase.SupabaseClient>()
+                .storage
+                .from('doctors-media')
+                .upload(
+                  imagePath,
+                  image!,
+                  fileOptions: const supabase.FileOptions(upsert: true),
+                )
+                .then((_) {
+              imageUrl = DependencyInjection.getIt<supabase.SupabaseClient>()
                   .storage
                   .from('doctors-media')
-                  .upload(
-                    'doctor/${widget.name}/profile.png',
-                    image!,
-                    fileOptions: const supabase.FileOptions(upsert: true),
-                  )
-                  .then((value) {
-                  imageUrl =
-                      DependencyInjection.getIt<supabase.SupabaseClient>()
-                          .storage
-                          .from('doctors-media')
-                          .getPublicUrl(value);
-                });
+                  .getPublicUrl(imagePath);
+            });
+          }
+
           context.read<DoctorsCubit>().addDoctor(
             '${AppConstants.baseRestUrl}doctors',
             {
@@ -131,13 +117,26 @@ class _DoctorContinueSignupScreenState
               'bio': biographyController.text,
               'image': imageUrl,
             },
-          ).then((value) {
+          ).then((value) async {
             String formatTime(String t) {
               final n = int.tryParse(t) ?? 0;
               return '${n.toString().padLeft(2, '0')}:00';
             }
 
-            context.read<AuthCubit>().addDoctorAvailability(
+            final doctor = DoctorsModel(
+              id: state.signUpModel!.user!.id,
+              name: widget.name,
+              email: state.signUpModel!.user!.email,
+              image: imageUrl,
+              specialization: specializationSelectedValue,
+              bio: biographyController.text,
+              address: addressController.text,
+              experience: experienceController.text,
+              education: educationController.text,
+              gender: genderSelectedValue,
+            );
+            await UserCacheHelper.cacheDoctorData(doctor);
+            await context.read<AuthCubit>().addDoctorAvailability(
               '${AppConstants.baseRestUrl}rpc/add_weekly_doctor_availability',
               {
                 'doctor_id_input': state.signUpModel?.user?.id,
@@ -145,6 +144,9 @@ class _DoctorContinueSignupScreenState
                 'end_time_input': formatTime(toTimeController.text),
               },
             );
+
+            if (!mounted) return;
+
             CacheHelper()
                 .saveData(key: 'doctor_Id', value: state.signUpModel?.user?.id);
             Navigator.pushNamedAndRemoveUntil(

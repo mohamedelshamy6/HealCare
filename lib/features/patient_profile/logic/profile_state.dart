@@ -1,6 +1,6 @@
 part of 'profile_cubit.dart';
 
-abstract class ProfileState {}
+sealed class ProfileState {}
 
 class ProfileInitial extends ProfileState {}
 
@@ -15,7 +15,7 @@ class ProfileSuccessForDoctors extends ProfileState {
 class ProfileErrorForDoctors extends ProfileState {
   final String error;
 
-  ProfileErrorForDoctors({ required this.error});
+  ProfileErrorForDoctors({required this.error});
 }
 
 class ProfileLoadingForPatients extends ProfileState {}
@@ -31,13 +31,13 @@ class ProfileSuccessForPatients extends ProfileState {
 class ProfileErrorForPatients extends ProfileState {
   final String error;
 
-  ProfileErrorForPatients({ required this.error});
+  ProfileErrorForPatients({required this.error});
 }
 
 class ProfileError extends ProfileState {
   final String error;
 
-  ProfileError({ required this.error});
+  ProfileError({required this.error});
 }
 
 class UpdateProfileLoadingForPatients extends ProfileState {}
@@ -51,7 +51,7 @@ class UpdateProfileSuccessForPatients extends ProfileState {
 class UpdateProfileErrorForPatients extends ProfileState {
   final String error;
 
-  UpdateProfileErrorForPatients({ required this.error});
+  UpdateProfileErrorForPatients({required this.error});
 }
 
 class UpdateProfileLoadingForDoctors extends ProfileState {}
@@ -65,10 +65,17 @@ class UpdateProfileSuccessForDoctors extends ProfileState {
 class UpdateProfileErrorForDoctors extends ProfileState {
   final String error;
 
-  UpdateProfileErrorForDoctors({ required this.error});
+  UpdateProfileErrorForDoctors({required this.error});
 }
 
+class DoctorScheduleLoading extends ProfileState {}
 
+class DoctorScheduleSuccess extends ProfileState {
+  final AppointementScheduleModel schedule;
+  DoctorScheduleSuccess(this.schedule);
+}
 
-
-
+class DoctorScheduleFailure extends ProfileState {
+  final String error;
+  DoctorScheduleFailure(this.error);
+}

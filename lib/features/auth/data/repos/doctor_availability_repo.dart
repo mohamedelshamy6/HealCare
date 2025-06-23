@@ -6,7 +6,7 @@ class DoctorAvailabilityRepo {
   late ApiServices apiServices;
   DoctorAvailabilityRepo(this.apiServices);
 
-  Future<Either<String, Map<String, dynamic>>> addDoctorAvailability(
+  Future<Either<String, String>> addDoctorAvailability(
     String path,
     dynamic data,
   ) async {
@@ -15,7 +15,7 @@ class DoctorAvailabilityRepo {
         path,
         data: data,
       );
-      return Right(response);
+      return Right('Success');
     } on ApiException catch (e) {
       return Left(e.errorModel.message!);
     }

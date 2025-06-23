@@ -6,6 +6,8 @@ import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/data/models/patients_model.dart';
 import 'package:heal_care/features/auth/data/repos/doctors_repo.dart';
 import 'package:heal_care/features/auth/data/repos/patients_repo.dart';
+import 'package:heal_care/features/patient_home/data/models/appointement_schedual_model.dart';
+import 'package:heal_care/features/patient_home/data/repos/appointenent_schedual_repositorie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'profile_state.dart';
@@ -13,10 +15,12 @@ part 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   final DoctorsRepo doctorsRepo;
   final PatientsRepo patientsRepo;
+  final AppointenentSchedualRepositorie appointenentSchedualRepositorie;
 
   ProfileCubit(
     this.doctorsRepo,
     this.patientsRepo,
+    this.appointenentSchedualRepositorie,
   ) : super(ProfileInitial());
 
   Future<void> getProfileDataForPatients({bool forceRefresh = false}) async {
@@ -183,5 +187,19 @@ class ProfileCubit extends Cubit<ProfileState> {
     } catch (e) {
       emit(UpdateProfileErrorForDoctors(error: e.toString()));
     }
+  }
+
+  Future<void> fetchDoctorSchedule(String doctorId) async {
+    emit(DoctorScheduleLoading());
+    final result =
+        await appointenentSchedualRepositorie.getAppointementSchedule(
+      '${AppConstants.baseRestUrl}/rpc/get_doctor_availability',
+      doctorId,
+    );
+
+    result.fold(
+      (error) => emit(DoctorScheduleFailure(error)),
+      (schedule) => emit(DoctorScheduleSuccess(schedule)),
+    );
   }
 }
