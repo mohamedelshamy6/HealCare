@@ -24,6 +24,12 @@ class DoctorBookingTabs extends StatelessWidget {
               List<DoctorBookingModel> filteredBookings;
 
               switch (index) {
+                case 0:
+                  // For 'All' tab, show all except cancelled appointments
+                  filteredBookings = allBookingModel
+                      .where((booking) => booking.status != 'cancelled')
+                      .toList();
+                  break;
                 case 1:
                   filteredBookings = allBookingModel
                       .where((booking) => booking.status == 'scheduled')
