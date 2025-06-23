@@ -8,13 +8,13 @@ import '../../../../core/theme/app_text_styles.dart';
 class DoctorProfileHeader extends StatelessWidget {
   final String name;
   final String image;
-  final VoidCallback? onImageTap; // 👈 Add this
+  final VoidCallback? onImageTap;
 
   const DoctorProfileHeader({
     super.key,
     required this.name,
     required this.image,
-    this.onImageTap, // 👈 Accept it
+    this.onImageTap,
   });
 
   @override
@@ -23,7 +23,7 @@ class DoctorProfileHeader extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
-          onTap: onImageTap, // 👈 Wrap image with tap
+          onTap: onImageTap,
           child: Stack(
             alignment: Alignment.bottomRight,
             clipBehavior: Clip.none,
