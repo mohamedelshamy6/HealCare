@@ -2,16 +2,31 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/helpers/spacing.dart';
-import '../../../../core/theme/app_colors.dart';
+import 'package:heal_care/core/helpers/spacing.dart';
+import 'package:heal_care/core/theme/app_colors.dart';
 
 class UploadPhotoWidget extends StatelessWidget {
   final void Function()? onTap;
   final File? imagePath;
-  const UploadPhotoWidget({super.key, this.onTap, this.imagePath});
+  final String? imageUrl; 
+
+  const UploadPhotoWidget({
+    super.key,
+    this.onTap,
+    this.imagePath,
+    this.imageUrl, 
+  });
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider? backgroundImage;
+
+    if (imagePath != null) {
+      backgroundImage = FileImage(imagePath!);
+    } else if (imageUrl != null && imageUrl!.isNotEmpty) {
+      backgroundImage = NetworkImage(imageUrl!);
+    }
+
     return InkWell(
       splashFactory: NoSplash.splashFactory,
       onTap: onTap,
@@ -28,14 +43,14 @@ class UploadPhotoWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.dropDownColor,
                   shape: BoxShape.circle,
-                  image: imagePath != null
+                  image: backgroundImage != null
                       ? DecorationImage(
-                          image: FileImage(imagePath!),
+                          image: backgroundImage,
                           fit: BoxFit.cover,
                         )
                       : null,
                 ),
-                child: imagePath != null
+                child: backgroundImage != null
                     ? null
                     : Icon(
                         Icons.camera_alt,

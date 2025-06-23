@@ -52,6 +52,30 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
     _heightController = TextEditingController();
     _addressController = TextEditingController();
     _medicalHistoryController = TextEditingController();
+
+    // Fetch patient data when the screen loads
+    _loadPatientData();
+  }
+
+  Future<void> _loadPatientData() async {
+    try {
+      final patientData = await UserCacheHelper.getCachedPatientData();
+      if (patientData != null) {
+        setState(() {
+          _ageController.text = patientData.age?.toString() ?? '';
+          _weightController.text = patientData.weight?.toString() ?? '';
+          _heightController.text = patientData.height?.toString() ?? '';
+          bloodSelectedValue = patientData.bloodType;
+          genderSelectedValue = patientData.gender;
+          diseaseSelectedValue = patientData.disease;
+          _addressController.text = patientData.address ?? '';
+          _medicalHistoryController.text = patientData.medicalHistory ?? '';
+          imageUrl = patientData.image;
+        });
+      }
+    } catch (e) {
+      log('Error loading patient data: $e');
+    }
   }
 
   @override
@@ -86,6 +110,21 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
           uploadedImageUrl = Supabase.instance.client.storage
               .from('patients-media')
               .getPublicUrl(filePath);
+
+          if (imageUrl != null) {
+            final uri = Uri.parse(imageUrl!);
+            final segments = uri.pathSegments;
+            final index = segments.indexOf('patients-media');
+            if (index != -1 && segments.length > index + 1) {
+              final oldImagePath = segments.sublist(index + 1).join('/');
+              await Supabase.instance.client.storage
+                  .from('patients-media')
+                  .remove([oldImagePath]);
+
+              log('Old image full URL: $imageUrl');
+              log('Path to delete from Supabase: $oldImagePath');
+            }
+          }
         } catch (e) {
           log('Image upload failed: $e');
           HelperMethods.showCustomSnackBarError(context, 'Image upload failed');
@@ -117,13 +156,19 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
     return Scaffold(
       body: SafeArea(
         child: BlocConsumer<ProfileCubit, ProfileState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is UpdateProfileSuccessForPatients) {
+              debugPrint('Profile update successful, navigating to home...');
               HelperMethods.showCustomSnackBarSuccess(
                 context,
                 'Profile updated successfully',
               );
+
+              // Update cached data
+              final cachedPatient =
+                  await UserCacheHelper.getCachedPatientData();
               UserCacheHelper.cachePatientData(PatientsModel(
+                name: cachedPatient?.name,
                 age: int.tryParse(_ageController.text),
                 weight: int.tryParse(_weightController.text),
                 height: int.tryParse(_heightController.text),
@@ -141,11 +186,19 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
                         : null),
               ));
 
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                Routes.bottomNavBar,
-                (route) => false,
-                arguments: 'patient',
-              );
+              // Force a refresh of the profile data
+              await BlocProvider.of<ProfileCubit>(context)
+                  .getProfileDataForPatients();
+
+              // Navigate to home
+              if (mounted) {
+                debugPrint('Navigating to: ${Routes.bottomNavBar}');
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  Routes.bottomNavBar,
+                  (route) => false,
+                  arguments: 'patient',
+                );
+              }
             } else if (state is UpdateProfileLoadingForPatients) {
               HelperMethods.showLoadingAlertDialog(context);
             } else if (state is UpdateProfileErrorForPatients) {
@@ -158,19 +211,6 @@ class _PatientEditProfileState extends State<PatientEditProfile> {
           builder: (context, state) {
             final patient =
                 state is ProfileSuccessForPatients ? state.patient : null;
-
-            // Initialize form fields with patient data
-            if (patient != null && _ageController.text.isEmpty) {
-              _ageController.text = patient.age?.toString() ?? '';
-              _weightController.text = patient.weight?.toString() ?? '';
-              _heightController.text = patient.height?.toString() ?? '';
-              bloodSelectedValue = patient.bloodType;
-              genderSelectedValue = patient.gender;
-              diseaseSelectedValue = patient.disease;
-              _addressController.text = patient.address ?? '';
-              _medicalHistoryController.text = patient.medicalHistory ?? '';
-              imageUrl = patient.image;
-            }
 
             return Stack(
               children: [

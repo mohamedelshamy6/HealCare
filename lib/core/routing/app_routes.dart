@@ -158,6 +158,12 @@ class AppRoutes {
                   DependencyInjection.getIt<CancelAppointmentRepo>(),
                 ),
               ),
+              BlocProvider<ProfileCubit>(
+                create: (context) => ProfileCubit(
+                  DependencyInjection.getIt(),
+                  DependencyInjection.getIt(),
+                ),
+              ),
               BlocProvider(
                 create: (context) => ChatCubit(
                   DependencyInjection.getIt<CreateConversitionRepository>(),
