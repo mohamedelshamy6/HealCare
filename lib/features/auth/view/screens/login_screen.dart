@@ -77,6 +77,7 @@ class LoginScreen extends StatelessWidget {
                     await UserCacheHelper.cacheDoctorData(doctor);
                     CacheHelper()
                         .saveData(key: 'doctorName', value: doctor.name);
+                    CacheHelper().saveData(key: 'doctorId', value: doctor.id);
                   } else {
                     final patient = PatientsModel(
                       id: state.loginModel!.user!.id,

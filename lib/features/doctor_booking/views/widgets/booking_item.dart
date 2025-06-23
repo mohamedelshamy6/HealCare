@@ -45,7 +45,7 @@ class BookingItem extends StatelessWidget {
         }
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 18.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: AppColors.mainWhite,
@@ -53,13 +53,13 @@ class BookingItem extends StatelessWidget {
         child: Column(
           children: [
             BookingPatientInfo(patientsModel: patientsModel),
-            verticalSpace(14),
+            verticalSpace(10),
             BookingDateTime(
               appointmentDate: bookingModel.appointmentDate,
               appointmentTime: bookingModel.appointmentTime,
               isVertical: MediaQuery.of(context).size.width < 400,
             ),
-            verticalSpace(14),
+            verticalSpace(10),
             if (selectedIndex == 0) ...[
               BookingCancelButton(
                 appointmentId: bookingModel.id ?? '',
@@ -69,7 +69,7 @@ class BookingItem extends StatelessWidget {
                 bookingModel.status == 'scheduled') ...[
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
+                padding: EdgeInsets.symmetric(horizontal: 12.w),
                 child: CustomButton(
                   buttonAction: () {
                     ScaffoldMessenger.of(context).showSnackBar(

@@ -20,7 +20,7 @@ class BookingPatientInfo extends StatelessWidget {
       children: [
         Container(
           width: 50.w,
-          height: 50.h,
+          height: 40.h,
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             color: AppColors.mainGrey,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:heal_care/features/auth/data/models/patients_model.dart';
+import 'package:heal_care/features/doctor_booking/data/models/doctor_booking_model.dart';
 import 'doctor_card_home.dart';
 
 class HomeListView extends StatelessWidget {
-  const HomeListView({super.key, required this.patientsModel});
-  final List<PatientsModel> patientsModel;
+  const HomeListView({super.key, required this.appointments});
+
+  final List<DoctorBookingModel> appointments;
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +15,11 @@ class HomeListView extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: DoctorCardHome(
-              patient: patientsModel[index],
+              appointment: appointments[index],
             ),
           );
         },
-        childCount: patientsModel.length,
+        childCount: appointments.length,
       ),
     );
   }

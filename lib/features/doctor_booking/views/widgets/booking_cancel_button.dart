@@ -34,7 +34,7 @@ class BookingCancelButton extends StatelessWidget {
         final isLoading = state is DoctorbookingCancelAppointmentLoading;
         return Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 17.w),
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: CustomButton(
             color: AppColors.lightOrange,
             buttonText: isLoading ? 'Canceling...' : 'Cancel',

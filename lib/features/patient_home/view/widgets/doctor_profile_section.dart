@@ -70,7 +70,7 @@ class DoctorProfileSection extends StatelessWidget {
         ),
         verticalSpace(8),
         Text(
-          '${doctorsModel.name} is a top Cardiologist specialist. Available for private consultation.',
+          '${doctorsModel.name} is a ${doctorsModel.bio} .',
           style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
         ),
       ],
