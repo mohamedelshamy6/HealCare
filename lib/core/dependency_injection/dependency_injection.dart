@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:heal_care/core/networking/supabase_web_socket_services.dart';
 import 'package:heal_care/features/auth/data/repos/patient_favourites_repo.dart';
 import 'package:heal_care/features/auth/data/repos/toogle_favourites_repo.dart';
+import 'package:heal_care/features/auth/data/repos/doctor_availability_repo.dart';
 import 'package:heal_care/features/auth/logic/cubit/doctors_cubit.dart';
 import 'package:heal_care/features/auth/logic/cubit/patients_cubit.dart';
 import 'package:heal_care/features/chat/data/repos/create_conversition_repository.dart';
@@ -82,6 +83,8 @@ class DependencyInjection {
         () => CreateConversitionRepository(getIt<ApiServices>()));
     getIt.registerLazySingleton<GetConversationRepo>(
         () => GetConversationRepo(getIt<ApiServices>()));
+    getIt.registerLazySingleton<DoctorAvailabilityRepo>(
+        () => DoctorAvailabilityRepo(getIt<ApiServices>()));
 
     // Cubits
     getIt.registerLazySingleton<DoctorsCubit>(() => DoctorsCubit(
@@ -109,7 +112,7 @@ class DependencyInjection {
           getIt<SupabaseWebSocketService>(),
         ));
     getIt.registerFactory<ProfileCubit>(() => ProfileCubit(
-           getIt<DoctorsRepo>(),
+          getIt<DoctorsRepo>(),
           getIt<PatientsRepo>(),
         ));
   }

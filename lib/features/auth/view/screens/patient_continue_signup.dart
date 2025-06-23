@@ -134,26 +134,26 @@ class _PatientContinueSignupScreenState
                   'blood_type': bloodSelectedValue,
                   'medical_history': medicalController.text,
                 },
-              ).then((value) async{
+              ).then((value) async {
                 Navigator.pushNamedAndRemoveUntil(
                     context, Routes.bottomNavBar, (route) => false,
                     arguments: 'patient');
                 CacheHelper().saveData(key: 'role', value: 'patient');
-               final patient = PatientsModel(
-            id: state.signUpModel!.user!.id,
-            name: widget.name,
-            email: state.signUpModel!.user!.email,
-            image: imageUrl,
-            age: int.tryParse(ageConotroller.text) ?? 0,
-            weight: int.tryParse(weightController.text) ?? 0,
-            height: int.tryParse(heightCoontroller.text) ?? 0,
-            address: addressController.text,
-            disease: diseaseSelectedValue,
-            gender: genderSelectedValue,
-            bloodType: bloodSelectedValue,
-            medicalHistory: medicalController.text,
-          );
-          await UserCacheHelper.cachePatientData(patient);
+                final patient = PatientsModel(
+                  id: state.signUpModel!.user!.id,
+                  name: widget.name,
+                  email: state.signUpModel!.user!.email,
+                  image: imageUrl,
+                  age: int.tryParse(ageConotroller.text) ?? 0,
+                  weight: int.tryParse(weightController.text) ?? 0,
+                  height: int.tryParse(heightCoontroller.text) ?? 0,
+                  address: addressController.text,
+                  disease: diseaseSelectedValue,
+                  gender: genderSelectedValue,
+                  bloodType: bloodSelectedValue,
+                  medicalHistory: medicalController.text,
+                );
+                await UserCacheHelper.cachePatientData(patient);
               }).onError((_, error) {
                 HelperMethods.showCustomSnackBarError(
                     context, ErrorMessages.errorMessage(error.toString()));
@@ -200,10 +200,23 @@ class _PatientContinueSignupScreenState
                         });
                       },
                       itemList: <String>[
-                        'Blood Pressure',
-                        'Fever',
-                        'Headache',
-                        'Diabetes',
+                        'Hypertension',
+                        'Abdominal pain',
+                        'Diabetes Mellitus',
+                        'Nausea or vomiting',
+                        'Gastritis',
+                        'Constipation',
+                        'Peptic Ulcer Disease',
+                        'Bloating or gas',
+                        'Irritable Bowel Syndrome',
+                        'Loss of appetite',
+                        'Gastroesophageal Reflux Disease',
+                        'Diarrhea',
+                        'Inflammatory Bowel Disease',
+                        'Acid reflux or Heartburn',
+                        'Liver Cirrhosis',
+                        'Chronic Kidney Disease',
+                        'Heart Failure',
                       ],
                       hint: 'Cold',
                       label: 'Disease Type',

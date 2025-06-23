@@ -84,6 +84,7 @@ class AppRoutes {
             create: (context) => AuthCubit(
               DependencyInjection.getIt(),
               DependencyInjection.getIt(),
+              DependencyInjection.getIt(),
             ),
             child: LoginScreen(type: args as String),
           ),
@@ -257,7 +258,7 @@ class AppRoutes {
       case Routes.doctorContinueSignUpScreen:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<AuthCubit>(
-            create: (context) => AuthCubit(
+            create: (context) => AuthCubit(DependencyInjection.getIt(),
                 DependencyInjection.getIt(), DependencyInjection.getIt()),
             child: DoctorContinueSignupScreen(
               email: (args as List<String>)[0],
@@ -270,6 +271,7 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<AuthCubit>(
             create: (context) => AuthCubit(
+              DependencyInjection.getIt(),
               DependencyInjection.getIt(),
               DependencyInjection.getIt(),
             ),

@@ -43,7 +43,8 @@ class _DoctorContinueSignupScreenState
     extends State<DoctorContinueSignupScreen> {
   TextEditingController educationController = TextEditingController();
   TextEditingController instapayController = TextEditingController();
-  TextEditingController workingHoursController = TextEditingController();
+  TextEditingController fromTimeController = TextEditingController();
+  TextEditingController toTimeController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController experienceController = TextEditingController();
@@ -52,7 +53,8 @@ class _DoctorContinueSignupScreenState
   void dispose() {
     educationController.dispose();
     instapayController.dispose();
-    workingHoursController.dispose();
+    fromTimeController.dispose();
+    toTimeController.dispose();
     addressController.dispose();
     experienceController.dispose();
     biographyController.dispose();
@@ -130,9 +132,21 @@ class _DoctorContinueSignupScreenState
               'image': imageUrl,
             },
           ).then((value) {
-            CacheHelper().saveData(
-                key: 'doctor_Id',
-                value: state.signUpModel?.user?.id ?? 'No Id for Doctor');
+            String formatTime(String t) {
+              final n = int.tryParse(t) ?? 0;
+              return '${n.toString().padLeft(2, '0')}:00';
+            }
+
+            context.read<AuthCubit>().addDoctorAvailability(
+              '${AppConstants.baseRestUrl}rpc/add_weekly_doctor_availability',
+              {
+                'doctor_id_input': state.signUpModel?.user?.id,
+                'start_time_input': formatTime(fromTimeController.text),
+                'end_time_input': formatTime(toTimeController.text),
+              },
+            );
+            CacheHelper()
+                .saveData(key: 'doctor_Id', value: state.signUpModel?.user?.id);
             Navigator.pushNamedAndRemoveUntil(
                 context, Routes.bottomNavBar, (route) => false,
                 arguments: 'doctor');
@@ -195,19 +209,59 @@ class _DoctorContinueSignupScreenState
                           ValidationErrorTexts.urlValidation(value),
                     ),
                     verticalSpace(12),
-                    TFFWithLabel(
-                      label: 'Working hours availability',
-                      kbType: TextInputType.number,
-                      controller: workingHoursController,
-                      validate: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your working hours availability';
-                        }
-                        if (!RegExp(r'[0-9]').hasMatch(value)) {
-                          return 'Please enter a valid height';
-                        }
-                        return null;
-                      },
+                    Text(
+                      'Working hours availability ( Only in PM )',
+                      style: AppTextStyles.poppinsGrey(14, FontWeight.w500),
+                    ),
+                    verticalSpace(8),
+                    Row(
+                      textBaseline: TextBaseline.alphabetic,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      children: [
+                        Expanded(
+                          child: TFFWithLabel(
+                            label: 'From',
+                            kbType: TextInputType.number,
+                            maxInputLength: 2,
+                            controller: fromTimeController,
+                            validate: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter start time';
+                              }
+                              if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                                return 'Please enter a valid time';
+                              }
+                              int time = int.tryParse(value) ?? 0;
+                              if (time < 1 || time > 12) {
+                                return 'Time must be between 1 and 12';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        horizontalSpace(8),
+                        Expanded(
+                          child: TFFWithLabel(
+                            label: 'To',
+                            kbType: TextInputType.number,
+                            maxInputLength: 2,
+                            controller: toTimeController,
+                            validate: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter end time';
+                              }
+                              if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                                return 'Please enter a valid time';
+                              }
+                              int time = int.tryParse(value) ?? 0;
+                              if (time < 1 || time > 12) {
+                                return 'Time must be between 1 and 12';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     verticalSpace(12),
                     Row(
@@ -223,11 +277,15 @@ class _DoctorContinueSignupScreenState
                               });
                             },
                             itemList: <String>[
-                              'Eyes',
-                              'Teeth',
-                              'Skin',
-                              'Heart',
-                              'Lungs',
+                              'Gastroenterologist',
+                              'Cardiologist',
+                              'Dentist',
+                              'Dermatologist',
+                              'Endocrinologist',
+                              'Internists',
+                              'Orthopedist',
+                              'Pediatrician',
+                              'Neurologist',
                             ],
                             hint: 'Eyes',
                             label: 'Specialization',

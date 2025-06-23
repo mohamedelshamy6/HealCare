@@ -7,13 +7,16 @@ import '../../data/models/login_model.dart';
 import '../../data/models/sign_up_model.dart';
 import '../../data/repos/login_repo.dart';
 import '../../data/repos/signup_repo.dart';
+import '../../data/repos/doctor_availability_repo.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit(this.loginRepo, this.signUpRepo) : super(AuthInitial());
+  AuthCubit(this.loginRepo, this.signUpRepo, this.doctorAvailabilityRepo)
+      : super(AuthInitial());
   late LoginRepo loginRepo;
   late SignUpRepo signUpRepo;
+  late DoctorAvailabilityRepo doctorAvailabilityRepo;
 
   Future<void> login(String path, dynamic data) async {
     emit(LoginLoading());
@@ -52,6 +55,22 @@ class AuthCubit extends Cubit<AuthState> {
       }),
       ((signUpModel) {
         emit(SignUpSuccess(signUpModel: signUpModel));
+      }),
+    );
+  }
+
+  Future<void> addDoctorAvailability(String path, dynamic data) async {
+    emit(DoctorAvailabilityLoading());
+    final result = await doctorAvailabilityRepo.addDoctorAvailability(
+      path,
+      data,
+    );
+    result.fold(
+      ((error) {
+        emit(DoctorAvailabilityFailure(error: error));
+      }),
+      ((response) {
+        emit(DoctorAvailabilitySuccess(response: response));
       }),
     );
   }

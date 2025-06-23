@@ -40,3 +40,15 @@ final class SignUpFailure extends AuthState {
   final String? error;
   SignUpFailure({this.error});
 }
+
+final class DoctorAvailabilityLoading extends AuthState {}
+
+final class DoctorAvailabilitySuccess extends AuthState {
+  final Map<String, dynamic>? response;
+  DoctorAvailabilitySuccess({this.response});
+}
+
+final class DoctorAvailabilityFailure extends AuthState {
+  final String? error;
+  DoctorAvailabilityFailure({this.error});
+}
