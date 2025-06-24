@@ -32,7 +32,7 @@ class ChatItem extends StatelessWidget {
           doctor.image!,
           width: 50.r,
           height: 50.r,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
         );
       }
     }
@@ -45,7 +45,7 @@ class ChatItem extends StatelessWidget {
           patient.image!,
           width: 50.r,
           height: 50.r,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
         );
       }
     }
@@ -72,7 +72,7 @@ class ChatItem extends StatelessWidget {
                         conversation.senderUserImage!,
                         width: 50.r,
                         height: 50.r,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         errorBuilder: (context, error, stackTrace) {
                           return FutureBuilder<Widget>(
                             future: _loadFallbackImage(conversation),

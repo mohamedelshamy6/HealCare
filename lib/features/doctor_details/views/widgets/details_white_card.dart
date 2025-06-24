@@ -54,6 +54,7 @@ class DetailsWhiteCard extends StatelessWidget {
                   radius: 30.r,
                   child: CachedNetworkImage(
                     imageUrl: "${doctorBookingModel.patient!.image}",
+                    fit: BoxFit.fill,
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) =>
                             CircularProgressIndicator(

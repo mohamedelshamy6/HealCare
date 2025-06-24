@@ -33,6 +33,7 @@ class DoctorCardHome extends StatelessWidget {
                 radius: 24.r,
                 child: CachedNetworkImage(
                   imageUrl: appointment.patient?.image ?? '',
+                  fit: BoxFit.fill,
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       CircularProgressIndicator(
                           value: downloadProgress.progress),

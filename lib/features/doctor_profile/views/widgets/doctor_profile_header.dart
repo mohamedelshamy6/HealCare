@@ -34,6 +34,7 @@ class DoctorProfileHeader extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(32.r),
                 ),
+                clipBehavior: Clip.hardEdge,
                 child: CachedNetworkImage(
                   imageUrl: image,
                   imageBuilder: (context, imageProvider) => Container(
