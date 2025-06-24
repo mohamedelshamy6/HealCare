@@ -29,7 +29,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     _dates = List.generate(
       widget.daysCount,
       (index) => DateTime.now().add(Duration(days: index)),
-    );
+    ).where((date) => date.weekday != DateTime.friday).toList();
   }
 
   @override

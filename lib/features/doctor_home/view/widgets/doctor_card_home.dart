@@ -31,13 +31,23 @@ class DoctorCardHome extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 24.r,
-                child: CachedNetworkImage(
-                  imageUrl: appointment.patient?.image ?? '',
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      CircularProgressIndicator(
-                          value: downloadProgress.progress),
-                  errorWidget: (context, url, error) =>
-                      Icon(Icons.person, size: 35.r, color: AppColors.mainGrey),
+                backgroundColor: Colors.transparent,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: appointment.patient?.image ?? '',
+                    width: 48.r,
+                    height: 48.r,
+                    fit: BoxFit.cover,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.person,
+                      size: 35.r,
+                      color: AppColors.mainGrey,
+                    ),
+                  ),
                 ),
               ),
               horizontalSpace(8),

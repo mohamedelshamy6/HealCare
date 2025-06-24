@@ -24,12 +24,13 @@ class BookingPatientInfo extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             color: AppColors.mainGrey,
-          ),
-          child: ClipRRect(
             borderRadius: BorderRadius.circular(6.r),
+          ),
+          clipBehavior: Clip.hardEdge,
+          child: ClipRRect(
             child: CachedNetworkImage(
               imageUrl: patientsModel.image ?? '',
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               placeholder: (context, url) => const Center(
                 child: CircularProgressIndicator(),
               ),

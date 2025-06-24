@@ -51,16 +51,26 @@ class DetailsWhiteCard extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                  radius: 30.r,
+                radius: 30.r,
+                backgroundColor: Colors.transparent,
+                child: ClipOval(
                   child: CachedNetworkImage(
-                    imageUrl: "${doctorBookingModel.patient!.image}",
+                    imageUrl: doctorBookingModel.patient!.image!,
+                    width: 48.r,
+                    height: 48.r,
+                    fit: BoxFit.cover,
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) =>
                             CircularProgressIndicator(
                                 value: downloadProgress.progress),
-                    errorWidget: (context, url, error) => Icon(Icons.person,
-                        size: 35.r, color: AppColors.mainGrey),
-                  )),
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.person,
+                      size: 35.r,
+                      color: AppColors.mainGrey,
+                    ),
+                  ),
+                ),
+              ),
               horizontalSpace(16),
               Expanded(
                 child: Column(

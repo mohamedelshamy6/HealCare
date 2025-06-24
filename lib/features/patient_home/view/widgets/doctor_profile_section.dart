@@ -19,25 +19,35 @@ class DoctorProfileSection extends StatelessWidget {
           alignment: Alignment.topRight,
           children: [
             Container(
-              height: 92.h,
-              width: 90.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.r),
-                color: Colors.white,
-                border: Border.all(
-                  width: 2,
-                  color: const Color(0xFFE5E5E5),
+                height: 92.h,
+                width: 90.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.r),
+                  color: Colors.white,
+                  border: Border.all(
+                    width: 2,
+                    color: const Color(0xFFE5E5E5),
+                  ),
                 ),
-              ),
-              child: CachedNetworkImage(
-                imageUrl: "${doctorsModel.image}",
-                fit: BoxFit.fill,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) =>
-                    Icon(Icons.person, size: 40.r, color: Colors.grey),
-              ),
-            ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  child: CachedNetworkImage(
+                    imageUrl: "${doctorsModel.image}",
+                    fit: BoxFit.fill,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Center(
+                      child: CircularProgressIndicator(
+                        value: downloadProgress.progress,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.person, size: 40.r, color: Colors.grey),
+                  ),
+                )),
             CircleAvatar(
               radius: 10.r,
               backgroundColor: Colors.white,
