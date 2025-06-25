@@ -22,6 +22,9 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   int _currentQuestionIndex = 0;
   bool _showAnswers = true;
   bool isTyping = false;
+  String? selectedSymptom;
+  String? selectedDuration;
+  List<String> userAnswers = []; // Track all user answers
 
   final List<Map<String, dynamic>> _questions = [
     {
@@ -41,28 +44,28 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     },
     {
       'question': 'Do you have any chronic digestive conditions?',
-      'answers': ['Yes (e.g., IBS, Crohn’s disease, diabetes)', 'No'],
+      'answers': ['Yes (e.g., IBS, Crohn\'s disease, diabetes)', 'No'],
     },
     {
       'question':
           'Are you vomiting blood or does your vomit look like coffee grounds?',
       'answers': ['Yes', 'No'],
-      'emergency': true, // Indicates emergency response needed
+      'emergency': true,
     },
     {
       'question': 'Is your stool black, tar-like, or bloody?',
       'answers': ['Yes', 'No'],
-      'emergency': true, // Indicates emergency response needed
+      'emergency': true,
     },
     {
       'question': 'Are your eyes or skin turning yellow? (jaundice)',
       'answers': ['Yes', 'No'],
-      'emergency': true, // Indicates emergency response needed
+      'emergency': true,
     },
     {
       'question': 'Do you have high fever with abdominal symptoms?',
       'answers': ['Yes', 'No'],
-      'emergency': true, // Indicates emergency response needed
+      'emergency': true,
     },
   ];
 
@@ -104,113 +107,52 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     setState(() {
       _chatWidgets.add(_buildUserMessage(answer));
       isTyping = true;
+      userAnswers.add(answer); // Track the answer
     });
     _scrollToBottom();
 
-    // Get the current ChatCubit from the widget tree
+    // Store specific answers for later use
+    if (_currentQuestionIndex == 0) {
+      selectedSymptom = answer;
+    } else if (_currentQuestionIndex == 1) {
+      selectedDuration = answer;
+    }
+
     final chatCubit = context.read<ChatCubit>();
 
-    // Check if this answer requires immediate action
+    // Check if symptoms lasting more than 3 days
+    if (answer.toLowerCase().contains('more than 3 days')) {
+      _chatWidgets.add(_buildBotMessage(
+          "It seems you've been experiencing these symptoms for more than 3 days. Let me connect you with a doctor for further assistance."));
+      _scrollToBottom();
+
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted) {
+          _navigateToChat(chatCubit, isEmergency: false);
+        }
+      });
+      return;
+    }
+
+    // Handle emergency cases
     final currentQuestion = _questions[_currentQuestionIndex];
     final isEmergencyQuestion = currentQuestion.containsKey('emergency');
-    final isDoctorQuestion =
-        currentQuestion['question'].contains('chronic digestive conditions');
-    final isDurationQuestion = currentQuestion['question']
-        .toLowerCase()
-        .contains('how long have you had these symptoms');
-
-    // Check if the answer indicates symptoms lasting more than 3 days
-    if (isDurationQuestion &&
-        answer.toLowerCase().contains('more than 3 days')) {
-      // Navigate to chat immediately if symptoms last more than 3 days
-      Future.delayed(const Duration(seconds: 1), () {
-        if (mounted) {
-          _chatWidgets.add(_buildBotMessage(
-              "I see you've been experiencing these symptoms for more than 3 days. Let me connect you with a doctor for further assistance."));
-          _scrollToBottom();
-          Future.delayed(const Duration(seconds: 2), () {
-            if (mounted) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BlocProvider.value(
-                    value: chatCubit,
-                    child: InsideChatScreen(
-                      chatIndex: widget.chatIndex,
-                      model: widget.model,
-                    ),
-                  ),
-                ),
-              );
-            }
-          });
-        }
-      });
-      return;
-    }
-
-    // Helper function to navigate to chat screen
-    void navigateToChat() {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BlocProvider.value(
-              value: chatCubit,
-              child: InsideChatScreen(
-                chatIndex: widget.chatIndex,
-                model: widget.model,
-              ),
-            ),
-          ),
-        );
-      }
-    }
-
-    // Helper function to navigate to advices screen
-    void navigateToAdvices() {
-      if (mounted) {
-        // Get the user's answer to the first question
-        String? firstAnswer;
-        // The first answer should be at index 1 in _chatWidgets (index 0 is the first question)
-        if (_chatWidgets.length > 1 && _chatWidgets[1] is Align) {
-          final answerWidget = _chatWidgets[1] as Align;
-          if (answerWidget.child is Container) {
-            final container = answerWidget.child as Container;
-            if (container.child is Text) {
-              firstAnswer = (container.child as Text).data;
-            }
-          }
-        }
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AdvicesScreen(
-              symptom: firstAnswer ?? 'General Advice',
-            ),
-          ),
-        );
-      }
-    }
-
-    // Handle immediate navigation cases - only for emergency "yes" answers
     if (isEmergencyQuestion && answer.toLowerCase() == 'yes') {
-      // Navigate to doctor chat immediately for emergency "yes"
-      Future.delayed(const Duration(seconds: 1), () {
+      _chatWidgets.add(_buildBotMessage(
+          "Based on your answers, you should consult with a doctor immediately. Connecting you to a doctor now..."));
+      _scrollToBottom();
+
+      Future.delayed(const Duration(seconds: 2), () {
         if (mounted) {
-          _chatWidgets.add(_buildBotMessage(
-              "Based on your answers, you should consult with a doctor. Connecting you to a doctor now..."));
-          navigateToChat();
+          _navigateToChat(chatCubit, isEmergency: true);
         }
       });
       return;
     }
 
-    // For other cases, continue to next question or complete the flow
+    // Continue to next question
     Future.delayed(const Duration(milliseconds: 600), () {
       if (_currentQuestionIndex + 1 < _questions.length) {
-        // Move to next question
         _currentQuestionIndex++;
         setState(() {
           isTyping = false;
@@ -219,65 +161,89 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
         });
         _scrollToBottom();
       } else {
-        // All questions answered, check the answers
-        bool hasEmergency = false;
-        bool hasDoctor = false;
-        bool hasLongDuration = false;
-
-        // Check all answers
-        for (var i = 0; i < _questions.length; i++) {
-          final question = _questions[i];
-          final isEmergencyQ = question.containsKey('emergency') &&
-              question['emergency'] == true;
-          final isDoctorQ =
-              question['question'].contains('chronic digestive conditions');
-          final isDurationQ = question['question']
-              .toLowerCase()
-              .contains('how long have you had these symptoms');
-
-          // Find the user's answer for this question
-          final answerIndex =
-              i * 2 + 1; // Each question is followed by its answer
-          if (answerIndex < _chatWidgets.length) {
-            final answerWidget = _chatWidgets[answerIndex];
-            if (answerWidget is Align &&
-                answerWidget.alignment == Alignment.centerRight &&
-                answerWidget.child is Container) {
-              final container = answerWidget.child as Container;
-              if (container.child is Text) {
-                final answerText =
-                    (container.child as Text).data?.toLowerCase() ?? '';
-
-                if (isEmergencyQ && answerText == 'yes') {
-                  hasEmergency = true;
-                } else if (isDoctorQ && answerText.startsWith('yes')) {
-                  hasDoctor = true;
-                } else if (isDurationQ &&
-                    answerText.contains('more than 3 days')) {
-                  hasLongDuration = true;
-                }
-              }
-            }
-          }
-        }
-
-        setState(() {
-          _showAnswers = false;
-          isTyping = false;
-
-          if (hasEmergency || hasDoctor) {
-            _chatWidgets.add(_buildBotMessage(
-                "Based on your answers, you should consult with a doctor. Connecting you to a doctor now..."));
-            Future.delayed(const Duration(seconds: 1), navigateToChat);
-          } else {
-            _chatWidgets.add(_buildBotMessage(
-                "Thank you for answering the questions. Based on your responses, we recommend checking our advice section."));
-            Future.delayed(const Duration(seconds: 1), navigateToAdvices);
-          }
-        });
-        _scrollToBottom();
+        _handleFinalRecommendations(chatCubit);
       }
     });
+  }
+
+  void _navigateToChat(ChatCubit chatCubit, {required bool isEmergency}) {
+    String patientInfo = _createPatientInfoMessage(isEmergency);
+
+    setState(() {
+      _chatWidgets.add(_buildBotMessage(patientInfo)); // ← عرض الرسالة للمستخدم
+    });
+    _scrollToBottom();
+
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BlocProvider.value(
+            value: chatCubit,
+            child: InsideChatScreen(
+              chatIndex: widget.chatIndex,
+              model: widget.model,
+              initialBotMessage: patientInfo,
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  String _createPatientInfoMessage(bool isEmergency) {
+    String message = "Disease : ${selectedSymptom ?? ' '}\n";
+    message +=
+        "Duration : ${selectedDuration ?? ''}";
+    return message;
+  }
+
+  void _handleFinalRecommendations(ChatCubit chatCubit) {
+    // Check for any emergency responses
+    bool hasEmergency = false;
+    for (int i = 0; i < userAnswers.length; i++) {
+      if (i + 3 < _questions.length) {
+        // Emergency questions start from index 3
+        final question = _questions[i + 3];
+        if (question.containsKey('emergency') &&
+            question['emergency'] == true &&
+            userAnswers[i].toLowerCase() == 'yes') {
+          hasEmergency = true;
+          break;
+        }
+      }
+    }
+
+    setState(() {
+      _showAnswers = false;
+      isTyping = false;
+
+      if (hasEmergency) {
+        _chatWidgets.add(_buildBotMessage(
+            "Based on your answers, you should consult with a doctor immediately. Connecting you to a doctor now..."));
+        Future.delayed(const Duration(seconds: 1), () {
+          if (mounted) {
+            _navigateToChat(chatCubit, isEmergency: true);
+          }
+        });
+      } else {
+        _chatWidgets.add(_buildBotMessage(
+            "Thank you for answering the questions. Based on your responses, we recommend checking our advice section."));
+        Future.delayed(const Duration(seconds: 1), () {
+          if (mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AdvicesScreen(
+                  symptom: selectedSymptom ?? 'General Advice',
+                ),
+              ),
+            );
+          }
+        });
+      }
+    });
+    _scrollToBottom();
   }
 
   Widget _buildBotMessage(String text) {
@@ -346,15 +312,12 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                 ],
               ),
               verticalSpace(32),
-
-              // Chat content
               Expanded(
                 child: ListView(
                   controller: _scrollController,
                   children: _chatWidgets,
                 ),
               ),
-
               if (isTyping)
                 Align(
                   alignment: Alignment.centerLeft,
@@ -369,8 +332,6 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                         style: AppTextStyles.poppinsBlack(13, FontWeight.w400)),
                   ),
                 ),
-
-              // إجابات المستخدم
               if (_showAnswers && currentAnswers.isNotEmpty && !isTyping) ...[
                 verticalSpace(12),
                 Column(
