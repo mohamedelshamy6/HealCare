@@ -33,8 +33,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class BookingPayment extends StatefulWidget {
   final Map<String, dynamic> data;
+  final String? instaPayLink;
 
-  const BookingPayment({super.key, required this.data});
+  const BookingPayment({super.key, required this.data, this.instaPayLink});
 
   @override
   State<BookingPayment> createState() => _BookingPaymentState();
@@ -75,7 +76,7 @@ class _BookingPaymentState extends State<BookingPayment> {
     appointmentCubit = context.read<AppointenentSchedualCubit>();
   }
 
-  void makePayment() async {
+  Future<void> makePayment() async {
     final DoctorsModel doctor = widget.data['doctor'];
     final String date = widget.data['appointment_date'];
     final String time = widget.data['appointment_time'];
@@ -204,12 +205,13 @@ class _BookingPaymentState extends State<BookingPayment> {
       );
       return;
     }
+   
 
     // InstaPay logic
-    const instaPayUrl =
-        "instapay://payment?amount=200&to=instapay@healcare.com";
+    final String instaPayUrl =
+        "${ doctor.instapayLink}";
     const fallbackUrl =
-        "https://instapay.eg/pay?to=instapay@healcare.com&amount=200";
+        "https://play.google.com/store/apps/details?id=com.egyptianbanks.instapay";
     final uri = Uri.parse(instaPayUrl);
     final fallbackUri = Uri.parse(fallbackUrl);
 
@@ -237,7 +239,6 @@ class _BookingPaymentState extends State<BookingPayment> {
             ),
             TextButton(
               onPressed: () async {
-                Navigator.pop(context);
                 await handlePaymentSuccess();
               },
               child: Text('Yes, Successful'),
