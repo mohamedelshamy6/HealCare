@@ -90,25 +90,50 @@ class ChatListView extends StatelessWidget {
             itemBuilder: (context, index) {
               final conversation = state.conversations[index];
               return GestureDetector(
-                onTap: () {
+                onTap: () async {
                   final chatCubit = context.read<ChatCubit>();
-                  // Show ChatBotScreen first for patient chats
-                  if (conversation.doctorId != null && type == 'patient') {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => BlocProvider.value(
-                          value: chatCubit,
-                          child: ChatBotScreen(
-                            chatIndex: conversation.conversationId ?? '',
-                            model: conversation,
+
+                  final messages = chatCubit
+                      .conversationMessages[conversation.conversationId];
+
+                  if (type == 'patient') {
+                    if (messages == null) {
+                      await chatCubit.getMessagesForConversation(
+                        conversationId: conversation.conversationId!,
+                      );
+                    }
+
+                    final updatedMessages = chatCubit.conversationMessages[
+                            conversation.conversationId] ??
+                        [];
+
+                    if (updatedMessages.isEmpty) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider.value(
+                            value: chatCubit,
+                            child: ChatBotScreen(
+                              chatIndex: conversation.conversationId ?? '',
+                              model: conversation,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }
-
-                  // For patient chats, go directly to chat screen
-                  if (type == 'doctor') {
+                      );
+                    } else {
+                      // فيه رسائل → نروح على InsideChat
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider.value(
+                            value: chatCubit,
+                            child: InsideChatScreen(
+                              chatIndex: conversation.conversationId ?? '',
+                              model: conversation,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  } else if (type == 'doctor') {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => BlocProvider.value(

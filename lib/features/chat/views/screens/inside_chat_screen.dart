@@ -14,11 +14,13 @@ import 'package:shimmer/shimmer.dart';
 class InsideChatScreen extends StatefulWidget {
   final String chatIndex;
   final dynamic model;
+  final String? initialBotMessage;
 
   const InsideChatScreen({
     super.key,
     required this.chatIndex,
     required this.model,
+    this.initialBotMessage,
   });
 
   @override
@@ -39,9 +41,7 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
     super.initState();
 
     _focusNode.addListener(() {
-      if (_focusNode.hasFocus) {
-        _scrollToBottom();
-      }
+      if (_focusNode.hasFocus) _scrollToBottom();
     });
 
     _loadUserData();
@@ -51,14 +51,43 @@ class _InsideChatScreenState extends State<InsideChatScreen> {
             conversationId: widget.chatIndex,
           );
       context.read<ChatCubit>().listenToNewMessages(widget.chatIndex);
+
+      if (widget.initialBotMessage != null &&
+          currentUserId != null &&
+          senderType == 'patient') {
+        Future.delayed(Duration(milliseconds: 500), () {
+          context.read<ChatCubit>().sendMessageinConversation(
+                conversationId: widget.chatIndex,
+                senderId: currentUserId!,
+                content:
+                    "\u2728 تنبيه تلقائي من ARIA:\n${widget.initialBotMessage!}",
+                senderType: 'patient',
+              );
+        });
+      }
     });
   }
 
   void _loadUserData() async {
     senderType = CacheHelper().getData(key: 'role');
+
     if (senderType == 'patient') {
       final patient = await UserCacheHelper.getCachedPatientData();
       setState(() => currentUserId = patient?.id);
+
+      // ✨ Send initial bot message only after loading patient ID
+      if (widget.initialBotMessage != null && patient?.id != null) {
+        Future.delayed(Duration(milliseconds: 500), () {
+          final plainMessage = widget.initialBotMessage!;
+
+          context.read<ChatCubit>().sendMessageinConversation(
+                conversationId: widget.chatIndex,
+                senderId: patient!.id!,
+                content: plainMessage,
+                senderType: 'patient',
+              );
+        });
+      }
     } else if (senderType == 'doctor') {
       final doctor = await UserCacheHelper.getCachedDoctorData();
       setState(() => currentUserId = doctor?.id);
