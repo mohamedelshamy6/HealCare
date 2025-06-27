@@ -65,7 +65,7 @@ class DoctorProfileSection extends StatelessWidget {
             Image.asset(Assets.iconsHeartRate, width: 16.w, height: 10.h),
             horizontalSpace(4),
             Text(
-              doctorsModel.experience?.split(RegExp('[-|]')).first ?? '',
+              doctorsModel.specialization?.split(RegExp('[-|]')).first ?? '',
               style: AppTextStyles.poppinsGrey(12, FontWeight.w500),
             ),
           ],
@@ -81,6 +81,17 @@ class DoctorProfileSection extends StatelessWidget {
         verticalSpace(8),
         Text(
           '${doctorsModel.name} is a ${doctorsModel.bio} .',
+          style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
+        ),
+        verticalSpace(20),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text('Experience',
+              style: AppTextStyles.poppinsBlack(16, FontWeight.w600)),
+        ),
+        verticalSpace(8),
+        Text(
+          '${doctorsModel.experience}',
           style: AppTextStyles.poppinsGrey(14, FontWeight.w400),
         ),
       ],

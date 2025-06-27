@@ -120,7 +120,6 @@ class ChatListView extends StatelessWidget {
                         ),
                       );
                     } else {
-                      // فيه رسائل → نروح على InsideChat
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => BlocProvider.value(
