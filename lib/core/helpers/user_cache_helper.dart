@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:heal_care/features/auth/data/models/doctors_model.dart';
 import 'package:heal_care/features/auth/data/models/patients_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'cache_helper.dart';
 
 class UserCacheHelper {
@@ -47,6 +48,12 @@ class UserCacheHelper {
       }
     }
     return null;
+  }
+
+
+ static Future<void> clear() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); 
   }
 
   static Future<void> clearUserCache() async {

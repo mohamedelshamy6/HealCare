@@ -146,9 +146,12 @@ class _DoctorContinueSignupScreenState
             );
 
             if (!mounted) return;
-
-            CacheHelper()
+            await CacheHelper()
                 .saveData(key: 'doctor_Id', value: state.signUpModel?.user?.id);
+            await CacheHelper().saveData(
+                key: 'userId',
+                value: state.signUpModel?.user?.id); 
+            await CacheHelper().saveData(key: 'role', value: 'doctor');
             Navigator.pushNamedAndRemoveUntil(
                 context, Routes.bottomNavBar, (route) => false,
                 arguments: 'doctor');

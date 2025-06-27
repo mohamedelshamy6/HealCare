@@ -55,7 +55,6 @@ class ProfileCubit extends Cubit<ProfileState> {
               (patient) => patient.id == userId,
               orElse: () => throw Exception('Patient not found'),
             );
-            // Cache the patient data and update cache time
             UserCacheHelper.cachePatientData(patient);
             CacheHelper().saveData(
               key: 'patient_cache_time',
@@ -77,7 +76,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       emit(ProfileLoadingForDoctors());
 
-      // Only check cache if we're not forcing a refresh
       if (!forceRefresh) {
         final cachedDoctor = await UserCacheHelper.getCachedDoctorData();
         if (cachedDoctor != null && cachedDoctor.id != null) {
@@ -90,8 +88,9 @@ class ProfileCubit extends Cubit<ProfileState> {
         }
       }
 
-      final String? userId = CacheHelper().getData(key: 'doctor_Id') ??
+      final String? userId = CacheHelper().getData(key: 'doctorId') ??
           CacheHelper().getData(key: 'userId');
+
       if (userId == null) {
         emit(ProfileErrorForDoctors(error: 'User not logged in'));
         return;
@@ -107,7 +106,6 @@ class ProfileCubit extends Cubit<ProfileState> {
               (doctor) => doctor.id == userId,
               orElse: () => throw Exception('Doctor not found'),
             );
-            // Always update cache with fresh data
             UserCacheHelper.cacheDoctorData(doctor);
             CacheHelper().saveData(
               key: 'doctor_cache_time',
@@ -147,8 +145,6 @@ class ProfileCubit extends Cubit<ProfileState> {
           .single();
 
       final updatedPatient = PatientsModel.fromJson(response);
-
-      // Update cache with the complete patient data from server
       await UserCacheHelper.cachePatientData(updatedPatient);
       await CacheHelper().saveData(
         key: 'patient_cache_time',
